@@ -1,2113 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TyphoonFleet — Security for both worlds</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typhoon Fleet — A machine for agents</title>
+<meta name="description" content="An instrument for agents. A roster of specialists, each a voice in the machine. Press a pad and see what it can do.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+TC:wght@400;600;700&display=swap">
-
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ink: #030912;
-    --ink-2: #081422;
-    --ink-3: #0F1E31;
-    --deep: #0A2342;
-    --red: #E63946;
-    --gold: #F4A261;
-    --mist: #F6F4EF;
-    --paper: #ECE8DF;
-    --grey: #6C757D;
-    --grey-2: #A8ADB3;
-    --line: rgba(255,255,255,0.08);
-    --line-dark: rgba(10,35,66,0.14);
+  :root{
+    --typhoon:#0A2342;
+    --signal:#E63946;
+    --gold:#B5620F;          /* deep amber, text-safe + fill on white */
+    --gold-bright:#F4A261;
+    --base:#FFFFFF;
+    --ink:#0A2342;           /* Typhoon Blue as near-black ink */
+    --muted:#566072;
+    --faint:#9AA3B2;
+    --line:rgba(10,35,66,.12);
+    --line-gold:rgba(181,98,15,.32);
+    --panel:#F7F5F1;
+    --green:#18A558;
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--mist);
-    color: var(--ink);
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--base);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
 
-  /* ──────────────── DESIGN PRIMITIVES ──────────────── */
-  .mono { font-family: 'JetBrains Mono', monospace; font-weight: 500; letter-spacing: 0.02em; }
-  .display { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.03em; line-height: 0.96; }
-  .tc { font-family: 'Noto Serif TC', serif; }
+  /* ---- nav ---- */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);background:rgba(255,255,255,.72);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .word{font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:.2px}
+  .word .a{color:var(--gold)}
+  .navlinks{display:flex;gap:34px;font-size:13.5px;color:var(--muted)}
+  .navlinks a:hover{color:var(--ink)}
+  .navtag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:1px}
 
-  .shell { max-width: 1400px; margin: 0 auto; padding: 0 48px; }
-  @media (max-width: 780px) { .shell { padding: 0 24px; } }
+  /* ---- hero ---- */
+  header{padding:150px 0 90px;text-align:center;position:relative}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);margin-bottom:34px}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(46px,8.2vw,96px);line-height:1;letter-spacing:-2px;margin-bottom:34px}
+  h1 .it{font-style:italic;color:var(--gold)}
+  .sub{font-size:clamp(17px,2.1vw,20px);color:var(--muted);max-width:560px;margin:0 auto;font-weight:400}
+  .scrollcue{margin-top:64px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;color:var(--faint);text-transform:uppercase}
+  .scrollcue::after{content:"";display:block;width:1px;height:38px;margin:16px auto 0;background:linear-gradient(var(--line-gold),transparent)}
 
-  /* HUD — the situational-awareness marker that runs across every section */
-  .hud {
-    display: flex; align-items: center; gap: 14px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
-    opacity: 0.55;
+  /* ---- the machine ---- */
+  .machine-sec{padding:40px 0 110px}
+  .machine{
+    border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(180deg,#FBFAF8,#F4F2ED);
+    box-shadow:0 30px 80px rgba(10,35,66,.10), inset 0 1px 0 #fff;
+    overflow:hidden;
   }
-  .hud-dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; box-shadow: 0 0 12px var(--red); animation: blink 2s infinite; }
-  @keyframes blink { 0%, 55% { opacity: 1; } 60%, 100% { opacity: 0.2; } }
-  .hud-line { flex: 1; height: 1px; background: currentColor; opacity: 0.3; }
-
-  /* Buttons */
-  .btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 14px 22px; font-family: 'Inter', sans-serif;
-    font-size: 14px; font-weight: 500; letter-spacing: 0.01em;
-    border: 1px solid transparent; background: transparent; color: inherit;
-    cursor: pointer; transition: all 0.2s ease; text-decoration: none;
+  /* transport / LCD — this is the bridge */
+  .transport{
+    display:flex;align-items:center;gap:22px;flex-wrap:wrap;
+    padding:18px 26px;border-bottom:1px solid var(--line);
+    background:rgba(10,35,66,.04);
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.5px;color:var(--muted);
   }
-  .btn-primary { background: var(--red); color: #fff; }
-  .btn-primary:hover { background: #d62e3c; transform: translateY(-1px); }
-  .btn-ghost { border-color: currentColor; opacity: 0.85; }
-  .btn-ghost:hover { opacity: 1; }
-  .btn-arrow { width: 14px; height: 14px; transition: transform 0.2s; }
-  .btn:hover .btn-arrow { transform: translateX(3px); }
+  .transport .play{display:flex;align-items:center;gap:9px;color:var(--ink)}
+  .transport .play .tri{width:0;height:0;border-left:11px solid var(--green);border-top:7px solid transparent;border-bottom:7px solid transparent}
+  .transport .lcd{color:var(--gold)}
+  .transport .lab{color:var(--faint);text-transform:uppercase;letter-spacing:1.5px}
+  .transport .right{margin-left:auto;display:flex;gap:20px;flex-wrap:wrap}
+  .transport b{color:var(--ink);font-weight:500}
 
-  /* ──────────────── NAV ──────────────── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 20px 48px; display: flex; align-items: center; justify-content: space-between;
-    background: rgba(3,9,18,0.65); backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    color: #fff;
+  .machine-body{display:grid;grid-template-columns:1fr;gap:0}
+
+  /* sequencer */
+  .seq{padding:24px 26px 8px}
+  .seqhead{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+  .track{display:grid;grid-template-columns:128px 1fr;align-items:center;gap:14px;margin-bottom:9px}
+  .track .name{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .track.sel .name{color:var(--gold)}
+  .steps{display:grid;grid-template-columns:repeat(16,1fr);gap:5px}
+  .cell{height:14px;border-radius:3px;background:rgba(10,35,66,.07);transition:background .08s,box-shadow .08s,transform .08s}
+  .cell.on{background:rgba(181,98,15,.32)}
+  .cell.now{transform:scaleY(1.18)}
+  .cell.on.now{background:var(--gold);box-shadow:0 0 12px rgba(181,98,15,.45)}
+  .cell.now:not(.on){background:rgba(10,35,66,.20)}
+
+  /* pad bank + detail */
+  .lower{display:grid;grid-template-columns:1.15fr 1fr;gap:0;border-top:1px solid var(--line)}
+  .pads{padding:26px;border-right:1px solid var(--line)}
+  .padhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
+  .padhead .t{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--faint)}
+  .padgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .pad{
+    aspect-ratio:1;border-radius:12px;border:1px solid var(--line);
+    background:#FFFFFF;
+    display:flex;flex-direction:column;justify-content:flex-end;padding:11px;cursor:pointer;
+    transition:transform .12s,border-color .15s,box-shadow .15s,background .15s;position:relative;
   }
-  nav.light { background: rgba(246,244,239,0.85); color: var(--ink); border-bottom-color: rgba(10,35,66,0.08); }
-  .logo-wrap { display: flex; align-items: center; gap: 12px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: -0.01em; }
-  .logo-mark { width: 26px; height: 26px; }
-  .nav-links { display: flex; gap: 32px; font-size: 13px; font-weight: 400; }
-  .nav-links a { color: inherit; text-decoration: none; opacity: 0.75; transition: opacity 0.2s; }
-  .nav-links a:hover { opacity: 1; }
-  .nav-cta { padding: 9px 16px; background: var(--red); color: #fff; font-size: 12px; font-weight: 500; text-decoration: none; }
-  @media (max-width: 900px) { .nav-links { display: none; } nav { padding: 16px 24px; } }
+  .pad:hover{transform:translateY(-2px);border-color:var(--line-gold);box-shadow:0 8px 22px rgba(10,35,66,.08)}
+  .pad.active{border-color:var(--gold);background:linear-gradient(180deg,rgba(244,162,97,.18),rgba(244,162,97,.05));box-shadow:0 0 0 1px rgba(181,98,15,.25),0 14px 30px rgba(10,35,66,.12)}
+  .pad.hit{transform:translateY(1px) scale(.97)}
+  .pad .pn{font-size:11.5px;font-weight:500;color:var(--ink);line-height:1.25}
+  .pad .pdot{position:absolute;top:11px;left:11px;width:7px;height:7px;border-radius:50%;background:var(--faint)}
+  .pad .pdot.live{background:var(--green);box-shadow:0 0 8px var(--green)}
+  .pad .pdot.designed{background:var(--gold);box-shadow:0 0 8px var(--gold)}
+  .pad .flag{position:absolute;top:9px;right:10px;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--gold);text-transform:uppercase}
+  .pad .bank-i{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--faint);text-transform:uppercase;margin-bottom:4px}
+  /* empty slots — room to grow */
+  .pad.empty{cursor:default;border-style:dashed;border-color:var(--line);background:none;align-items:center;justify-content:center}
+  .pad.empty:hover{transform:none;border-color:var(--line)}
+  .pad.empty .slot{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);opacity:.6}
+  .track.empty .name{color:var(--faint);opacity:.45}
+  .track.empty .cell{opacity:.3}
 
-  /* ──────────────── HERO ──────────────── */
-  section.hero {
-    min-height: 100vh; background: var(--ink); color: #fff;
-    position: relative; overflow: hidden;
-    padding: 140px 0 80px;
-    display: flex; flex-direction: column;
+  /* detail readout */
+  .detail{padding:30px 30px 26px;display:flex;flex-direction:column;min-height:280px}
+  .detail .bank{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .detail h3{font-family:'Fraunces',serif;font-weight:500;font-size:30px;letter-spacing:-.5px;margin-bottom:6px;display:flex;align-items:center;gap:11px}
+  .detail h3 .sd{width:9px;height:9px;border-radius:50%;background:var(--faint)}
+  .detail h3 .sd.live{background:var(--green);box-shadow:0 0 10px var(--green)}
+  .detail h3 .sd.designed{background:var(--gold);box-shadow:0 0 10px var(--gold)}
+  .detail .what{font-size:15px;color:var(--muted);margin-bottom:auto;max-width:380px}
+  .detail .specs{margin-top:26px;display:flex;flex-direction:column;gap:0}
+  .srow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--line);font-size:12.5px}
+  .srow .k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint)}
+  .srow .v{color:var(--ink)}
+  /* the fader = autonomy, not volume */
+  .fader{display:flex;align-items:center;gap:13px;min-width:170px}
+  .fader .ends{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:var(--faint)}
+  .ftrack{flex:1;height:4px;background:rgba(10,35,66,.14);border-radius:3px;position:relative}
+  .fknob{position:absolute;top:50%;transform:translate(-50%,-50%);width:13px;height:13px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px rgba(181,98,15,.4);transition:left .45s cubic-bezier(.2,.8,.2,1)}
+
+  /* ---- showcase: agents one at a time ---- */
+  .showcase{padding:30px 0 40px}
+  .show-intro{text-align:center;max-width:600px;margin:0 auto 30px}
+  .show-intro .eye{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  .show-intro h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(30px,4.6vw,46px);letter-spacing:-1px;line-height:1.08;margin-bottom:18px}
+  .show-intro p{color:var(--muted);font-size:17px}
+  .voices{margin-top:8px}
+  .voice{
+    display:grid;grid-template-columns:160px 1fr auto;align-items:center;gap:30px;
+    padding:30px 28px;border-bottom:1px solid var(--line);transition:background .2s;
   }
-  .hero-grid {
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 55%, #000 40%, transparent 80%);
+  .voice:first-child{border-top:1px solid var(--line)}
+  .voice:hover{background:rgba(10,35,66,.025)}
+  .voice .vbank{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint)}
+  .voice .vmain h3{font-family:'Fraunces',serif;font-weight:500;font-size:23px;letter-spacing:-.3px;margin-bottom:5px;display:flex;align-items:center;gap:10px}
+  .voice .vmain h3 .sd{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+  .voice .vmain h3 .sd.live{background:var(--green);box-shadow:0 0 9px var(--green)}
+  .voice .vmain h3 .sd.designed{background:var(--gold);box-shadow:0 0 9px var(--gold)}
+  .voice .vmain p{color:var(--muted);font-size:14.5px;max-width:560px}
+  .voice .vstat{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+  .voice .vstat.live{color:var(--green)}
+
+  /* ---- principle (quiet) ---- */
+  .principle{padding:120px 0;text-align:center;border-top:1px solid var(--line)}
+  .principle .eye{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:24px}
+  .principle h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(28px,4.4vw,44px);letter-spacing:-1px;line-height:1.18;max-width:760px;margin:0 auto}
+  .principle h2 .g{color:var(--gold);font-style:italic}
+  .principle .three{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:64px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .principle .three .c{background:var(--base);padding:38px 28px;text-align:left}
+  .principle .three .c .ci{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  .principle .three .c h4{font-family:'Fraunces',serif;font-weight:500;font-size:19px;margin-bottom:9px}
+  .principle .three .c p{color:var(--muted);font-size:13.5px}
+
+  /* ---- closer (no sell) ---- */
+  .closer{padding:130px 0;text-align:center}
+  .closer h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(32px,5.4vw,60px);letter-spacing:-1.5px;line-height:1.04;max-width:740px;margin:0 auto 22px}
+  .closer h2 .it{font-style:italic;color:var(--gold)}
+  .closer .note{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--muted)}
+
+  footer{border-top:1px solid var(--line);padding:40px 0;color:var(--faint);font-size:12.5px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center}
+  .mono{font-family:'JetBrains Mono',monospace;letter-spacing:.5px}
+
+  @media(prefers-reduced-motion:reduce){.cell{transition:none}}
+  @media(max-width:880px){
+    .lower{grid-template-columns:1fr}
+    .pads{border-right:0;border-bottom:1px solid var(--line)}
+    .track{grid-template-columns:96px 1fr}
+    .principle .three{grid-template-columns:1fr}
+    .voice{grid-template-columns:1fr;gap:10px}
+    .voice .vstat{display:none}
   }
-  .hero-inner {
-    position: relative; z-index: 2; flex: 1;
-    display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px;
-    align-items: center;
+  @media(max-width:680px){
+    .navlinks{display:none}
+    header{padding:104px 0 60px}
+    .padgrid{grid-template-columns:repeat(3,1fr)}
   }
-  @media (max-width: 1024px) { .hero-inner { grid-template-columns: 1fr; gap: 60px; } }
-
-  .hero-hud { margin-bottom: 40px; }
-  .hero-headline { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(44px, 6.5vw, 92px); letter-spacing: -0.035em; line-height: 0.95; }
-  .hero-headline .accent { color: var(--gold); font-style: italic; font-family: 'Noto Serif TC', serif; font-weight: 400; letter-spacing: -0.01em; }
-  .hero-sub {
-    margin-top: 32px; max-width: 520px; font-size: 17px; line-height: 1.55;
-    color: rgba(255,255,255,0.72); font-weight: 300;
-  }
-  .hero-ctas { margin-top: 48px; display: flex; gap: 14px; flex-wrap: wrap; }
-
-  /* Hero visual — radar scope */
-  .scope {
-    position: relative; aspect-ratio: 1; max-width: 560px; margin-left: auto;
-    width: 100%;
-  }
-  .scope svg { width: 100%; height: 100%; display: block; }
-  .scope-meta {
-    position: absolute; top: 0; right: 0;
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    color: rgba(255,255,255,0.45); text-align: right; line-height: 1.6;
-  }
-  .scope-meta .r { color: var(--red); }
-
-  /* Terminal panels floating */
-  .terminal-stream {
-    position: absolute; bottom: 140px; right: 48px;
-    width: 340px;
-    background: rgba(8,20,34,0.6);
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 14px 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    z-index: 3;
-    backdrop-filter: blur(8px);
-  }
-  .terminal-stream .t-head {
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: rgba(255,255,255,0.5); margin-bottom: 10px; padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-  .t-line { display: flex; gap: 10px; line-height: 1.7; color: rgba(255,255,255,0.85); opacity: 0; animation: fadeIn 0.5s forwards; }
-  .t-line .tag { display: inline-block; width: 52px; font-weight: 600; }
-  .tag-red { color: #E63946; }
-  .tag-blue { color: #6EC1E4; }
-  .tag-purple { color: #C699E0; }
-  .tag-cloud { color: #F4A261; }
-  .tag-intel { color: #7FD1A4; }
-  @keyframes fadeIn { to { opacity: 1; } }
-  @media (max-width: 1024px) { .terminal-stream { display: none; } }
-
-  .hero-trust {
-    position: relative; z-index: 2; margin-top: auto; padding-top: 80px;
-  }
-  .trust-row {
-    display: flex; align-items: center; gap: 36px; flex-wrap: wrap;
-    padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.08);
-  }
-  .trust-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
-  .trust-badge { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.72); letter-spacing: 0.02em; }
-
-  /* ──────────────── SECTION DEFAULTS ──────────────── */
-  section { padding: 140px 0; position: relative; }
-  section.dark { background: var(--ink); color: #fff; }
-  section.dark .hud { color: #fff; }
-  .section-label { margin-bottom: 48px; }
-  .section-headline {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 500;
-    font-size: clamp(36px, 4.6vw, 64px); letter-spacing: -0.03em; line-height: 1.02;
-    max-width: 16ch;
-  }
-  .section-headline .italic-tc { font-family: 'Noto Serif TC', serif; font-style: italic; font-weight: 400; color: var(--gold); }
-  section.dark .section-headline .italic-tc { color: var(--gold); }
-  .section-sub {
-    margin-top: 28px; max-width: 560px; font-size: 17px; line-height: 1.6;
-    color: var(--grey); font-weight: 300;
-  }
-  section.dark .section-sub { color: rgba(255,255,255,0.65); }
-
-  /* ──────────────── THREATS (Section 2) ──────────────── */
-  section.threats { padding: 140px 0 120px; background: var(--mist); }
-  .threats-head { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 100px; }
-  @media (max-width: 900px) { .threats-head { grid-template-columns: 1fr; gap: 32px; } }
-  .threats-lead { font-size: 16px; line-height: 1.7; color: var(--grey); max-width: 48ch; font-weight: 300; }
-
-  .threat-stack { display: flex; flex-direction: column; gap: 1px; background: var(--line-dark); border: 1px solid var(--line-dark); }
-  .threat-card {
-    background: var(--mist);
-    display: grid; grid-template-columns: 180px 1fr 340px; gap: 40px;
-    padding: 48px 40px; align-items: start; position: relative;
-    transition: background 0.25s;
-  }
-  .threat-card:hover { background: #fff; }
-  @media (max-width: 1100px) { .threat-card { grid-template-columns: 1fr; gap: 24px; padding: 36px 28px; } }
-
-  .t-meta { display: flex; flex-direction: column; gap: 10px; padding-top: 6px; }
-  .t-id { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.02em; color: var(--ink); }
-  .t-status { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--grey); text-transform: uppercase; }
-  .t-ai .t-status { color: var(--red); }
-  .t-pqr .t-status { color: var(--gold); }
-  .t-nhi .t-status { color: var(--deep); }
-  .t-ci .t-status { color: var(--ink); font-weight: 600; }
-
-  .t-body h3 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(26px, 2.4vw, 34px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.08; margin-bottom: 18px; max-width: 18ch; }
-  .t-ai .t-body h3 { color: var(--ink); }
-  .t-ai .t-body h3::after { content: ' ●'; color: var(--red); font-size: 0.6em; vertical-align: 0.3em; }
-  .t-body p { font-size: 15px; line-height: 1.65; color: var(--grey); max-width: 56ch; }
-  .t-body p em { font-style: italic; color: var(--ink); font-weight: 500; }
-  /* ═══ FLEET COMPOUNDS — typographic beat ═══ */
-  .compound-section {
-    background: var(--ink); color: #fff;
-    padding: 180px 0 200px; position: relative; overflow: hidden;
-  }
-  .compound-section::before {
-    content: ''; position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 80px 80px;
-    mask-image: radial-gradient(ellipse 70% 90% at 50% 50%, #000 30%, transparent 80%);
-    pointer-events: none;
-  }
-  .compound-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1.15fr 1fr; gap: 100px; align-items: center; }
-  @media (max-width: 1100px) { .compound-inner { grid-template-columns: 1fr; gap: 60px; } }
-  .compound-kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 36px; display: flex; align-items: center; gap: 14px; }
-  .compound-kicker::before { content: ''; width: 32px; height: 1px; background: var(--gold); }
-  .compound-headline {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(72px, 9vw, 144px);
-    font-weight: 300;
-    letter-spacing: -0.045em;
-    line-height: 0.92;
-    color: #fff;
-  }
-  .compound-headline .em {
-    font-style: italic; font-weight: 300;
-    background: linear-gradient(95deg, #F4A261 0%, #E63946 70%);
-    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .compound-headline .tc-small {
-    display: block; font-family: 'Noto Serif TC', serif; font-weight: 300;
-    font-size: 0.25em; color: rgba(255,255,255,0.4); letter-spacing: 0.05em;
-    margin-top: 28px;
-  }
-  .compound-body { margin-top: 44px; max-width: 46ch; }
-  .compound-body p { font-size: 17px; line-height: 1.7; color: rgba(255,255,255,0.7); margin-bottom: 18px; }
-  .compound-body p strong { color: #fff; font-weight: 500; }
-  .compound-vs { margin-top: 44px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 48px; flex-wrap: wrap; }
-  .compound-vs-col { flex: 1; min-width: 180px; }
-  .compound-vs-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
-  .compound-vs-line { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 400; color: #fff; letter-spacing: -0.015em; line-height: 1.3; }
-  .compound-vs-col.old .compound-vs-line { color: rgba(255,255,255,0.45); text-decoration: line-through; text-decoration-color: rgba(230,57,70,0.4); text-decoration-thickness: 1px; }
-  .compound-vs-col.new .compound-vs-line::before { content: '→ '; color: var(--gold); }
-
-  /* Visual: compounding curve */
-  .compound-viz { position: relative; aspect-ratio: 1.05/1; width: 100%; max-width: 540px; margin-left: auto; }
-  .compound-viz svg { width: 100%; height: 100%; display: block; }
-  .compound-viz-label { position: absolute; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
-
-    .t-answer { margin-top: 22px; padding-top: 16px; border-top: 1px dashed var(--line); display: flex; gap: 14px; align-items: baseline; font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: var(--ink); font-weight: 500; letter-spacing: -0.005em; max-width: 56ch; }
-  .t-answer-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); font-weight: 400; white-space: nowrap; padding: 3px 7px; background: rgba(230,57,70,0.08); border: 1px solid rgba(230,57,70,0.25); }
-
-  .t-viz { align-self: center; }
-  .t-viz svg { width: 100%; height: auto; display: block; }
-
-  /* NHI 45x stat viz */
-  .nhi-viz { position: relative; }
-  .nhi-stat { position: relative; z-index: 2; padding: 10px 4px; }
-  .nhi-num { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 96px; line-height: 0.9; letter-spacing: -0.06em; color: var(--deep); }
-  .nhi-num span { font-size: 0.5em; color: var(--red); margin-left: 4px; vertical-align: 0.15em; }
-  .nhi-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: var(--grey); margin-top: 6px; line-height: 1.5; text-transform: uppercase; }
-  .nhi-grid {
-    position: absolute; inset: 0; pointer-events: none; opacity: 0.35;
-    background-image:
-      radial-gradient(circle at 1px 1px, var(--deep) 1px, transparent 1.4px);
-    background-size: 8px 8px;
-    mask-image: linear-gradient(to right, transparent 0%, #000 35%, #000 100%);
-  }
-
-  /* CI statutory stamp */
-  .ci-stamp { border: 1.5px solid var(--ink); padding: 18px 20px; font-family: 'JetBrains Mono', monospace; background: #fff; position: relative; }
-  .ci-stamp::after {
-    content: 'SEAL'; position: absolute; top: -10px; right: 16px;
-    background: var(--red); color: #fff; font-size: 9px; letter-spacing: 0.15em;
-    padding: 3px 8px;
-  }
-  .ci-label { font-size: 9px; letter-spacing: 0.18em; color: var(--grey); }
-  .ci-code { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.01em; color: var(--ink); margin-top: 4px; }
-  .ci-divider { height: 1px; background: var(--line-dark); margin: 12px 0; }
-  .ci-row { font-size: 11px; color: var(--ink); line-height: 1.7; display: grid; grid-template-columns: 44px 1fr; gap: 8px; }
-  .ci-row span { color: var(--grey); }
-  .ci-sign { font-size: 10px; color: var(--red); letter-spacing: 0.05em; font-weight: 500; }
-
-  .threats-close { margin-top: 100px; text-align: center; }
-  .threats-close p { font-family: 'Noto Serif TC', serif; font-style: italic; font-size: clamp(22px, 2.3vw, 30px); color: var(--grey); line-height: 1.5; max-width: 36ch; margin: 0 auto; }
-  .threats-close .em { color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-style: normal; font-weight: 500; letter-spacing: -0.01em; display: inline-block; margin-top: 8px; }
-
-  /* ──────────────── FLEET (Section 3) ──────────────── */
-  .fleet-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: center; margin-top: 80px; }
-  @media (max-width: 1024px) { .fleet-layout { grid-template-columns: 1fr; gap: 48px; } }
-
-  .fleet-viz { position: relative; aspect-ratio: 1; max-width: 620px; width: 100%; }
-  .fleet-viz svg { width: 100%; height: 100%; }
-
-  .fleet-callout {
-    display: grid; grid-template-columns: repeat(3,1fr); gap: 1px;
-    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);
-    margin-top: 60px; max-width: 720px;
-  }
-  .callout-cell { background: var(--ink); padding: 32px 28px; }
-  .callout-num { font-family: 'Space Grotesk', sans-serif; font-size: 52px; font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
-  .callout-num.red { color: var(--red); }
-  .callout-num.gold { color: var(--gold); }
-  .callout-label { margin-top: 12px; font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.4; }
-
-  /* Agent roster list */
-  .agent-roster { display: flex; flex-direction: column; gap: 2px; background: rgba(255,255,255,0.06); }
-  .agent-row {
-    display: grid; grid-template-columns: 80px 1fr auto; align-items: center; gap: 20px;
-    background: var(--ink); padding: 18px 20px; cursor: pointer; transition: all 0.2s;
-    border: 1px solid transparent;
-  }
-  .agent-row:hover { background: var(--ink-3); border-color: rgba(244,162,97,0.4); }
-  .agent-row.active { background: var(--ink-3); border-color: var(--gold); }
-  .agent-code { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 0.1em; }
-  .agent-name { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 15px; }
-  .agent-name small { display: block; font-family: 'Inter', sans-serif; font-weight: 300; font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 2px; }
-  .agent-status { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #7FD1A4; display: flex; align-items: center; gap: 6px; }
-  .agent-status::before { content: ''; width: 6px; height: 6px; background: currentColor; border-radius: 50%; }
-
-  /* ──────────────── HOW IT WORKS (Section 4) ──────────────── */
-  .steps { margin-top: 80px; position: relative; }
-  .step-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: linear-gradient(var(--red), var(--line-dark)); transform: translateX(-50%); }
-  @media (max-width: 900px) { .step-line { left: 24px; } }
-  .step {
-    display: grid; grid-template-columns: 1fr 80px 1fr; gap: 40px;
-    align-items: start; margin-bottom: 80px;
-  }
-  @media (max-width: 900px) { .step { grid-template-columns: 60px 1fr; }
-    .step > :first-child { display: none; }
-  }
-  .step-number {
-    display: flex; align-items: center; justify-content: center;
-    width: 64px; height: 64px; border-radius: 50%;
-    background: var(--mist); border: 1px solid var(--ink);
-    font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600;
-    position: relative; z-index: 2; margin: 0 auto;
-  }
-  .step:nth-child(even) > :first-child { text-align: right; order: 0; }
-  .step:nth-child(odd) > :last-child { order: 2; }
-  .step-content h3 { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 14px; }
-  .step-content .step-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--red); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; display: block; }
-  .step-content p { font-size: 16px; line-height: 1.6; color: var(--grey); max-width: 34ch; }
-  .step-visual { padding: 28px; background: #fff; border: 1px solid var(--line-dark); min-height: 200px; }
-
-  /* ──────────────── OPEN SOURCE (Section 5) ──────────────── */
-  .tool-belt-wrap { margin-top: 80px; overflow: hidden; position: relative; }
-  .tool-belt-wrap::before, .tool-belt-wrap::after {
-    content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
-  }
-  .tool-belt-wrap::before { left: 0; background: linear-gradient(to right, var(--ink), transparent); }
-  .tool-belt-wrap::after { right: 0; background: linear-gradient(to left, var(--ink), transparent); }
-  .tool-belt { display: flex; gap: 0; animation: scroll-x 60s linear infinite; width: fit-content; }
-  .tool-belt:hover { animation-play-state: paused; }
-  .tool-chip {
-    display: flex; align-items: center; gap: 10px; padding: 18px 28px;
-    border: 1px solid rgba(255,255,255,0.08); margin-right: -1px;
-    font-family: 'JetBrains Mono', monospace; font-size: 14px; color: rgba(255,255,255,0.85);
-    white-space: nowrap; flex-shrink: 0;
-  }
-  .tool-chip .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
-  @keyframes scroll-x { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-  .hash-chain { margin-top: 100px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  @media (max-width: 900px) { .hash-chain { grid-template-columns: 1fr; } }
-  .chain-viz { display: flex; flex-direction: column; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
-  .chain-block {
-    display: grid; grid-template-columns: 100px 1fr 80px; gap: 14px; align-items: center;
-    padding: 14px 18px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-  }
-  .chain-block .ts { color: var(--gold); }
-  .chain-block .hash { color: rgba(255,255,255,0.7); overflow: hidden; text-overflow: ellipsis; }
-  .chain-block .sig { color: #7FD1A4; text-align: right; }
-  .chain-connector { width: 1px; height: 12px; background: rgba(255,255,255,0.15); margin-left: 46px; }
-
-  /* ──────────────── DEPLOYMENT (Section 6) ──────────────── */
-  .deploy-grid { margin-top: 80px; display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
-  @media (max-width: 1024px) { .deploy-grid { grid-template-columns: 1fr; } }
-  .deploy-card { background: #fff; border: 1px solid var(--line-dark); padding: 40px; position: relative; transition: all 0.3s; display: flex; flex-direction: column; min-height: 520px; }
-  .deploy-card:hover { transform: translateY(-4px); box-shadow: 0 24px 60px rgba(10,35,66,0.1); }
-  .deploy-card.featured { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .deploy-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: var(--grey); margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
-  .deploy-card.featured .deploy-tag { color: var(--gold); }
-  .pop-badge { background: var(--red); color: #fff; padding: 4px 10px; font-size: 10px; letter-spacing: 0.1em; }
-  .deploy-name { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 8px; }
-  .deploy-zh { font-family: 'Noto Serif TC', serif; font-size: 14px; color: var(--grey); margin-bottom: 24px; opacity: 0.6; }
-  .deploy-card.featured .deploy-zh { color: rgba(255,255,255,0.5); }
-  .deploy-body { font-size: 15px; line-height: 1.6; color: var(--grey); margin-bottom: auto; }
-  .deploy-card.featured .deploy-body { color: rgba(255,255,255,0.72); }
-  .deploy-visual { margin: 28px -40px 0; padding: 20px 40px; border-top: 1px solid var(--line-dark); }
-  .deploy-card.featured .deploy-visual { border-top-color: rgba(255,255,255,0.1); }
-  .deploy-best { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--grey); line-height: 1.5; }
-  .deploy-card.featured .deploy-best { color: rgba(255,255,255,0.6); }
-
-  .airgap { margin-top: 40px; padding: 32px 40px; background: var(--paper); border-left: 3px solid var(--ink); display: flex; align-items: center; gap: 28px; }
-  .airgap-sym { font-family: 'JetBrains Mono', monospace; font-size: 36px; font-weight: 300; }
-  .airgap p { font-size: 14px; line-height: 1.6; color: var(--ink); }
-  .airgap strong { font-weight: 600; }
-
-  /* ──────────────── REGULATORY (Section 7) ──────────────── */
-  .reg-grid { margin-top: 80px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); }
-  @media (max-width: 900px) { .reg-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 500px) { .reg-grid { grid-template-columns: 1fr; } }
-  .reg-card { background: var(--ink); padding: 36px 32px; min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-  .reg-card .code { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 0.12em; }
-  .reg-card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 500; letter-spacing: -0.01em; margin: 10px 0 4px; }
-  .reg-card .region { font-family: 'Noto Serif TC', serif; font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 24px; }
-  .reg-card ul { list-style: none; font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.7); }
-  .reg-card ul li::before { content: '— '; color: var(--gold); }
-  .reg-stamp { position: absolute; top: 20px; right: 20px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: #7FD1A4; border: 1px solid #7FD1A4; padding: 3px 8px; opacity: 0.6; }
-
-  .reg-pullquote {
-    margin-top: 100px; max-width: 900px; margin-left: auto; margin-right: auto;
-    font-family: 'Noto Serif TC', serif; font-style: italic; font-weight: 400;
-    font-size: clamp(24px, 2.6vw, 36px); line-height: 1.35; text-align: center;
-    color: rgba(255,255,255,0.9);
-  }
-  .reg-pullquote .mark { color: var(--gold); font-family: 'Space Grotesk'; font-style: normal; font-size: 1.4em; vertical-align: -0.1em; margin: 0 0.15em; }
-
-  /* ──────────────── FOUNDER (Section 8) ──────────────── */
-  .founder-layout { display: grid; grid-template-columns: 5fr 7fr; gap: 80px; align-items: start; }
-  @media (max-width: 1024px) { .founder-layout { grid-template-columns: 1fr; gap: 48px; } }
-  .founder-portrait {
-    aspect-ratio: 4/5; background: var(--paper);
-    background-image: linear-gradient(135deg, rgba(10,35,66,0.1), rgba(244,162,97,0.15));
-    position: relative; overflow: hidden;
-    border: 1px solid var(--line-dark);
-  }
-  .portrait-inner {
-    position: absolute; inset: 0; padding: 32px;
-    display: flex; flex-direction: column; justify-content: space-between;
-    background-image:
-      repeating-linear-gradient(45deg, transparent 0 10px, rgba(10,35,66,0.05) 10px 11px);
-  }
-  .portrait-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--grey); text-transform: uppercase; }
-  .portrait-caption { font-family: 'Noto Serif TC', serif; font-size: 14px; color: var(--grey); line-height: 1.5; font-style: italic; }
-
-  .founder-body { font-size: 17px; line-height: 1.7; color: var(--ink); font-weight: 300; }
-  .founder-body p { margin-bottom: 20px; max-width: 56ch; }
-  .founder-body p:first-of-type::first-letter {
-    font-family: 'Noto Serif TC', serif; font-size: 4em; float: left; line-height: 0.88; padding: 8px 12px 0 0; font-weight: 600; color: var(--deep);
-  }
-  .founder-pullquote {
-    margin: 48px 0; padding: 24px 0;
-    border-top: 1px solid var(--line-dark); border-bottom: 1px solid var(--line-dark);
-    font-family: 'Space Grotesk', sans-serif; font-weight: 500;
-    font-size: clamp(28px, 3vw, 42px); letter-spacing: -0.02em; line-height: 1.15;
-    color: var(--deep);
-  }
-  .founder-pullquote .tc { display: block; font-family: 'Noto Serif TC', serif; font-weight: 400; font-style: italic; font-size: 0.55em; color: var(--grey); margin-top: 12px; }
-  .founder-sign { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--grey); letter-spacing: 0.05em; }
-
-  /* ──────────────── CTA (Section 9) ──────────────── */
-  section.cta { padding: 160px 0; background: var(--ink); position: relative; overflow: hidden; }
-  .cta-skyline { position: absolute; inset: 0; opacity: 0.5; pointer-events: none; }
-  .cta-skyline svg { width: 100%; height: 100%; }
-  .cta-inner { position: relative; z-index: 2; text-align: center; }
-  .cta-headline { font-family: 'Space Grotesk'; font-weight: 500; font-size: clamp(40px, 5vw, 72px); letter-spacing: -0.03em; line-height: 1; color: #fff; max-width: 18ch; margin: 0 auto; }
-  .cta-headline .tc { display: block; font-family: 'Noto Serif TC'; font-style: italic; font-weight: 400; color: var(--gold); font-size: 0.45em; margin-bottom: 24px; letter-spacing: 0; }
-  .cta-sub { margin: 32px auto 48px; max-width: 540px; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.65); font-weight: 300; }
-  .cta-form { display: flex; max-width: 520px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.2); }
-  .cta-form input { flex: 1; background: transparent; border: none; padding: 18px 22px; color: #fff; font-family: 'Inter'; font-size: 15px; outline: none; }
-  .cta-form input::placeholder { color: rgba(255,255,255,0.4); }
-  .cta-form button { background: var(--red); color: #fff; border: none; padding: 18px 28px; font-family: 'Inter'; font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
-  .cta-form button:hover { background: #d62e3c; }
-  .cta-trust { margin-top: 40px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; }
-  .cta-trust span::before { content: '✓ '; color: var(--gold); }
-
-  /* ──────────────── FOOTER ──────────────── */
-  footer { background: var(--ink); color: rgba(255,255,255,0.7); padding: 60px 0 40px; border-top: 1px solid rgba(255,255,255,0.08); }
-  .footer-inner { display: grid; grid-template-columns: 2fr 3fr 1fr; gap: 40px; align-items: start; }
-  @media (max-width: 900px) { .footer-inner { grid-template-columns: 1fr; gap: 32px; } }
-  .footer-tag { font-family: 'Noto Serif TC'; font-style: italic; font-size: 14px; color: var(--gold); margin-top: 12px; opacity: 0.85; }
-  .footer-links { display: flex; gap: 32px; font-size: 13px; flex-wrap: wrap; }
-  .footer-links a { color: inherit; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; }
-  .footer-links a:hover { opacity: 1; }
-  .footer-region { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.1em; text-align: right; color: rgba(255,255,255,0.5); line-height: 2; }
-  @media (max-width: 900px) { .footer-region { text-align: left; } }
-  .footer-bottom { margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); }
-  @media (max-width: 600px) { .footer-bottom { flex-direction: column; gap: 8px; } }
-
-  /* ──────────────── TWEAKS PANEL ──────────────── */
-  .tweaks-panel {
-    position: fixed; right: 24px; bottom: 24px; z-index: 500;
-    width: 300px; background: #fff; border: 1px solid var(--ink);
-    padding: 20px; display: none;
-    font-family: 'Inter'; font-size: 13px; box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  }
-  .tweaks-panel.on { display: block; }
-  .tweaks-panel h4 { font-family: 'Space Grotesk'; font-size: 14px; font-weight: 600; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
-  .tweaks-panel h4::after { content: '⚙'; color: var(--gold); }
-  .tweak-row { margin-bottom: 14px; display: flex; flex-direction: column; gap: 6px; }
-  .tweak-row label { font-size: 11px; color: var(--grey); text-transform: uppercase; letter-spacing: 0.08em; }
-  .tweak-opts { display: flex; gap: 4px; }
-  .tweak-opt { flex: 1; padding: 7px 10px; border: 1px solid var(--line-dark); background: #fff; font-size: 11px; cursor: pointer; text-align: center; transition: all 0.15s; }
-  .tweak-opt.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-
-  /* Radar animation */
-  .sweep { transform-origin: center; animation: sweep 5s linear infinite; }
-  @keyframes sweep { to { transform: rotate(360deg); } }
-  .pulse { animation: pulseDot 2.4s ease-in-out infinite; }
-  @keyframes pulseDot { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 1; transform: scale(1.15); } }
-
-  /* Orbit rings */
-  .orbit-1 { animation: spin 30s linear infinite; transform-origin: center; }
-  .orbit-2 { animation: spin 45s linear infinite reverse; transform-origin: center; }
-  .orbit-3 { animation: spin 80s linear infinite; transform-origin: center; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
 </style>
 </head>
 <body>
 
-<!-- TWEAKS DEFAULTS -->
-<script>
-const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "headlineVariant": "direct",
-  "heroVisual": "radar",
-  "accentMoment": "red"
-}/*EDITMODE-END*/;
-</script>
-
-<!-- ═══════════════════════════════════════════════════════ NAV ═══════════════════════════════════════════════════════ -->
-<nav id="mainNav">
-  <div class="logo-wrap">
-    <svg class="logo-mark" viewBox="0 0 32 32" fill="none">
-      <circle cx="16" cy="16" r="15" stroke="currentColor" stroke-width="1"/>
-      <path d="M16 4 C22 8, 24 14, 20 18 C16 22, 10 20, 8 14" stroke="currentColor" stroke-width="1" fill="none" opacity="0.6"/>
-      <path d="M28 16 C24 22, 18 24, 14 20 C10 16, 12 10, 18 8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
-      <circle cx="16" cy="16" r="2.5" fill="#E63946"/>
-    </svg>
-    <span>TyphoonFleet</span>
+<nav>
+  <div class="wrap">
+    <div class="word">Typhoon<span class="a">Fleet</span></div>
+    <div class="navlinks">
+      <a href="#machine">The Machine</a>
+      <a href="#agents">The Agents</a>
+      <a href="#how">How It Works</a>
+    </div>
+    <div class="navtag">Hong Kong</div>
   </div>
-  <div class="nav-links">
-    <a href="#fleet">Fleet</a>
-    <a href="#how">How it works</a>
-    <a href="#opensource">Open source</a>
-    <a href="#deploy">Deploy</a>
-    <a href="#regulatory">Compliance</a>
-  </div>
-  <a href="#cta" class="nav-cta">Request access →</a>
 </nav>
 
-<!-- ═══════════════════════════════════════════════════════ HERO ═══════════════════════════════════════════════════════ -->
-<section class="hero" data-screen-label="01 Hero">
-  <div class="hero-grid"></div>
-
-  <div class="shell hero-inner">
-    <div>
-      <div class="hud hero-hud">
-        <span class="hud-dot"></span>
-        <span>SEC.01 // 22°17′N 114°09′E</span>
-        <span class="hud-line"></span>
-        <span>PACIFIC STANDARD OPERATIONS</span>
-      </div>
-
-      <h1 class="hero-headline">
-        The fleet<br>
-        <span class="accent">doesn't take sides.</span><br>
-        It takes security seriously.
-      </h1>
-
-      <p class="hero-sub">
-        A fleet of thirteen AI agents that keeps enterprises operational — in every environment,
-        from any direction. Open source. Self-hostable. Auditable all the way down.
-        <span style="display:block; margin-top:14px; font-family:'Noto Serif TC', serif; font-style:italic; color: rgba(244,162,97,0.9);">Resilience without allegiance.</span>
-      </p>
-
-      <div class="hero-ctas">
-        <a href="#cta" class="btn btn-primary">
-          Request Early Access
-          <svg class="btn-arrow" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-        <a href="#fleet" class="btn btn-ghost">
-          See how it works
-        </a>
-      </div>
-    </div>
-
-    <div class="scope">
-      <div class="scope-meta">
-        LIVE SCOPE · T+00:00:03<br>
-        <span class="r">● TRACKING 13 AGENTS</span><br>
-        HK · SG · TPE · SHA
-      </div>
-      <svg viewBox="0 0 560 560" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="eye" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#0A2342" stop-opacity="0.9"/>
-            <stop offset="60%" stop-color="#050F1A" stop-opacity="0.4"/>
-            <stop offset="100%" stop-color="#050F1A" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="sweepGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#F4A261" stop-opacity="0"/>
-            <stop offset="88%" stop-color="#F4A261" stop-opacity="0"/>
-            <stop offset="100%" stop-color="#F4A261" stop-opacity="0.55"/>
-          </radialGradient>
-          <filter id="glow"><feGaussianBlur stdDeviation="2.5"/></filter>
-        </defs>
-
-        <!-- base fill -->
-        <circle cx="280" cy="280" r="270" fill="url(#eye)"/>
-
-        <!-- rings -->
-        <circle cx="280" cy="280" r="260" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-        <circle cx="280" cy="280" r="210" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <circle cx="280" cy="280" r="150" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="2 4"/>
-        <circle cx="280" cy="280" r="90" fill="none" stroke="rgba(244,162,97,0.3)" stroke-width="1"/>
-        <circle cx="280" cy="280" r="40" fill="none" stroke="rgba(230,57,70,0.4)" stroke-width="1"/>
-
-        <!-- crosshair -->
-        <line x1="280" y1="20" x2="280" y2="540" stroke="rgba(255,255,255,0.05)"/>
-        <line x1="20" y1="280" x2="540" y2="280" stroke="rgba(255,255,255,0.05)"/>
-
-        <!-- storm bands (spiral) -->
-        <g class="orbit-3" opacity="0.25">
-          <path d="M 280 280 Q 450 200 440 360 Q 430 500 270 490 Q 90 480 110 310 Q 130 160 290 140" fill="none" stroke="#F4A261" stroke-width="1" stroke-dasharray="1 6"/>
-          <path d="M 280 280 Q 420 240 410 350 Q 400 470 290 470 Q 140 460 150 330 Q 160 200 280 180" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="1 4"/>
-        </g>
-
-        <!-- sweep -->
-        <g class="sweep">
-          <path d="M 280 280 L 540 280 A 260 260 0 0 1 510 400 Z" fill="url(#sweepGrad)"/>
-        </g>
-
-        <!-- outer ring agents -->
-        <g class="orbit-1">
-          <g transform="translate(280 280)">
-            <g transform="rotate(0) translate(210 0)"><circle r="4" fill="#E63946" filter="url(#glow)"/><circle r="2" fill="#fff"/></g>
-            <g transform="rotate(60) translate(210 0)"><circle r="4" fill="#6EC1E4" filter="url(#glow)"/><circle r="2" fill="#fff"/></g>
-            <g transform="rotate(120) translate(210 0)"><circle r="4" fill="#C699E0" filter="url(#glow)"/><circle r="2" fill="#fff"/></g>
-            <g transform="rotate(180) translate(210 0)"><circle r="4" fill="#F4A261" filter="url(#glow)"/><circle r="2" fill="#fff"/></g>
-            <g transform="rotate(240) translate(210 0)"><circle r="4" fill="#7FD1A4" filter="url(#glow)"/><circle r="2" fill="#fff"/></g>
-            <g transform="rotate(300) translate(210 0)"><circle r="4" fill="#E63946" filter="url(#glow)"/><circle r="2" fill="#fff"/></g>
-          </g>
-        </g>
-
-        <!-- middle ring -->
-        <g class="orbit-2">
-          <g transform="translate(280 280)">
-            <g transform="rotate(30) translate(150 0)"><circle r="3.5" fill="#6EC1E4"/><circle r="1.5" fill="#fff"/></g>
-            <g transform="rotate(110) translate(150 0)"><circle r="3.5" fill="#C699E0"/><circle r="1.5" fill="#fff"/></g>
-            <g transform="rotate(200) translate(150 0)"><circle r="3.5" fill="#F4A261"/><circle r="1.5" fill="#fff"/></g>
-            <g transform="rotate(290) translate(150 0)"><circle r="3.5" fill="#7FD1A4"/><circle r="1.5" fill="#fff"/></g>
-          </g>
-        </g>
-
-        <!-- inner ring -->
-        <g class="orbit-3">
-          <g transform="translate(280 280)">
-            <g transform="rotate(45) translate(90 0)"><circle r="3" fill="#E63946"/></g>
-            <g transform="rotate(165) translate(90 0)"><circle r="3" fill="#6EC1E4"/></g>
-            <g transform="rotate(285) translate(90 0)"><circle r="3" fill="#F4A261"/></g>
-          </g>
-        </g>
-
-        <!-- center Commander -->
-        <circle cx="280" cy="280" r="16" fill="#E63946" opacity="0.2"/>
-        <circle cx="280" cy="280" r="8" fill="#E63946" class="pulse"/>
-        <circle cx="280" cy="280" r="3" fill="#fff"/>
-
-        <!-- callout labels -->
-        <g font-family="JetBrains Mono" font-size="9" fill="rgba(255,255,255,0.55)" letter-spacing="1">
-          <text x="498" y="278">CMD</text>
-          <text x="280" y="60" text-anchor="middle">13°N</text>
-          <text x="280" y="530" text-anchor="middle">22°S</text>
-          <text x="40" y="284" text-anchor="start">114°E</text>
-          <text x="520" y="284" text-anchor="end">121°E</text>
-        </g>
-
-        <!-- center label -->
-        <text x="280" y="316" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="rgba(255,255,255,0.7)" letter-spacing="2">COMMANDER</text>
-      </svg>
-    </div>
+<header>
+  <div class="wrap">
+    <div class="kicker">Typhoon Fleet</div>
+    <h1>Press play on<br>the <span class="it">possible</span>.</h1>
+    <p class="sub">An instrument for agents. A roster of specialists, each a voice in the machine. This is what they can do.</p>
+    <div class="scrollcue">Play the machine</div>
   </div>
+</header>
 
-  <!-- terminal stream -->
-  <div class="terminal-stream">
-    <div class="t-head">
-      <span>// live.fleet.ops</span>
-      <span>T+00:03:47</span>
-    </div>
-    <div id="termBody">
-      <!-- populated by JS -->
-    </div>
-  </div>
+<!-- ============ THE MACHINE ============ -->
+<section id="machine" class="machine-sec">
+  <div class="wrap">
+    <div class="machine">
 
-  <div class="shell hero-trust">
-    <div class="trust-row">
-      <span class="trust-label">Built for</span>
-      <span class="trust-badge">MAS TRM</span>
-      <span class="trust-badge">HKMA C-RAF</span>
-      <span class="trust-badge">iCAST</span>
-      <span class="trust-badge">GL20</span>
-      <span class="trust-badge">Cap.653</span>
-      <span class="trust-badge">ISO 27001</span>
-      <span class="trust-badge">NIST 800-53</span>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ THREATS ═══════════════════════════════════════════════════════ -->
-<section class="threats" data-screen-label="02 Threats">
-  <div class="shell">
-    <div class="hud section-label">
-      <span class="hud-dot"></span>
-      <span>SEC.02 // 22°17′N 114°09′E // Threat Surface</span>
-      <span class="hud-line"></span>
-    </div>
-
-    <div class="threats-head">
-      <h2 class="section-headline">
-        The threat landscape<br>
-        shifted. <span class="italic-tc">Permanently.</span>
-      </h2>
-      <p class="threats-lead">
-        Three structural changes — not trends — have rewritten what enterprise
-        security has to defend against. Each one is already happening in your
-        environment. The only variable is whether you can see it.
-      </p>
-    </div>
-
-    <div class="threat-stack">
-
-      <!-- CARD 1 · AI — present-tense, active -->
-      <article class="threat-card t-ai">
-        <div class="t-meta">
-          <span class="t-id">01 / AI</span>
-          <span class="t-status">● LIVE · right now</span>
-        </div>
-        <div class="t-body">
-          <h3>AI is already attacking you.</h3>
-          <p>Adversaries run the same capabilities that power this platform. Automated reconnaissance. Adaptive evasion that rewrites itself mid-engagement. 4,700 payload variants per minute. Fighting AI with human analysts is the wrong ratio — and it's getting worse by the week.</p>
-          <div class="t-answer"><span class="t-answer-label">Fleet response</span> Agents that think at the same speed.</div>
-        </div>
-        <div class="t-viz">
-          <svg viewBox="0 0 280 120" xmlns="http://www.w3.org/2000/svg">
-            <defs><marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#E63946"/></marker></defs>
-            <g font-family="JetBrains Mono" font-size="9">
-              <text x="6" y="14" fill="#6C757D">inbound · T+00:00:01</text>
-              <text x="6" y="32" fill="#E63946">▶ adversary.llm.reconnaissance</text>
-              <text x="6" y="48" fill="#E63946">▶ payload.mutate(attempt=1)</text>
-              <text x="6" y="64" fill="#E63946">▶ payload.mutate(attempt=47)</text>
-              <text x="6" y="80" fill="#E63946">▶ payload.mutate(attempt=213)</text>
-              <text x="6" y="100" fill="#F4A261">rate: 4,700 variants/minute</text>
-            </g>
-            <path d="M225 20 L270 20" stroke="#E63946" stroke-width="1" marker-end="url(#arr)"/>
-            <path d="M225 36 L270 36" stroke="#E63946" stroke-width="1" marker-end="url(#arr)"/>
-            <path d="M225 52 L270 52" stroke="#E63946" stroke-width="1" marker-end="url(#arr)"/>
-            <path d="M225 68 L270 68" stroke="#E63946" stroke-width="1" marker-end="url(#arr)"/>
-          </svg>
-        </div>
-      </article>
-
-      <!-- CARD 2 · NHI — big 45× stat -->
-      <article class="threat-card t-nhi">
-        <div class="t-meta">
-          <span class="t-id">02 / NHI</span>
-          <span class="t-status">◉ UNMAPPED · in your estate</span>
-        </div>
-        <div class="t-body">
-          <h3>Non-human identities now outnumber humans 45 to 1.</h3>
-          <p>Service accounts. API keys. Machine tokens. AI agents authenticating 24 hours a day. Almost none governed with the rigour applied to human accounts. One compromised service account traverses your entire environment — silently, at machine speed, with legitimate credentials.</p>
-          <div class="t-answer"><span class="t-answer-label">Fleet response</span> Continuous identity mapping. Every token, every path.</div>
-        </div>
-        <div class="t-viz nhi-viz">
-          <div class="nhi-stat">
-            <div class="nhi-num">45<span>×</span></div>
-            <div class="nhi-label">more non-human<br>than human identities</div>
-          </div>
-          <div class="nhi-grid" aria-hidden="true"></div>
-        </div>
-      </article>
-
-      <!-- CARD 3 · CI — statutory, heavy -->
-      <article class="threat-card t-ci">
-        <div class="t-meta">
-          <span class="t-id">03 / CI</span>
-          <span class="t-status">■ IT/OT · in force · Jan 2026</span>
-        </div>
-        <div class="t-body">
-          <h3>Physical systems are now reachable.</h3>
-          <p>SCADA. ICS. PLCs. Operational systems designed for safety, not security — now bridged to IT networks via historians, remote-access VPNs, and cloud telemetry. Energy grids. Water utilities. Transport control. Hospital infrastructure. An attack on the network is now an attack on the physical world. And Cap.653 CoP v1.0 — in force January 2026 — just made operators statutorily liable for what happens next.</p>
-          <div class="t-answer"><span class="t-answer-label">Fleet response</span> IT/OT-aware monitoring. Regulator-native evidence.</div>
-        </div>
-        <div class="t-viz">
-          <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono">
-            <!-- zone labels -->
-            <g font-size="8" letter-spacing="1.5" fill="#6C757D">
-              <text x="10" y="14">IT NETWORK</text>
-              <text x="290" y="14" text-anchor="end">OT NETWORK</text>
-              <text x="150" y="14" text-anchor="middle" fill="#E63946">BRIDGE</text>
-            </g>
-            <!-- divider lines -->
-            <line x1="105" y1="20" x2="105" y2="210" stroke="#0A2342" stroke-width="0.4" stroke-dasharray="2 3"/>
-            <line x1="195" y1="20" x2="195" y2="210" stroke="#E63946" stroke-width="0.4" stroke-dasharray="2 3"/>
-
-            <!-- IT side: neat rectangles -->
-            <g fill="none" stroke="#0A2342" stroke-width="0.8">
-              <rect x="20" y="40" width="60" height="22" rx="1"/>
-              <rect x="20" y="70" width="60" height="22" rx="1"/>
-              <rect x="20" y="100" width="60" height="22" rx="1"/>
-              <rect x="20" y="130" width="60" height="22" rx="1"/>
-            </g>
-            <g font-size="7" fill="#0A2342">
-              <text x="50" y="54" text-anchor="middle">Corp AD</text>
-              <text x="50" y="84" text-anchor="middle">Email</text>
-              <text x="50" y="114" text-anchor="middle">File Svr</text>
-              <text x="50" y="144" text-anchor="middle">SaaS</text>
-            </g>
-
-            <!-- Bridge: historians, VPN -->
-            <g fill="#FFF3E8" stroke="#F4A261" stroke-width="0.8">
-              <rect x="120" y="55" width="60" height="22" rx="1"/>
-              <rect x="120" y="90" width="60" height="22" rx="1"/>
-              <rect x="120" y="125" width="60" height="22" rx="1"/>
-            </g>
-            <g font-size="7" fill="#0A2342">
-              <text x="150" y="69" text-anchor="middle">Historian</text>
-              <text x="150" y="104" text-anchor="middle">VPN / Jump</text>
-              <text x="150" y="139" text-anchor="middle">Remote Access</text>
-            </g>
-
-            <!-- OT side: industrial shapes -->
-            <g fill="none" stroke="#0A2342" stroke-width="0.8">
-              <!-- PLC chip -->
-              <rect x="215" y="40" width="60" height="22" rx="1"/>
-              <line x1="215" y1="46" x2="211" y2="46"/><line x1="215" y1="56" x2="211" y2="56"/>
-              <line x1="275" y1="46" x2="279" y2="46"/><line x1="275" y1="56" x2="279" y2="56"/>
-              <!-- SCADA HMI -->
-              <rect x="215" y="70" width="60" height="22" rx="1"/>
-              <circle cx="225" cy="81" r="2.5"/><circle cx="235" cy="81" r="2.5"/>
-              <!-- sensor -->
-              <rect x="215" y="100" width="60" height="22" rx="1"/>
-              <circle cx="245" cy="111" r="4"/>
-              <line x1="245" y1="107" x2="245" y2="115"/>
-              <!-- actuator / valve -->
-              <rect x="215" y="130" width="60" height="22" rx="1"/>
-              <path d="M238 135 L252 147 M252 135 L238 147"/>
-            </g>
-            <g font-size="7" fill="#0A2342">
-              <text x="245" y="54" text-anchor="middle">PLC</text>
-              <text x="245" y="84" text-anchor="middle">SCADA</text>
-              <text x="245" y="114" text-anchor="middle">Sensor</text>
-              <text x="245" y="144" text-anchor="middle">Actuator</text>
-            </g>
-
-            <!-- physical world glyph -->
-            <g fill="#6C757D" font-size="7">
-              <text x="245" y="178" text-anchor="middle">↓ physical world</text>
-            </g>
-            <g stroke="#6C757D" stroke-width="0.4" fill="none">
-              <path d="M215 190 Q230 184 245 190 T275 190"/>
-              <path d="M215 198 Q230 192 245 198 T275 198"/>
-            </g>
-
-            <!-- attack path -->
-            <g stroke="#E63946" stroke-width="1.2" fill="none" stroke-linecap="round">
-              <path d="M80 81 L120 66" stroke-dasharray="3 3"/>
-              <path d="M180 66 L215 51"/>
-              <path d="M180 66 L215 81"/>
-            </g>
-            <!-- attack markers -->
-            <g fill="#E63946">
-              <circle cx="80" cy="81" r="2.5"/>
-              <circle cx="215" cy="51" r="2.5"/>
-              <circle cx="215" cy="81" r="2.5"/>
-            </g>
-            <g font-size="7" fill="#E63946">
-              <text x="95" y="33">attack path</text>
-            </g>
-
-            <!-- statutory footer -->
-            <g font-size="7" fill="#6C757D" letter-spacing="1">
-              <text x="10" y="210">Cap.653 CoP v1.0 · IN FORCE · JAN 2026</text>
-            </g>
-          </svg>
-        </div>
-      </article>
-    </div>
-
-    <div class="threats-close">
-      <p>
-        Most platforms built for 2020's threats. <br>
-        <span class="em">TyphoonFleet is built for the threats that are arriving.</span>
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ FLEET ═══════════════════════════════════════════════════════ -->
-<section class="dark" id="fleet" data-screen-label="03 Fleet">
-  <div class="shell">
-    <div class="hud section-label">
-      <span class="hud-dot"></span>
-      <span>SEC.03 // Meet the Fleet · 艦隊</span>
-      <span class="hud-line"></span>
-    </div>
-
-    <h2 class="section-headline" style="color: #fff;">
-      Thirteen specialists.<br>
-      One Commander.<br>
-      <span class="italic-tc">Always on.</span>
-    </h2>
-    <p class="section-sub">
-      TyphoonFleet deploys a coordinated fleet of AI agents across your entire attack surface —
-      automatically, continuously, without a dedicated security team. Each agent is a specialist.
-      The Commander keeps them in formation.
-    </p>
-
-    <div class="fleet-layout">
-      <div class="fleet-viz">
-        <svg viewBox="0 0 620 620" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <filter id="glow2"><feGaussianBlur stdDeviation="3"/></filter>
-          </defs>
-
-          <!-- rings -->
-          <circle cx="310" cy="310" r="290" fill="none" stroke="rgba(255,255,255,0.06)"/>
-          <circle cx="310" cy="310" r="220" fill="none" stroke="rgba(255,255,255,0.08)" stroke-dasharray="2 6"/>
-          <circle cx="310" cy="310" r="140" fill="none" stroke="rgba(244,162,97,0.2)"/>
-          <circle cx="310" cy="310" r="70" fill="none" stroke="rgba(230,57,70,0.3)"/>
-
-          <!-- connecting lines (static faint) -->
-          <g stroke="rgba(244,162,97,0.2)" stroke-width="0.5" fill="none" id="connectors">
-            <!-- drawn below with agent coords -->
-          </g>
-
-          <!-- Commander -->
-          <g transform="translate(310 310)">
-            <circle r="34" fill="#E63946" opacity="0.15"/>
-            <circle r="22" fill="#0A2342" stroke="#E63946" stroke-width="1.5"/>
-            <circle r="6" fill="#E63946" class="pulse"/>
-            <text y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="rgba(255,255,255,0.7)" letter-spacing="1">CMD · COMMANDER</text>
-          </g>
-
-          <!-- AGENTS: positions generated per ring -->
-          <g id="agents" font-family="JetBrains Mono" font-size="8" fill="rgba(255,255,255,0.7)">
-            <!-- Inner ring 3 (r=70 was too small, use 140) — 3 agents -->
-            <!-- scope warden, red, blue -->
-            <g data-aid="SCOPE" transform="translate(310 170)">
-              <circle r="18" fill="#081422" stroke="#F4A261" stroke-width="1"/>
-              <path d="M-8 -4 L0 -9 L8 -4 L8 5 L0 10 L-8 5 Z" fill="none" stroke="#F4A261" stroke-width="1"/>
-              <text y="32" text-anchor="middle">SCOPE</text>
-            </g>
-            <g data-aid="RED" transform="translate(431 240)">
-              <circle r="18" fill="#081422" stroke="#E63946" stroke-width="1"/>
-              <circle r="7" fill="none" stroke="#E63946" stroke-width="1"/>
-              <path d="M-10 0 h20 M0 -10 v20" stroke="#E63946" stroke-width="1"/>
-              <text y="32" text-anchor="middle">RED</text>
-            </g>
-            <g data-aid="BLUE" transform="translate(431 380)">
-              <circle r="18" fill="#081422" stroke="#6EC1E4" stroke-width="1"/>
-              <path d="M-10 0 Q0 -8 10 0 Q0 8 -10 0 Z" fill="none" stroke="#6EC1E4" stroke-width="1"/>
-              <circle r="3" fill="#6EC1E4"/>
-              <text y="32" text-anchor="middle">BLUE</text>
-            </g>
-
-            <!-- Middle ring 4 -->
-            <g data-aid="PURPLE" transform="translate(310 450)">
-              <circle r="18" fill="#081422" stroke="#C699E0" stroke-width="1"/>
-              <path d="M-8 5 L0 -8 L8 5 Z M-5 0 L0 8 L5 0 Z" fill="none" stroke="#C699E0" stroke-width="1"/>
-              <text y="32" text-anchor="middle">PURPLE</text>
-            </g>
-            <g data-aid="CLOUD" transform="translate(189 380)">
-              <circle r="18" fill="#081422" stroke="#F4A261" stroke-width="1"/>
-              <path d="M-8 3 A6 6 0 0 1 -3 -4 A6 6 0 0 1 8 -2 A4 4 0 0 1 8 6 L-6 6 A4 4 0 0 1 -8 3 Z" fill="none" stroke="#F4A261" stroke-width="1"/>
-              <text y="32" text-anchor="middle">CLOUD</text>
-            </g>
-            <g data-aid="INTEL" transform="translate(189 240)">
-              <circle r="18" fill="#081422" stroke="#7FD1A4" stroke-width="1"/>
-              <path d="M0 7 v-10 M-5 -5 l5 -5 l5 5" fill="none" stroke="#7FD1A4" stroke-width="1"/>
-              <path d="M-6 0 a10 10 0 0 1 12 0" fill="none" stroke="#7FD1A4" stroke-width="1" opacity="0.6"/>
-              <text y="32" text-anchor="middle">INTEL</text>
-            </g>
-            <g data-aid="APPSEC" transform="translate(480 310)">
-              <circle r="18" fill="#081422" stroke="#6EC1E4" stroke-width="1"/>
-              <text y="3" text-anchor="middle" font-size="13" fill="#6EC1E4" font-family="JetBrains Mono">{ }</text>
-              <text y="32" text-anchor="middle">APPSEC</text>
-            </g>
-
-            <!-- Outer ring 5 -->
-            <g data-aid="HUNTER" transform="translate(140 310)">
-              <circle r="18" fill="#081422" stroke="#F4A261" stroke-width="1"/>
-              <circle cx="-2" cy="-2" r="6" fill="none" stroke="#F4A261" stroke-width="1"/>
-              <line x1="3" y1="3" x2="8" y2="8" stroke="#F4A261" stroke-width="1.5"/>
-              <text y="32" text-anchor="middle">HUNTER</text>
-            </g>
-            <g data-aid="RESPONDER" transform="translate(218 525)">
-              <circle r="18" fill="#081422" stroke="#E63946" stroke-width="1"/>
-              <path d="M2 -10 L-6 3 L0 3 L-2 10 L6 -3 L0 -3 Z" fill="none" stroke="#E63946" stroke-width="1"/>
-              <text y="32" text-anchor="middle">RESPONDER</text>
-            </g>
-            <g data-aid="COMPLY" transform="translate(402 525)">
-              <circle r="18" fill="#081422" stroke="#F4A261" stroke-width="1"/>
-              <path d="M-8 -2 h16 M0 -6 v-4 M-6 2 L-2 8 L-10 8 Z M6 2 L2 8 L10 8 Z" fill="none" stroke="#F4A261" stroke-width="1"/>
-              <text y="32" text-anchor="middle">COMPLY</text>
-            </g>
-            <g data-aid="REPORTER" transform="translate(502 218)">
-              <circle r="18" fill="#081422" stroke="#F4A261" stroke-width="1"/>
-              <rect x="-5" y="-7" width="10" height="14" fill="none" stroke="#F4A261" stroke-width="1"/>
-              <line x1="-2" y1="-3" x2="2" y2="-3" stroke="#F4A261"/>
-              <line x1="-2" y1="0" x2="2" y2="0" stroke="#F4A261"/>
-              <line x1="-2" y1="3" x2="2" y2="3" stroke="#F4A261"/>
-              <text y="32" text-anchor="middle">REPORTER</text>
-            </g>
-            <g data-aid="AUDITOR" transform="translate(118 218)">
-              <circle r="18" fill="#081422" stroke="#7FD1A4" stroke-width="1"/>
-              <path d="M-7 0 L-2 5 L8 -5" fill="none" stroke="#7FD1A4" stroke-width="1.5"/>
-              <text y="32" text-anchor="middle">AUDITOR</text>
-            </g>
-          </g>
-
-          <!-- pulse to commander from each agent (light trails) -->
-          <g stroke="rgba(244,162,97,0.25)" stroke-width="0.7" fill="none">
-            <line x1="310" y1="188" x2="310" y2="288"><animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/></line>
-            <line x1="413" y1="240" x2="325" y2="297"><animate attributeName="opacity" values="0;1;0" dur="4s" begin="0.5s" repeatCount="indefinite"/></line>
-            <line x1="207" y1="380" x2="297" y2="322"><animate attributeName="opacity" values="0;1;0" dur="3.5s" begin="1s" repeatCount="indefinite"/></line>
-            <line x1="310" y1="432" x2="310" y2="332"><animate attributeName="opacity" values="0;1;0" dur="4.5s" begin="1.5s" repeatCount="indefinite"/></line>
-          </g>
-        </svg>
+      <!-- transport = the bridge / Conductor -->
+      <div class="transport">
+        <span class="play"><span class="tri"></span> Running</span>
+        <span class="lab">Bridge</span><span class="lcd">routing · stateful · logged</span>
+        <span class="right">
+          <span><span class="lab">Tempo</span> <b>live</b></span>
+          <span><span class="lab">Aboard</span> <b>4</b></span>
+          <span><span class="lab">Slots</span> <b>open</b></span>
+        </span>
       </div>
 
-      <div class="agent-roster">
-        <div class="agent-row active" data-agent="CMD">
-          <span class="agent-code">CMD</span>
-          <div class="agent-name">Commander<small>Orchestrates the fleet. Routes findings. Owns outcomes.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="SCOPE">
-          <span class="agent-code">SCOPE</span>
-          <div class="agent-name">Scope Warden<small>Asset discovery. Attack-surface mapping.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="RED">
-          <span class="agent-code">RED</span>
-          <div class="agent-name">Red<small>Adversary emulation via Sliver &amp; Caldera.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="BLUE">
-          <span class="agent-code">BLUE</span>
-          <div class="agent-name">Blue<small>Detection engineering across Wazuh, Zeek, Suricata.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="PURPLE">
-          <span class="agent-code">PURPLE</span>
-          <div class="agent-name">Purple<small>Detection validation. MITRE ATT&amp;CK coverage proofs.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="CLOUD">
-          <span class="agent-code">CLOUD</span>
-          <div class="agent-name">Cloud<small>Posture via Prowler &amp; ScoutSuite. AWS / GCP / Azure.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="INTEL">
-          <span class="agent-code">INTEL</span>
-          <div class="agent-name">Intel<small>Threat feeds via MISP &amp; OpenCTI. APAC-prioritised.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="APPSEC">
-          <span class="agent-code">APPSEC</span>
-          <div class="agent-name">AppSec<small>ZAP, Semgrep, Trivy, Gitleaks — continuous SAST/DAST.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="HUNTER">
-          <span class="agent-code">HUNTER</span>
-          <div class="agent-name">Hunter<small>Proactive hypothesis hunting via Velociraptor &amp; osquery.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="RESPONDER">
-          <span class="agent-code">RESPONDER</span>
-          <div class="agent-name">Responder<small>Triage, containment, L2 playbooks via TheHive.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="COMPLY">
-          <span class="agent-code">COMPLY</span>
-          <div class="agent-name">Compliance<small>Maps findings → MAS TRM / HKMA / Cap.653 controls.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="REPORTER">
-          <span class="agent-code">REPORTER</span>
-          <div class="agent-name">Reporter<small>Generates board packs, auditor evidence, exec briefs.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-        <div class="agent-row" data-agent="AUDITOR">
-          <span class="agent-code">AUDITOR</span>
-          <div class="agent-name">Auditor<small>Verifies every agent action — signed, hash-chained.</small></div>
-          <span class="agent-status">active</span>
-        </div>
-      </div>
-    </div>
+      <div class="machine-body">
 
-    <div class="fleet-callout">
-      <div class="callout-cell">
-        <div class="callout-num">13</div>
-        <div class="callout-label">Specialist AI agents<br>running in formation</div>
-      </div>
-      <div class="callout-cell">
-        <div class="callout-num gold">100%</div>
-        <div class="callout-label">Open-source tool stack<br>auditable end-to-end</div>
-      </div>
-      <div class="callout-cell">
-        <div class="callout-num red">0</div>
-        <div class="callout-label">Vendor lock-in<br>no API keys required</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ COMPOUNDS ═══════════════════════════════════════════════════════ -->
-<section class="compound-section" data-screen-label="03.5 Compounds">
-  <div class="shell">
-    <div class="compound-inner">
-      <div>
-        <div class="compound-kicker">
-          <span>Core differentiator</span>
-          <span style="color:rgba(255,255,255,0.35)">// 艦隊越戰越強</span>
+        <!-- sequencer: the fleet playing together -->
+        <div class="seq">
+          <div class="seqhead">// the fleet, in a loop</div>
+          <div id="seqRows"></div>
         </div>
-        <h2 class="compound-headline">
-          The fleet<br><span class="em">compounds.</span>
-          <span class="tc-small">每一次交戰都更聰明</span>
-        </h2>
-        <div class="compound-body">
-          <p>A pentest is a snapshot. Once a year, a team arrives, probes your estate, writes a report, and leaves. Whatever they learned leaves with them.</p>
-          <p><strong>The fleet doesn't leave.</strong> Every reconnaissance, every finding, every path mapped, every false positive ruled out — stays. Tomorrow the fleet starts where yesterday ended.</p>
-          <p>Week twelve is sharper than week one. Year two is a different organism than year one.</p>
-        </div>
-        <div class="compound-vs">
-          <div class="compound-vs-col old">
-            <div class="compound-vs-label">Annual pentest</div>
-            <div class="compound-vs-line">Point-in-time.<br>Resets to zero.</div>
-          </div>
-          <div class="compound-vs-col new">
-            <div class="compound-vs-label">TyphoonFleet</div>
-            <div class="compound-vs-line">Always on.<br>Never forgets.</div>
-          </div>
-        </div>
-      </div>
 
-      <div class="compound-viz">
-        <svg viewBox="0 0 540 520" xmlns="http://www.w3.org/2000/svg">
-          <!-- axes -->
-          <g stroke="rgba(255,255,255,0.12)" stroke-width="0.6">
-            <line x1="60" y1="40" x2="60" y2="460"/>
-            <line x1="60" y1="460" x2="510" y2="460"/>
-          </g>
-          <!-- gridlines -->
-          <g stroke="rgba(255,255,255,0.05)" stroke-width="0.4">
-            <line x1="60" y1="120" x2="510" y2="120"/>
-            <line x1="60" y1="200" x2="510" y2="200"/>
-            <line x1="60" y1="280" x2="510" y2="280"/>
-            <line x1="60" y1="360" x2="510" y2="360"/>
-          </g>
-          <!-- axis labels -->
-          <g font-family="JetBrains Mono" font-size="9" fill="rgba(255,255,255,0.35)" letter-spacing="1.5">
-            <text x="60" y="28" text-anchor="start">SECURITY POSTURE →</text>
-            <text x="66" y="470" text-anchor="start">T+0</text>
-            <text x="180" y="470" text-anchor="middle">WK 12</text>
-            <text x="300" y="470" text-anchor="middle">WK 26</text>
-            <text x="420" y="470" text-anchor="middle">WK 52</text>
-            <text x="510" y="470" text-anchor="end">YR 2</text>
-            <text x="510" y="28" text-anchor="end">TIME →</text>
-          </g>
-
-          <!-- ANNUAL PENTEST — sawtooth -->
-          <g>
-            <!-- baseline flat with yearly spikes that reset -->
-            <path d="M60 400 L180 400 L180 340 L300 340 L300 400 L420 400 L420 340 L510 340 L510 400"
-                  stroke="rgba(255,255,255,0.3)" stroke-width="1.4" fill="none" stroke-dasharray="4 4"/>
-            <!-- reset markers -->
-            <g fill="rgba(230,57,70,0.6)">
-              <circle cx="180" cy="400" r="3"/>
-              <circle cx="300" cy="400" r="3"/>
-              <circle cx="420" cy="400" r="3"/>
-            </g>
-            <!-- label with leader -->
-            <g font-family="JetBrains Mono" font-size="10" fill="rgba(255,255,255,0.45)">
-              <text x="440" y="320">annual pentest</text>
-              <text x="440" y="334" fill="rgba(230,57,70,0.7)">resets ↻</text>
-            </g>
-          </g>
-
-          <!-- COMPOUNDING FLEET — rising curve -->
-          <path d="M60 420 Q 120 380 180 320 T 300 200 T 420 100 T 510 60"
-                stroke="url(#compoundGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <!-- area fill under curve -->
-          <path d="M60 420 Q 120 380 180 320 T 300 200 T 420 100 T 510 60 L510 460 L60 460 Z"
-                fill="url(#compoundFill)" opacity="0.2"/>
-          <!-- data points on fleet curve -->
-          <g fill="#F4A261">
-            <circle cx="180" cy="316" r="3"/>
-            <circle cx="300" cy="208" r="3"/>
-            <circle cx="420" cy="108" r="3"/>
-          </g>
-          <!-- fleet label -->
-          <g font-family="JetBrains Mono" font-size="10" fill="#F4A261" letter-spacing="1">
-            <text x="220" y="270">+findings retained</text>
-            <text x="340" y="170">+surface mapped</text>
-            <text x="286" y="80" fill="#E63946">fleet compounds ↗</text>
-          </g>
-
-          <!-- tick: starting point shared -->
-          <g>
-            <circle cx="60" cy="420" r="5" fill="#fff"/>
-            <text x="76" y="425" font-family="JetBrains Mono" font-size="10" fill="rgba(255,255,255,0.7)">deploy</text>
-          </g>
-
-          <defs>
-            <linearGradient id="compoundGrad" x1="0" y1="100%" x2="100%" y2="0">
-              <stop offset="0%" stop-color="#F4A261"/>
-              <stop offset="70%" stop-color="#E63946"/>
-              <stop offset="100%" stop-color="#E63946"/>
-            </linearGradient>
-            <linearGradient id="compoundFill" x1="0" y1="0" x2="0" y2="100%">
-              <stop offset="0%" stop-color="#F4A261" stop-opacity="0.6"/>
-              <stop offset="100%" stop-color="#F4A261" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="compound-viz-label" style="top: -8px; right: 8px; color: rgba(255,255,255,0.35);">FIG.03 · POSTURE OVER TIME</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ HOW IT WORKS ═══════════════════════════════════════════════════════ -->
-<section id="how" data-screen-label="04 How">
-  <div class="shell">
-    <div class="hud section-label">
-      <span class="hud-dot"></span>
-      <span>SEC.04 // Operational Loop</span>
-      <span class="hud-line"></span>
-    </div>
-    <h2 class="section-headline">
-      From unknown threat<br>
-      to board-ready evidence.<br>
-      <span class="italic-tc">Automatically.</span>
-    </h2>
-
-    <div class="steps">
-      <div class="step-line"></div>
-
-      <div class="step">
-        <div class="step-content">
-          <span class="step-tag">T+00:00 · Discover</span>
-          <h3>Map every surface.</h3>
-          <p>Scope Warden and Cloud agents inventory every host, endpoint, cloud resource, code repo, and SaaS tenant. Nothing is out of scope.</p>
-        </div>
-        <div class="step-number">01</div>
-        <div class="step-visual">
-          <svg viewBox="0 0 280 160" width="100%">
-            <g fill="none" stroke="#0A2342" stroke-width="0.8" opacity="0.8">
-              <circle cx="140" cy="80" r="6" fill="#E63946" stroke="none"/>
-              <line x1="140" y1="80" x2="60" y2="30"/>
-              <line x1="140" y1="80" x2="230" y2="30"/>
-              <line x1="140" y1="80" x2="40" y2="120"/>
-              <line x1="140" y1="80" x2="240" y2="130"/>
-              <line x1="140" y1="80" x2="100" y2="140"/>
-              <line x1="140" y1="80" x2="190" y2="140"/>
-              <line x1="60" y1="30" x2="30" y2="60"/>
-              <line x1="230" y1="30" x2="260" y2="70"/>
-              <circle cx="60" cy="30" r="4" fill="#0A2342"/>
-              <circle cx="230" cy="30" r="4" fill="#0A2342"/>
-              <circle cx="40" cy="120" r="4" fill="#0A2342"/>
-              <circle cx="240" cy="130" r="4" fill="#0A2342"/>
-              <circle cx="100" cy="140" r="4" fill="#0A2342"/>
-              <circle cx="190" cy="140" r="4" fill="#0A2342"/>
-              <circle cx="30" cy="60" r="3" fill="#F4A261"/>
-              <circle cx="260" cy="70" r="3" fill="#F4A261"/>
-            </g>
-            <text x="10" y="15" font-family="JetBrains Mono" font-size="9" fill="#6C757D">ASSETS // 1,847 HOSTS · 412 REPOS · 89 BUCKETS</text>
-          </svg>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-visual">
-          <svg viewBox="0 0 280 160" width="100%">
-            <g font-family="JetBrains Mono" font-size="9">
-              <text x="10" y="20" fill="#E63946">[RED] T1078.004 · valid cloud accounts</text>
-              <text x="10" y="38" fill="#E63946">[RED] T1566.001 · spearphishing attachment</text>
-              <text x="10" y="56" fill="#6C757D">    → payload delivered via smtp relay</text>
-              <text x="10" y="74" fill="#E63946">[RED] T1059.001 · powershell execution</text>
-              <text x="10" y="92" fill="#F4A261">[HNT] hypothesis #47 · lateral mv.</text>
-              <text x="10" y="110" fill="#7FD1A4">    ✓ containment feasible</text>
-              <text x="10" y="130" fill="#6C757D">———————————————————</text>
-              <text x="10" y="148" fill="#F4A261">23 TTPs validated · 4 detection gaps</text>
-            </g>
-          </svg>
-        </div>
-        <div class="step-number">02</div>
-        <div class="step-content">
-          <span class="step-tag">T+00:14 · Hunt</span>
-          <h3>Probe like an adversary.</h3>
-          <p>Red and Hunter agents execute real attacker techniques — mapped to MITRE ATT&amp;CK — against your production estate, continuously.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-content">
-          <span class="step-tag">T+00:37 · Detect</span>
-          <h3>Validate the blue team.</h3>
-          <p>Blue and Purple agents correlate every attack technique against your detection rules. Not theoretical coverage — <em>proven</em> coverage.</p>
-        </div>
-        <div class="step-number">03</div>
-        <div class="step-visual">
-          <svg viewBox="0 0 280 160" width="100%">
-            <g font-family="JetBrains Mono" font-size="9">
-              <text x="10" y="20" fill="#6C757D">MITRE T1078.004</text>
-              <rect x="10" y="26" width="180" height="8" fill="#F6F4EF" stroke="#6C757D" stroke-width="0.5"/>
-              <rect x="10" y="26" width="160" height="8" fill="#7FD1A4"/>
-              <text x="200" y="33" fill="#7FD1A4">✓ 89%</text>
-
-              <text x="10" y="54" fill="#6C757D">MITRE T1566.001</text>
-              <rect x="10" y="60" width="180" height="8" fill="#F6F4EF" stroke="#6C757D" stroke-width="0.5"/>
-              <rect x="10" y="60" width="180" height="8" fill="#7FD1A4"/>
-              <text x="200" y="67" fill="#7FD1A4">✓ 100%</text>
-
-              <text x="10" y="88" fill="#6C757D">MITRE T1059.001</text>
-              <rect x="10" y="94" width="180" height="8" fill="#F6F4EF" stroke="#6C757D" stroke-width="0.5"/>
-              <rect x="10" y="94" width="70" height="8" fill="#E63946"/>
-              <text x="200" y="101" fill="#E63946">! 38%</text>
-
-              <text x="10" y="122" fill="#6C757D">MITRE T1021.002</text>
-              <rect x="10" y="128" width="180" height="8" fill="#F6F4EF" stroke="#6C757D" stroke-width="0.5"/>
-              <rect x="10" y="128" width="130" height="8" fill="#F4A261"/>
-              <text x="200" y="135" fill="#F4A261">⚠ 72%</text>
-            </g>
-          </svg>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-visual">
-          <svg viewBox="0 0 280 160" width="100%">
-            <g font-family="JetBrains Mono" font-size="9">
-              <text x="10" y="16" fill="#E63946">● INCIDENT-2026.0412.17</text>
-              <line x1="10" y1="28" x2="270" y2="28" stroke="#0A2342" stroke-width="0.5" opacity="0.3"/>
-              <circle cx="20" cy="46" r="3" fill="#E63946"/>
-              <text x="32" y="49" fill="#0A2342">17:04 · detection fired · webshell</text>
-              <line x1="20" y1="52" x2="20" y2="62" stroke="#0A2342" stroke-width="0.5" opacity="0.3"/>
-              <circle cx="20" cy="68" r="3" fill="#F4A261"/>
-              <text x="32" y="71" fill="#0A2342">17:05 · responder · isolate host</text>
-              <line x1="20" y1="74" x2="20" y2="84" stroke="#0A2342" stroke-width="0.5" opacity="0.3"/>
-              <circle cx="20" cy="90" r="3" fill="#F4A261"/>
-              <text x="32" y="93" fill="#0A2342">17:06 · responder · snapshot disk</text>
-              <line x1="20" y1="96" x2="20" y2="106" stroke="#0A2342" stroke-width="0.5" opacity="0.3"/>
-              <circle cx="20" cy="112" r="3" fill="#7FD1A4"/>
-              <text x="32" y="115" fill="#0A2342">17:08 · contained · L2 handoff</text>
-              <line x1="20" y1="118" x2="20" y2="128" stroke="#0A2342" stroke-width="0.5" opacity="0.3"/>
-              <circle cx="20" cy="134" r="3" fill="#7FD1A4"/>
-              <text x="32" y="137" fill="#0A2342">17:09 · audit trail · signed ✓</text>
-            </g>
-          </svg>
-        </div>
-        <div class="step-number">04</div>
-        <div class="step-content">
-          <span class="step-tag">T+00:58 · Respond</span>
-          <h3>Triage. Contain. Document.</h3>
-          <p>Responder handles the first ten minutes. L2 recommendations for your team. Every action signed, timestamped, and added to the audit trail.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-content">
-          <span class="step-tag">T+01:00 · Evidence</span>
-          <h3>Generate the regulator's pack.</h3>
-          <p>Compliance maps every finding to MAS TRM / HKMA / Cap.653 controls. Reporter builds the board pack. Your auditor receives exactly what they asked for.</p>
-        </div>
-        <div class="step-number">05</div>
-        <div class="step-visual">
-          <svg viewBox="0 0 280 160" width="100%">
-            <rect x="30" y="15" width="120" height="130" fill="#fff" stroke="#0A2342" stroke-width="0.8"/>
-            <g font-family="JetBrains Mono" font-size="6" fill="#0A2342">
-              <text x="40" y="28">Q2 · TRM EVIDENCE PACK</text>
-              <line x1="40" y1="34" x2="140" y2="34" stroke="#0A2342" stroke-width="0.3"/>
-              <text x="40" y="46">§4.2.1 Access Control ✓</text>
-              <text x="40" y="58">§4.3.5 Vuln Mgmt     ✓</text>
-              <text x="40" y="70">§5.1.2 Pen Testing   ✓</text>
-              <text x="40" y="82">§6.4.1 Inc Response  ✓</text>
-              <text x="40" y="94">§7.1.3 Threat Intel  ✓</text>
-              <text x="40" y="106">§8.2.1 Audit Logs    ✓</text>
-              <text x="40" y="118">§8.2.2 Red Team      ✓</text>
-              <rect x="40" y="128" width="100" height="10" fill="#7FD1A4" opacity="0.3"/>
-              <text x="45" y="136" fill="#0A2342">COMPLIANT — 147/147</text>
-            </g>
-            <g transform="translate(180 40)">
-              <rect width="60" height="24" fill="#E63946" opacity="0.15"/>
-              <text x="30" y="15" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#E63946" font-weight="600">MAS TRM</text>
-            </g>
-            <g transform="translate(180 70)">
-              <rect width="60" height="24" fill="#F4A261" opacity="0.2"/>
-              <text x="30" y="15" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#F4A261" font-weight="600">HKMA iCAST</text>
-            </g>
-            <g transform="translate(180 100)">
-              <rect width="60" height="24" fill="#0A2342" opacity="0.15"/>
-              <text x="30" y="15" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#0A2342" font-weight="600">Cap.653</text>
-            </g>
-          </svg>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ OPEN SOURCE ═══════════════════════════════════════════════════════ -->
-<section class="dark" id="opensource" data-screen-label="05 OpenSource">
-  <div class="shell">
-    <div class="hud section-label">
-      <span class="hud-dot"></span>
-      <span>SEC.05 // Nothing to hide · 光明正大</span>
-      <span class="hud-line"></span>
-    </div>
-    <h2 class="section-headline" style="color: #fff;">
-      Auditable<br>
-      <span class="italic-tc">all the way down.</span>
-    </h2>
-    <p class="section-sub">
-      Every tool. Every agent action. Every finding. Open source, logged, explainable.
-      No black boxes. No vendor dependency. No surprises for your regulator — or yours.
-    </p>
-
-    <div class="tool-belt-wrap">
-      <div class="tool-belt" id="toolBelt">
-        <!-- populated by JS, repeated -->
-      </div>
-    </div>
-
-    <div class="hash-chain">
-      <div>
-        <h3 style="font-family: 'Space Grotesk'; font-size: 28px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 16px;">
-          Every action, signed.<br>
-          Every finding, chained.
-        </h3>
-        <p style="font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.65); max-width: 44ch;">
-          Each agent action is cryptographically signed, hash-linked to the previous, and written
-          to an append-only audit log. Tamper-evident. Regulator-verifiable. Zero-trust for your own
-          security stack.
-        </p>
-      </div>
-
-      <div class="chain-viz">
-        <div class="chain-block">
-          <span class="ts">17:04:12Z</span>
-          <span class="hash">0x7a3f…e91c · RED · recon.cidr_scan</span>
-          <span class="sig">signed ✓</span>
-        </div>
-        <div class="chain-connector"></div>
-        <div class="chain-block">
-          <span class="ts">17:04:47Z</span>
-          <span class="hash">0x9d22…41bd · INTEL · ioc.enrich</span>
-          <span class="sig">signed ✓</span>
-        </div>
-        <div class="chain-connector"></div>
-        <div class="chain-block">
-          <span class="ts">17:05:03Z</span>
-          <span class="hash">0xc1e8…2744 · BLUE · detect.rule_fire</span>
-          <span class="sig">signed ✓</span>
-        </div>
-        <div class="chain-connector"></div>
-        <div class="chain-block">
-          <span class="ts">17:05:29Z</span>
-          <span class="hash">0x4b60…880f · RESPONDER · contain</span>
-          <span class="sig">signed ✓</span>
-        </div>
-        <div class="chain-connector"></div>
-        <div class="chain-block">
-          <span class="ts">17:06:11Z</span>
-          <span class="hash">0xff01…ae55 · AUDITOR · verify.chain</span>
-          <span class="sig">signed ✓</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ DEPLOYMENT ═══════════════════════════════════════════════════════ -->
-<section id="deploy" data-screen-label="06 Deploy">
-  <div class="shell">
-    <div class="hud section-label">
-      <span class="hud-dot"></span>
-      <span>SEC.06 // Choose your configuration · 部署</span>
-      <span class="hud-line"></span>
-    </div>
-    <h2 class="section-headline">
-      Deploy your way.<br>
-      <span class="italic-tc">Own everything.</span>
-    </h2>
-
-    <div class="deploy-grid">
-
-      <div class="deploy-card">
-        <div class="deploy-tag"><span>01 / CLOUD</span></div>
-        <div class="deploy-name">Cloud Fleet</div>
-        <div class="deploy-zh">雲端艦隊</div>
-        <div class="deploy-body">
-          Managed control plane in <strong>ap-east-1</strong> (Hong Kong) or <strong>ap-southeast-1</strong> (Singapore). Edge agents on your infrastructure. Data never leaves your region.
-        </div>
-        <div class="deploy-visual">
-          <svg viewBox="0 0 240 90" width="100%">
-            <rect x="10" y="40" width="220" height="30" fill="none" stroke="#0A2342" stroke-width="0.8"/>
-            <text x="20" y="58" font-family="JetBrains Mono" font-size="9" fill="#0A2342">control-plane</text>
-            <text x="180" y="58" font-family="JetBrains Mono" font-size="9" fill="#F4A261">ap-east-1</text>
-            <line x1="60" y1="40" x2="60" y2="20" stroke="#0A2342" stroke-width="0.5"/>
-            <line x1="120" y1="40" x2="120" y2="20" stroke="#0A2342" stroke-width="0.5"/>
-            <line x1="180" y1="40" x2="180" y2="20" stroke="#0A2342" stroke-width="0.5"/>
-            <rect x="50" y="10" width="20" height="10" fill="#0A2342"/>
-            <rect x="110" y="10" width="20" height="10" fill="#0A2342"/>
-            <rect x="170" y="10" width="20" height="10" fill="#0A2342"/>
-            <line x1="60" y1="70" x2="60" y2="82" stroke="#0A2342" stroke-width="0.5"/>
-            <line x1="120" y1="70" x2="120" y2="82" stroke="#0A2342" stroke-width="0.5"/>
-            <line x1="180" y1="70" x2="180" y2="82" stroke="#0A2342" stroke-width="0.5"/>
-            <circle cx="60" cy="85" r="3" fill="#E63946"/>
-            <circle cx="120" cy="85" r="3" fill="#E63946"/>
-            <circle cx="180" cy="85" r="3" fill="#E63946"/>
-          </svg>
-        </div>
-        <div class="deploy-best" style="margin-top: 20px;">Best for: non-regulated mid-market.<br>Fast time to value.</div>
-      </div>
-
-      <div class="deploy-card featured">
-        <div class="deploy-tag"><span>02 / ON-PREM</span><span class="pop-badge">MOST POPULAR</span></div>
-        <div class="deploy-name">Private Fleet</div>
-        <div class="deploy-zh">私有艦隊</div>
-        <div class="deploy-body">
-          Full stack in your data centre. Docker or Kubernetes. Air-gap capable. Your infrastructure. Your data. Your control — all the way down to the kernel.
-        </div>
-        <div class="deploy-visual">
-          <svg viewBox="0 0 240 90" width="100%">
-            <rect x="10" y="10" width="220" height="70" fill="none" stroke="#F4A261" stroke-width="0.8" stroke-dasharray="3 3"/>
-            <text x="20" y="25" font-family="JetBrains Mono" font-size="8" fill="rgba(255,255,255,0.5)">your.datacenter</text>
-            <g transform="translate(20 35)">
-              <rect width="50" height="12" fill="rgba(244,162,97,0.2)" stroke="#F4A261" stroke-width="0.5"/>
-              <text x="25" y="9" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#F4A261">k8s-master</text>
-            </g>
-            <g transform="translate(85 35)">
-              <rect width="50" height="12" fill="rgba(244,162,97,0.2)" stroke="#F4A261" stroke-width="0.5"/>
-              <text x="25" y="9" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#F4A261">worker-01</text>
-            </g>
-            <g transform="translate(150 35)">
-              <rect width="50" height="12" fill="rgba(244,162,97,0.2)" stroke="#F4A261" stroke-width="0.5"/>
-              <text x="25" y="9" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#F4A261">worker-02</text>
-            </g>
-            <g transform="translate(20 58)">
-              <rect width="50" height="12" fill="rgba(230,57,70,0.2)" stroke="#E63946" stroke-width="0.5"/>
-              <text x="25" y="9" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#E63946">postgres</text>
-            </g>
-            <g transform="translate(85 58)">
-              <rect width="50" height="12" fill="rgba(230,57,70,0.2)" stroke="#E63946" stroke-width="0.5"/>
-              <text x="25" y="9" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#E63946">vault</text>
-            </g>
-            <g transform="translate(150 58)">
-              <rect width="50" height="12" fill="rgba(230,57,70,0.2)" stroke="#E63946" stroke-width="0.5"/>
-              <text x="25" y="9" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#E63946">object-store</text>
-            </g>
-          </svg>
-        </div>
-        <div class="deploy-best" style="margin-top: 20px;">Best for: regulated FSI.<br>Data sovereignty requirements.</div>
-      </div>
-
-      <div class="deploy-card">
-        <div class="deploy-tag"><span>03 / HARDWARE</span></div>
-        <div class="deploy-name">Fleet in a Box</div>
-        <div class="deploy-zh">艦隊一體機</div>
-        <div class="deploy-body">
-          A 1U rack unit. HK-blue anodised aluminium. Plug in. Configure. Protect. The full security operations stack — in a box you own.
-        </div>
-        <div class="deploy-visual">
-          <!-- 1U rack render -->
-          <svg viewBox="0 0 240 90" width="100%">
-            <defs>
-              <linearGradient id="rackGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#1a3560"/>
-                <stop offset="50%" stop-color="#0A2342"/>
-                <stop offset="100%" stop-color="#050F1A"/>
-              </linearGradient>
-              <linearGradient id="rackFace" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#0A2342"/>
-                <stop offset="50%" stop-color="#14305a"/>
-                <stop offset="100%" stop-color="#0A2342"/>
-              </linearGradient>
-            </defs>
-            <!-- 1U body -->
-            <rect x="10" y="30" width="220" height="30" fill="url(#rackFace)" stroke="#050F1A" stroke-width="0.5"/>
-            <!-- rack ears -->
-            <rect x="10" y="30" width="14" height="30" fill="#050F1A"/>
-            <rect x="216" y="30" width="14" height="30" fill="#050F1A"/>
-            <!-- vents -->
-            <g fill="#050F1A" opacity="0.6">
-              <rect x="30" y="38" width="1" height="14"/>
-              <rect x="33" y="38" width="1" height="14"/>
-              <rect x="36" y="38" width="1" height="14"/>
-              <rect x="39" y="38" width="1" height="14"/>
-              <rect x="42" y="38" width="1" height="14"/>
-              <rect x="45" y="38" width="1" height="14"/>
-              <rect x="48" y="38" width="1" height="14"/>
-              <rect x="51" y="38" width="1" height="14"/>
-              <rect x="54" y="38" width="1" height="14"/>
-              <rect x="57" y="38" width="1" height="14"/>
-              <rect x="60" y="38" width="1" height="14"/>
-            </g>
-            <!-- typhoon eye emboss -->
-            <g transform="translate(120 45)" opacity="0.8">
-              <circle r="9" fill="none" stroke="#F4A261" stroke-width="0.5"/>
-              <path d="M0 -6 C4 -4 5 1 3 4 C1 6 -3 5 -4 2" fill="none" stroke="#F4A261" stroke-width="0.5" opacity="0.7"/>
-              <circle r="1.5" fill="#E63946"/>
-            </g>
-            <!-- status LEDs -->
-            <circle cx="190" cy="45" r="1.5" fill="#7FD1A4"/>
-            <circle cx="196" cy="45" r="1.5" fill="#F4A261"/>
-            <circle cx="202" cy="45" r="1.5" fill="#E63946" opacity="0.3"/>
-            <!-- rack unit label -->
-            <text x="210" y="48" text-anchor="end" font-family="JetBrains Mono" font-size="5" fill="rgba(255,255,255,0.5)">1U</text>
-            <!-- shadow -->
-            <ellipse cx="120" cy="70" rx="90" ry="3" fill="#0A2342" opacity="0.1"/>
-          </svg>
-        </div>
-        <div class="deploy-best" style="margin-top: 20px;">Best for: SMEs without dedicated infra.<br>Branch locations. Offices.</div>
-      </div>
-    </div>
-
-    <div class="airgap">
-      <div class="airgap-sym">⊘</div>
-      <div>
-        <strong style="font-family: 'Space Grotesk'; font-size: 16px;">No internet? No problem.</strong><br>
-        <p style="margin-top: 4px;">Air-gapped deployment available with local AI models and signed offline sync. Required for some mainland China and defense deployments.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ REGULATORY ═══════════════════════════════════════════════════════ -->
-<section class="dark" id="regulatory" data-screen-label="07 Regulatory">
-  <div class="shell">
-    <div class="hud section-label">
-      <span class="hud-dot"></span>
-      <span>SEC.07 // Born compliant · 合規而生</span>
-      <span class="hud-line"></span>
-    </div>
-    <h2 class="section-headline" style="color: #fff;">
-      Your regulator wants evidence.<br>
-      <span class="italic-tc">We generate it.</span>
-    </h2>
-
-    <div class="reg-grid">
-      <div class="reg-card">
-        <div class="reg-stamp">AUTO-MAPPED</div>
-        <div>
-          <span class="code">SG · MONETARY AUTHORITY</span>
-          <h4>MAS TRM</h4>
-          <div class="region">新加坡金融管理局</div>
-        </div>
-        <ul>
-          <li>Annual pentest evidence</li>
-          <li>Vulnerability assessment</li>
-          <li>Security monitoring logs</li>
-        </ul>
-      </div>
-
-      <div class="reg-card">
-        <div class="reg-stamp">AUTO-MAPPED</div>
-        <div>
-          <span class="code">HK · MONETARY AUTHORITY</span>
-          <h4>HKMA C-RAF / iCAST</h4>
-          <div class="region">香港金融管理局</div>
-        </div>
-        <ul>
-          <li>iCAST phase outputs</li>
-          <li>Threat intelligence reports</li>
-          <li>Red team execution evidence</li>
-        </ul>
-      </div>
-
-      <div class="reg-card">
-        <div class="reg-stamp">AUTO-MAPPED</div>
-        <div>
-          <span class="code">HK · INSURANCE AUTHORITY</span>
-          <h4>GL20</h4>
-          <div class="region">保險業監管局</div>
-        </div>
-        <ul>
-          <li>Insurer cyber controls</li>
-          <li>Evidence mapping</li>
-          <li>Quarterly attestations</li>
-        </ul>
-      </div>
-
-      <div class="reg-card">
-        <div class="reg-stamp">AUTO-MAPPED</div>
-        <div>
-          <span class="code">HK · SECURITY BUREAU</span>
-          <h4>Cap.653 CoP v1.0</h4>
-          <div class="region">保安局 · 關鍵基礎設施</div>
-        </div>
-        <ul>
-          <li>CI operator obligations</li>
-          <li>Security audit artifacts</li>
-          <li>Incident reporting pack</li>
-        </ul>
-      </div>
-
-      <div class="reg-card">
-        <div class="reg-stamp">AUTO-MAPPED</div>
-        <div>
-          <span class="code">GLOBAL · ISO</span>
-          <h4>ISO / IEC 27001</h4>
-          <div class="region">Annex A · 114 controls</div>
-        </div>
-        <ul>
-          <li>Control evidence</li>
-          <li>Audit-ready documentation</li>
-          <li>Statement of Applicability</li>
-        </ul>
-      </div>
-
-      <div class="reg-card">
-        <div class="reg-stamp">AUTO-MAPPED</div>
-        <div>
-          <span class="code">US · NIST</span>
-          <h4>NIST 800-53</h4>
-          <div class="region">Rev. 5 · Federal baseline</div>
-        </div>
-        <ul>
-          <li>Framework alignment</li>
-          <li>Gap analysis reports</li>
-          <li>Continuous assessment</li>
-        </ul>
-      </div>
-    </div>
-
-    <p class="reg-pullquote">
-      <span class="mark">“</span>The fleet generates the evidence — automatically. The first security platform that produces MAS&nbsp;TRM and HKMA&nbsp;iCAST artifacts without a human writing a single line.<span class="mark">”</span>
-    </p>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ FOUNDER ═══════════════════════════════════════════════════════ -->
-<section data-screen-label="08 Practitioner">
-  <div class="shell">
-    <div class="hud section-label">
-      <span class="hud-dot"></span>
-      <span>SEC.08 // Who built this</span>
-      <span class="hud-line"></span>
-    </div>
-
-    <div class="founder-layout">
-      <div>
-        <div class="founder-portrait">
-          <div class="portrait-inner">
-            <div class="portrait-label">Harbour Chart · 海圖</div>
-            <svg viewBox="0 0 320 420" preserveAspectRatio="xMidYMid meet" style="flex:1; width:100%; margin:12px 0;" fill="none">
-              <g stroke="rgba(10,35,66,0.35)" stroke-width="0.6" fill="none">
-                <path d="M10 60 Q80 40 160 70 T310 90"/>
-                <path d="M10 100 Q80 85 170 115 T310 135"/>
-                <path d="M10 150 Q90 130 180 160 T310 185"/>
-                <path d="M10 210 Q100 185 200 215 T310 240"/>
-                <path d="M10 270 Q110 240 220 270 T310 300"/>
-                <path d="M10 340 Q120 310 240 330 T310 360"/>
-              </g>
-              <g font-family="JetBrains Mono" font-size="8" fill="rgba(10,35,66,0.55)">
-                <text x="40" y="55">12m</text><text x="120" y="95">18m</text>
-                <text x="240" y="110">24m</text><text x="60" y="145">31m</text>
-                <text x="200" y="205">46m</text><text x="140" y="265">52m</text>
-                <text x="260" y="295">58m</text>
-              </g>
-              <path d="M20 380 L80 320 L140 240 L200 170 L260 120 L300 80" stroke="rgba(230,57,70,0.55)" stroke-width="0.8" stroke-dasharray="3 3"/>
-              <path d="M300 380 L240 320 L180 260 L140 180 L90 110 L30 60" stroke="rgba(244,162,97,0.7)" stroke-width="0.8" stroke-dasharray="3 3"/>
-              <polygon points="260,120 264,128 256,128" fill="#E63946"/>
-              <polygon points="140,180 144,188 136,188" fill="#F4A261"/>
-              <g transform="translate(260 340)" stroke="rgba(10,35,66,0.5)" stroke-width="0.6" fill="none">
-                <circle r="22"/><circle r="14"/>
-                <line x1="0" y1="-22" x2="0" y2="22"/>
-                <line x1="-22" y1="0" x2="22" y2="0"/>
-                <path d="M0 -22 L4 0 L0 22 L-4 0 Z" fill="rgba(10,35,66,0.4)"/>
-                <text y="-26" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="rgba(10,35,66,0.7)" stroke="none">N</text>
-              </g>
-              <g font-family="JetBrains Mono" font-size="8" fill="rgba(10,35,66,0.6)">
-                <text x="14" y="24">22°17′13″N</text>
-                <text x="14" y="38">114°09′42″E</text>
-                <text x="220" y="24">CHART · HK.01</text>
-                <text x="220" y="38">REV 2026-04</text>
-              </g>
-            </svg>
-            <div class="portrait-caption">
-              Know the water. Know the pressure.<br>
-              <span style="opacity:0.6">Built for the world as it actually is.</span>
+        <div class="lower">
+          <!-- pad bank -->
+          <div class="pads">
+            <div class="padhead">
+              <span class="t">// pads · tap an agent</span>
+              <span class="t">16 steps</span>
             </div>
+            <div class="padgrid" id="padGrid"></div>
+          </div>
+
+          <!-- detail readout -->
+          <div class="detail" id="detail">
+            <!-- populated by JS -->
           </div>
         </div>
-      </div>
 
-      <div class="founder-body">
-        <div class="founder-pullquote">
-          Built by people who've<br>operated on both sides.
-          <span class="tc">兩邊都實戰過</span>
-        </div>
-
-        <p>We've spent over a decade helping enterprises secure operations across the most complex regulatory environments in Asia. We've watched Western security tools fail to understand the region. We've watched local tools cut corners on the standards global organisations require. We've seen compliance frameworks that protect regulators, not operators.</p>
-
-        <p>TyphoonFleet is what we kept wishing existed.</p>
-
-        <p>A security operation that works in Hong Kong and Singapore. In a regulated FSI environment and an air-gapped data centre. In an organisation that answers to multiple regulators simultaneously — without asking you to choose.</p>
-
-        <p><strong style="font-weight:500; color: var(--deep);">We don't take sides. We protect operations.</strong></p>
-
-        <div class="founder-sign">— The TyphoonFleet practitioners · 颱風艦隊</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════ CTA ═══════════════════════════════════════════════════════ -->
-<section class="cta" id="cta" data-screen-label="09 CTA">
-  <div class="cta-skyline">
-    <svg viewBox="0 0 1400 500" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-      <!-- water reflection hint -->
-      <rect y="400" width="1400" height="100" fill="#050F1A"/>
-      <!-- HK-ish skyline silhouette -->
-      <g fill="#0A2342" opacity="0.6">
-        <path d="M0 400 L0 330 L30 330 L30 290 L50 290 L50 340 L70 340 L70 310 L90 310 L90 280 L110 280 L110 350 L140 350 L140 260 L170 260 L170 310 L200 310 L200 230 L230 230 L230 290 L260 290 L260 240 L290 240 L290 180 L330 180 L330 250 L370 250 L370 210 L400 210 L400 160 L440 160 L440 230 L480 230 L480 190 L520 190 L520 140 L560 140 L560 220 L600 220 L600 170 L640 170 L640 130 L690 130 L690 200 L730 200 L730 160 L780 160 L780 120 L830 120 L830 190 L880 190 L880 150 L930 150 L930 200 L970 200 L970 170 L1010 170 L1010 220 L1050 220 L1050 250 L1090 250 L1090 200 L1130 200 L1130 270 L1170 270 L1170 240 L1210 240 L1210 290 L1250 290 L1250 260 L1290 260 L1290 320 L1330 320 L1330 290 L1370 290 L1370 350 L1400 350 L1400 400 Z"/>
-      </g>
-      <!-- window lights -->
-      <g fill="#F4A261" opacity="0.6">
-        <rect x="140" y="275" width="2" height="2"/>
-        <rect x="148" y="280" width="2" height="2"/>
-        <rect x="160" y="290" width="2" height="2"/>
-        <rect x="220" y="240" width="2" height="2"/>
-        <rect x="300" y="200" width="2" height="2"/>
-        <rect x="308" y="210" width="2" height="2"/>
-        <rect x="420" y="180" width="2" height="2"/>
-        <rect x="530" y="160" width="2" height="2"/>
-        <rect x="538" y="170" width="2" height="2"/>
-        <rect x="660" y="150" width="2" height="2"/>
-        <rect x="750" y="180" width="2" height="2"/>
-        <rect x="800" y="140" width="2" height="2"/>
-        <rect x="900" y="170" width="2" height="2"/>
-        <rect x="1100" y="220" width="2" height="2"/>
-        <rect x="1200" y="260" width="2" height="2"/>
-      </g>
-      <!-- reflection ripples -->
-      <g stroke="#F4A261" stroke-width="0.3" opacity="0.3">
-        <line x1="100" y1="440" x2="140" y2="440"/>
-        <line x1="300" y1="430" x2="360" y2="430"/>
-        <line x1="500" y1="450" x2="560" y2="450"/>
-        <line x1="800" y1="435" x2="870" y2="435"/>
-        <line x1="1100" y1="445" x2="1170" y2="445"/>
-      </g>
-    </svg>
-  </div>
-
-  <div class="shell cta-inner">
-    <div class="hud" style="justify-content: center; margin-bottom: 32px; color: rgba(255,255,255,0.6);">
-      <span class="hud-dot"></span>
-      <span>SEC.09 // Private beta · T–7 days</span>
+<!-- ============ THE AGENTS (showcase) ============ -->
+<section id="agents" class="showcase">
+  <div class="wrap">
+    <div class="show-intro">
+      <div class="eye">The Roster</div>
+      <h2>Each one does a real job.</h2>
+      <p>No monolith pretending to do everything. Four specialists running today, each in its own domain, with room on the board for more. Security sets the bar: a ship safe enough to attack systems is the standard the rest are held to.</p>
     </div>
-    <h2 class="cta-headline">
-      <span class="tc">颱風來襲 · The storm is here</span>
-      Deploy your fleet.<br>Stay up. Any direction.
-    </h2>
-    <p class="cta-sub">
-      TyphoonFleet is in private beta. We're onboarding security teams and enterprises operating across Asia's most complex environments. No SaaS sprawl. No vendor lock-in. Just a fleet that works.
-    </p>
-    <form class="cta-form" onsubmit="handleCTA(event)">
-      <input type="email" placeholder="Work email address" required>
-      <button type="submit">Deploy Your Fleet →</button>
-    </form>
-    <div class="cta-trust">
-      <span>APAC data residency</span>
-      <span>No API key required</span>
-      <span>Fully open source</span>
+    <div class="voices" id="voices"></div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS (quiet principle) ============ -->
+<section id="how" class="principle">
+  <div class="wrap">
+    <div class="eye">How It Works</div>
+    <h2>One machine reads what you give it, routes it to the right ship, and <span class="g">writes down every move.</span></h2>
+    <div class="three">
+      <div class="c">
+        <div class="ci">The fader</div>
+        <h4>Autonomy, not volume</h4>
+        <p>Every agent has a fader from advisory to acting. The control you actually care about with agents is the one on the front of the machine, not buried in a settings page.</p>
+      </div>
+      <div class="c">
+        <div class="ci">The brains</div>
+        <h4>Bring your own model</h4>
+        <p>Route each channel to the model you trust. Frontier, local, or air-gapped. The fleet is the instrument; the brains are your call.</p>
+      </div>
+      <div class="c">
+        <div class="ci">The log</div>
+        <h4>Every action recorded</h4>
+        <p>One audit trail across the whole fleet. You can always see what was done, why, and by which ship. The receipt is the point.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════ FOOTER ═══════════════════════════════════════════════════════ -->
-<footer>
-  <div class="shell">
-    <div class="footer-inner">
-      <div>
-        <div class="logo-wrap" style="color: #fff;">
-          <svg class="logo-mark" viewBox="0 0 32 32" fill="none">
-            <circle cx="16" cy="16" r="15" stroke="currentColor" stroke-width="1"/>
-            <path d="M16 4 C22 8, 24 14, 20 18 C16 22, 10 20, 8 14" stroke="currentColor" stroke-width="1" fill="none" opacity="0.6"/>
-            <path d="M28 16 C24 22, 18 24, 14 20 C10 16, 12 10, 18 8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/>
-            <circle cx="16" cy="16" r="2.5" fill="#E63946"/>
-          </svg>
-          <span>TyphoonFleet</span>
-        </div>
-        <div class="footer-tag">A fleet that never sleeps · 艦隊不眠</div>
-      </div>
-      <div class="footer-links">
-        <a href="#fleet">Platform</a>
-        <a href="#opensource">Open Source</a>
-        <a href="#regulatory">Compliance</a>
-        <a href="#deploy">Deploy</a>
-        <a href="#">Pricing</a>
-        <a href="#">About</a>
-      </div>
-      <div class="footer-region">
-        HONG KONG · 香港<br>
-        SINGAPORE · 新加坡<br>
-        TAIPEI · 台北
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 TyphoonFleet Ltd. Licensed under Apache 2.0.</span>
-      <span>22°17′N · 114°09′E</span>
-    </div>
-  </div>
-</footer>
-
-<!-- ═══════════════════════════════════════════════════════ TWEAKS PANEL ═══════════════════════════════════════════════════════ -->
-<div class="tweaks-panel" id="tweaks">
-  <h4>Tweaks</h4>
-  <div class="tweak-row">
-    <label>Hero headline</label>
-    <div class="tweak-opts" data-key="headlineVariant">
-      <div class="tweak-opt" data-val="neutral">Neutral</div>
-      <div class="tweak-opt" data-val="threats">Threats</div>
-      <div class="tweak-opt" data-val="direct">Fleet</div>
-    </div>
-  </div>
-  <div class="tweak-row">
-    <label>Hero visual</label>
-    <div class="tweak-opts" data-key="heroVisual">
-      <div class="tweak-opt" data-val="radar">Radar</div>
-      <div class="tweak-opt" data-val="static">Static</div>
-    </div>
-  </div>
-  <div class="tweak-row">
-    <label>Accent moments</label>
-    <div class="tweak-opts" data-key="accentMoment">
-      <div class="tweak-opt" data-val="gold">Gold</div>
-      <div class="tweak-opt" data-val="red">Red</div>
-      <div class="tweak-opt" data-val="none">Minimal</div>
-    </div>
+<!-- ============ CLOSER ============ -->
+<div class="closer">
+  <div class="wrap">
+    <h2>A fleet you can <span class="it">hear</span> working.</h2>
+    <div class="note">Hong Kong · Built security-first · The art of the possible</div>
   </div>
 </div>
 
+<footer>
+  <div class="wrap">
+    <div class="word">Typhoon<span class="a">Fleet</span></div>
+    <div class="mono">typhoonfleet.com · An agentic fleet</div>
+    <div class="mono">© 2026</div>
+  </div>
+</footer>
+
 <script>
-  // ───────── nav shade on scroll + section switching ─────────
-  const nav = document.getElementById('mainNav');
-  function updateNav() {
-    const y = window.scrollY;
-    // Determine if current viewport center is over a dark section
-    const mid = y + window.innerHeight / 2;
-    const darkSections = document.querySelectorAll('section.dark, section.hero, section.cta');
-    let isDark = false;
-    darkSections.forEach(s => {
-      const top = s.offsetTop, bot = top + s.offsetHeight;
-      if (mid >= top && mid < bot) isDark = true;
-    });
-    nav.classList.toggle('light', !isDark);
-  }
-  window.addEventListener('scroll', updateNav, { passive: true });
-  updateNav();
-
-  // ───────── terminal stream ─────────
-  const termBody = document.getElementById('termBody');
-  const streamLines = [
-    { tag: 'RED',    cls: 'tag-red',    msg: '→ recon scan complete: 3 new attack surfaces' },
-    { tag: 'BLUE',   cls: 'tag-blue',   msg: '→ detection rule deployed: CVE-2026-1471' },
-    { tag: 'PURPLE', cls: 'tag-purple', msg: '→ TTP validated: MITRE T1078.004 ✓' },
-    { tag: 'CLOUD',  cls: 'tag-cloud',  msg: '→ 2 critical misconfigs: S3 public ACL' },
-    { tag: 'INTEL',  cls: 'tag-intel',  msg: '→ actor TyphoonPanda: active in APAC' },
-    { tag: 'HUNTER', cls: 'tag-cloud',  msg: '→ hypothesis #47 confirmed: lateral mv.' },
-    { tag: 'RESP',   cls: 'tag-red',    msg: '→ contain host db-node-07 · done ✓' },
-    { tag: 'COMPLY', cls: 'tag-purple', msg: '→ §4.2.1 MAS TRM · evidence attached' },
-    { tag: 'BLUE',   cls: 'tag-blue',   msg: '→ rule deploy · T1059.001 · 23 hosts' },
-    { tag: 'RED',    cls: 'tag-red',    msg: '→ pivot successful: linux/sandbox-02' },
+(function(){
+  // ----- roster (only what actually runs) -----
+  const AGENTS = [
+    {id:'life', name:'LifeOS', domain:'Life', status:'live', model:'any', autonomy:75,
+     what:'Captures anything you throw at it, routes it by understanding, and keeps the six dimensions of your life in view. Journal, tasks, recall, the morning card. Your life’s operating system.',
+     pat:[1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1]},
+    {id:'fit',  name:'Fitness', domain:'Body', status:'live', model:'any', autonomy:55,
+     what:'Logs every workout, reconciles the numbers, and reads recovery and readiness back to you each morning. The agent that knows your body.',
+     pat:[1,0,0,0,1,0,0,0,1,0,0,0,1,0,1,0]},
+    {id:'ed',   name:'Wang Report Editor', domain:'Newsroom', status:'live', model:'any', autonomy:60,
+     what:'Runs a newsroom of correspondents, each with a fixed voice, drafting and editing columns to publication standard, on schedule. The agent that runs a publication.',
+     pat:[1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0]},
+    {id:'red',  name:'The Red-Teamer', domain:'Security', status:'live', model:'any', autonomy:70, flag:true,
+     what:'Automated, scoped offensive testing. Maps attack paths, probes controls, and reports the way an auditor will accept. Security-first, so every agent on the board meets the bar.',
+     pat:[1,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0]},
   ];
-  let streamIdx = 0;
-  function addLine() {
-    if (!termBody) return;
-    const line = streamLines[streamIdx % streamLines.length];
-    const el = document.createElement('div');
-    el.className = 't-line';
-    el.innerHTML = `<span class="tag ${line.cls}">[${line.tag}]</span><span>${line.msg}</span>`;
-    termBody.appendChild(el);
-    // keep max 5 lines
-    while (termBody.children.length > 5) termBody.removeChild(termBody.firstChild);
-    streamIdx++;
-  }
-  // seed
-  for (let i = 0; i < 4; i++) addLine();
-  setInterval(addLine, 2400);
+  const EMPTY_SLOTS = 4;       // pads left open on the board
+  const EMPTY_TRACKS = 2;      // empty sequencer lanes
+  const STATUS_LABEL = {live:'Live', designed:'Designed', planned:'Planned'};
 
-  // ───────── tool belt ─────────
-  const tools = [
-    'nmap', 'nuclei', 'metasploit', 'sliver', 'caldera', 'atomic-red-team',
-    'wazuh', 'suricata', 'zeek', 'osquery', 'velociraptor', 'prowler',
-    'scoutsuite', 'semgrep', 'trivy', 'MISP', 'OpenCTI', 'TheHive',
-    'ZAP', 'bloodhound', 'impacket', 'falco', 'kubescape', 'gitleaks'
-  ];
-  const belt = document.getElementById('toolBelt');
-  function renderTools() {
-    const html = tools.map(t => `<div class="tool-chip"><span class="dot"></span>${t}</div>`).join('');
-    belt.innerHTML = html + html; // doubled for seamless loop
-  }
-  renderTools();
-
-  // ───────── agent roster hover ─────────
-  const rows = document.querySelectorAll('.agent-row');
-  rows.forEach(r => {
-    r.addEventListener('click', () => {
-      rows.forEach(x => x.classList.remove('active'));
-      r.classList.add('active');
-      const aid = r.dataset.agent;
-      document.querySelectorAll('#agents > g').forEach(g => {
-        g.style.opacity = (aid === 'CMD' || g.dataset.aid === aid) ? '1' : '0.35';
-      });
+  // ----- sequencer rows -----
+  const seqRows = document.getElementById('seqRows');
+  AGENTS.forEach(a=>{
+    const row = document.createElement('div');
+    row.className='track'; row.dataset.id=a.id;
+    const nm = document.createElement('div'); nm.className='name'; nm.textContent=a.name;
+    const steps = document.createElement('div'); steps.className='steps';
+    a.pat.forEach(on=>{
+      const c=document.createElement('div'); c.className='cell'+(on?' on':''); steps.appendChild(c);
     });
+    row.appendChild(nm); row.appendChild(steps); seqRows.appendChild(row);
   });
+  // empty lanes — room to grow
+  for(let e=0;e<EMPTY_TRACKS;e++){
+    const row=document.createElement('div'); row.className='track empty';
+    const nm=document.createElement('div'); nm.className='name'; nm.textContent='open lane';
+    const steps=document.createElement('div'); steps.className='steps';
+    for(let i=0;i<16;i++){const c=document.createElement('div');c.className='cell';steps.appendChild(c);}
+    row.appendChild(nm); row.appendChild(steps); seqRows.appendChild(row);
+  }
+  const allRows = [...seqRows.querySelectorAll('.track:not(.empty)')];
+  const playRows = [...seqRows.querySelectorAll('.track')];
 
-  // ───────── CTA form ─────────
-  function handleCTA(e) {
-    e.preventDefault();
-    const input = e.target.querySelector('input');
-    const btn = e.target.querySelector('button');
-    btn.textContent = '✓ Fleet deploying…';
-    btn.style.background = '#7FD1A4';
-    input.value = '';
-    setTimeout(() => {
-      btn.textContent = 'Check your inbox ↗';
-    }, 900);
+  // playhead
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let step=0;
+  function tick(){
+    playRows.forEach(r=>{
+      const cells=r.querySelectorAll('.cell');
+      cells.forEach((c,i)=>c.classList.toggle('now', i===step));
+    });
+    step=(step+1)%16;
+  }
+  tick();
+  if(!reduce) setInterval(tick, 165);
+
+  // ----- pad bank -----
+  const padGrid = document.getElementById('padGrid');
+  AGENTS.forEach((a,idx)=>{
+    const p=document.createElement('div'); p.className='pad'; p.dataset.id=a.id;
+    p.innerHTML = `<span class="pdot ${a.status}"></span>${a.flag?'<span class="flag">Flag</span>':''}<span class="bank-i">${a.domain}</span><span class="pn">${a.name}</span>`;
+    p.addEventListener('click',()=>select(a.id,true));
+    padGrid.appendChild(p);
+  });
+  // empty pads — room to grow
+  for(let e=0;e<EMPTY_SLOTS;e++){
+    const p=document.createElement('div'); p.className='pad empty';
+    p.innerHTML = `<span class="slot">+ open</span>`;
+    padGrid.appendChild(p);
   }
 
-  // ───────── TWEAKS ─────────
-  let tweaks = { ...TWEAK_DEFAULTS };
-
-  function applyTweaks() {
-    // headline variant
-    const h1 = document.querySelector('.hero-headline');
-    if (tweaks.headlineVariant === 'neutral') {
-      h1.innerHTML = 'The fleet<br><span class="accent">doesn\u2019t take sides.</span><br>It takes security seriously.';
-    } else if (tweaks.headlineVariant === 'threats') {
-      h1.innerHTML = 'The threats changed.<br><span class="accent">Your security hasn\u2019t.</span>';
-    } else {
-      h1.innerHTML = 'A fleet that<br><span class="accent">never sleeps.</span>';
+  // ----- detail readout -----
+  const detail = document.getElementById('detail');
+  function select(id, hit){
+    const a = AGENTS.find(x=>x.id===id);
+    detail.innerHTML = `
+      <div class="bank">${a.domain}${a.flag?' · Flagship':''}</div>
+      <h3>${a.name} <span class="sd ${a.status}"></span></h3>
+      <div class="what">${a.what}</div>
+      <div class="specs">
+        <div class="srow"><span class="k">Status</span><span class="v">${STATUS_LABEL[a.status]}</span></div>
+        <div class="srow"><span class="k">Model</span><span class="v">Bring your own</span></div>
+        <div class="srow"><span class="k">Autonomy</span>
+          <span class="fader">
+            <span class="ends">Advise</span>
+            <span class="ftrack"><span class="fknob" style="left:${a.autonomy}%"></span></span>
+            <span class="ends">Act</span>
+          </span>
+        </div>
+      </div>`;
+    document.querySelectorAll('.pad').forEach(p=>p.classList.toggle('active', p.dataset.id===id));
+    allRows.forEach(r=>r.classList.toggle('sel', r.dataset.id===id));
+    if(hit){
+      const pad=document.querySelector(`.pad[data-id="${id}"]`);
+      pad.classList.add('hit'); setTimeout(()=>pad.classList.remove('hit'),140);
     }
-
-    // hero visual
-    const scope = document.querySelector('.scope svg');
-    if (scope) {
-      scope.querySelectorAll('.orbit-1, .orbit-2, .orbit-3, .sweep, .pulse').forEach(el => {
-        el.style.animationPlayState = tweaks.heroVisual === 'static' ? 'paused' : 'running';
-      });
-    }
-
-    // accent moment — swap italic accent color
-    document.documentElement.style.setProperty('--accent-moment',
-      tweaks.accentMoment === 'red' ? '#E63946' :
-      tweaks.accentMoment === 'none' ? '#A8ADB3' : '#F4A261'
-    );
-    document.querySelectorAll('.italic-tc, .hero-headline .accent').forEach(el => {
-      if (tweaks.accentMoment !== 'gold') {
-        el.style.color = tweaks.accentMoment === 'red' ? '#E63946' : '#A8ADB3';
-      } else {
-        el.style.color = '';
-      }
-    });
-
-    // update tweak UI
-    document.querySelectorAll('.tweak-opts').forEach(grp => {
-      const key = grp.dataset.key;
-      grp.querySelectorAll('.tweak-opt').forEach(opt => {
-        opt.classList.toggle('active', opt.dataset.val === tweaks[key]);
-      });
-    });
   }
-  applyTweaks();
+  select('life', false); // load the life OS first
 
-  document.querySelectorAll('.tweak-opt').forEach(opt => {
-    opt.addEventListener('click', () => {
-      const key = opt.parentElement.dataset.key;
-      tweaks[key] = opt.dataset.val;
-      applyTweaks();
-      window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: opt.dataset.val } }, '*');
-    });
+  // ----- showcase voices -----
+  const voices = document.getElementById('voices');
+  AGENTS.forEach(a=>{
+    const v=document.createElement('div'); v.className='voice';
+    v.innerHTML = `
+      <div class="vbank">${a.domain}${a.flag?' · Flagship':''}</div>
+      <div class="vmain">
+        <h3>${a.name} <span class="sd ${a.status}"></span></h3>
+        <p>${a.what}</p>
+      </div>
+      <div class="vstat ${a.status==='live'?'live':''}">${STATUS_LABEL[a.status]}</div>`;
+    v.addEventListener('click',()=>{ select(a.id,true); document.getElementById('machine').scrollIntoView({behavior:'smooth'}); });
+    v.style.cursor='pointer';
+    voices.appendChild(v);
   });
-
-  // Edit mode protocol — register listener FIRST, then announce
-  window.addEventListener('message', (ev) => {
-    if (!ev.data) return;
-    if (ev.data.type === '__activate_edit_mode') {
-      document.getElementById('tweaks').classList.add('on');
-    } else if (ev.data.type === '__deactivate_edit_mode') {
-      document.getElementById('tweaks').classList.remove('on');
-    }
-  });
-  window.parent.postMessage({ type: '__edit_mode_available' }, '*');
-
+})();
 </script>
 
 </body>
