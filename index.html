@@ -335,7 +335,7 @@
     {id:'ed',   name:'Wang Report Editor', domain:'Newsroom', status:'live', model:'any', autonomy:60,
      what:'Runs a newsroom of correspondents, each with a fixed voice, drafting and editing columns to publication standard, on schedule. The agent that runs a publication.',
      pat:[1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0]},
-    {id:'red',  name:'The Red-Teamer', domain:'Security', status:'live', model:'any', autonomy:70, method:'method/appsec-review.html', methodLabel:'Method: application security review',
+    {id:'red',  name:'The Red-Teamer', domain:'Security', status:'live', model:'any', autonomy:70, method:'method/appsec-review.html', methodLabel:'Method: application security review', runs:'https://squall.typhoonfleet.com/', runsLabel:'Sign in to Squall runs',
      what:'Automated, scoped offensive testing. Maps attack paths, probes controls, and reports the way an auditor will accept.',
      pat:[1,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0]},
     {id:'photo', name:'Photos', domain:'Life', status:'designed', model:'any', autonomy:35,
@@ -415,7 +415,7 @@
       <div class="bank">${a.domain}${a.flag?' · Flagship':''}</div>
       <h3>${a.name} <span class="sd ${a.status}"></span></h3>
       <div class="what">${a.what}</div>
-      ${a.method?`<div class="what"><a href="${a.method}" style="color:var(--gold);font-weight:500">${a.methodLabel} →</a></div>`:''}
+      ${a.method?`<div class="what"><a href="${a.method}" style="color:var(--gold);font-weight:500">${a.methodLabel} →</a>${a.runs?` &nbsp;·&nbsp; <a href="${a.runs}" style="color:var(--gold);font-weight:500">${a.runsLabel} →</a>`:''}</div>`:''}
       <div class="specs">
         <div class="srow"><span class="k">Status</span><span class="v">${STATUS_LABEL[a.status]}</span></div>
         <div class="srow"><span class="k">Model</span><span class="v">Bring your own</span></div>
