@@ -175,6 +175,15 @@
   footer a:hover{color:#fff}
   footer .fl{display:flex;gap:22px;flex-wrap:wrap}
 
+  .spec{position:relative;margin-top:10px}
+  .spec .track{position:absolute;left:0;right:0;top:9px;height:4px;border-radius:4px;background:linear-gradient(90deg,#3a4a66,#E0892B 35%,#3a4a66 60%,#0f1a2e)}
+  .pins{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative}
+  .pin .pd{display:block;width:22px;height:22px;border-radius:50%;background:var(--night);border:3px solid #5b6b86;margin-bottom:14px}
+  .pin b{display:block;font-size:16px;font-weight:600;margin-bottom:4px}
+  .pin small{display:block;font-size:14px;color:var(--dim);line-height:1.5}
+  .pin.me .pd{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 7px rgba(224,137,43,.2)}
+  .pin.me b{color:#F5B26B}
+  @media (max-width:640px){.spec .track{left:9px;right:auto;top:0;bottom:0;width:4px;height:auto;background:linear-gradient(180deg,#3a4a66,#E0892B 35%,#3a4a66 60%,#0f1a2e)}.pins{grid-template-columns:1fr;gap:20px}.pin{display:grid;grid-template-columns:22px 1fr;column-gap:16px}.pin .pd{grid-row:span 2;margin:0}}
   .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
   .reveal.in{opacity:1;transform:none}
 
@@ -231,7 +240,7 @@
     </a>
     <div class="links">
       <a class="hide-sm" href="#how">How it works</a>
-      <a class="hide-sm" href="product.html">Product</a>
+      <a class="hide-sm" href="product.html">What it checks</a>
       <a class="hide-sm" href="https://typhoonfleet.com/method/appsec-review.html">Method</a>
       <a href="https://squall.typhoonfleet.com/squall/login">Log in</a>
       <a class="btn gold sm" href="mailto:squall@typhoonfleet.com?subject=Squall%20review%20request">Request a review</a>
@@ -289,7 +298,7 @@
 
 <div class="strip">
   <div class="wrap">
-    <span class="lbl">Checks mapped to public standards</span>
+    <span class="lbl">Built on public standards</span>
     <b>OWASP ASVS</b><b>OWASP Top 10</b><b>NIST SP 800-115</b>
   </div>
 </div>
@@ -373,16 +382,26 @@
 
 <section id="caps" style="padding-top:40px">
   <div class="wrap">
-    <h2 class="reveal">What runs today, and what is next.</h2>
-    <p class="sec-lede reveal">Only live checks are part of a review. Planned ones are shown as planned.</p>
-    <div class="caps">
-      <div class="cap reveal"><div class="st live"><i></i>Live</div><h4>Application security review</h4><p>Secrets in git history, dependency CVEs, static analysis, headers and CSP, the hosts your bundle talks to, browser storage.</p></div>
-      <div class="cap reveal"><div class="st part"><i></i>Partial</div><h4>Vulnerability intelligence and account posture</h4><p>Daily CVE and known-exploited feed; read-only checks on deploy tokens, repo visibility and branch protection.</p></div>
-      <div class="cap reveal"><div class="st plan"><i></i>Planned</div><h4>AI and LLM testing, external attack surface</h4><p>Planted-instruction, jailbreak and data-leak tests for bots and AI features. Subdomain and exposed-service discovery.</p></div>
+    <h2 class="reveal">Where Squall fits.</h2>
+    <p class="sec-lede reveal">Between a cheap automated scan and an expensive break-in test. Squall looks often, proves what it finds, and never tries to break in.</p>
+    <div class="spec reveal" aria-label="Scale from automated scanner to red team">
+      <div class="track"><i></i></div>
+      <div class="pins">
+        <div class="pin"><span class="pd"></span><b>Automated scanner</b><small>Fast, noisy, rarely says what it missed</small></div>
+        <div class="pin me"><span class="pd"></span><b>Squall</b><small>Checks every release, a person confirms, proof and gaps in writing</small></div>
+        <div class="pin"><span class="pd"></span><b>Penetration test</b><small>A tester breaks in, once or twice a year</small></div>
+        <div class="pin"><span class="pd"></span><b>Red team</b><small>Acts like a criminal gang, people included</small></div>
+      </div>
     </div>
+    <div class="caps" style="margin-top:46px">
+      <div class="cap reveal"><div class="st live"><i></i>Today</div><h4>Checks your app before it ships</h4><p>Passwords left in code, weak settings on your site, outside services your app talks to, and parts with known defects.</p></div>
+      <div class="cap reveal"><div class="st live"><i></i>Today</div><h4>A person confirms every problem</h4><p>With proof for each one, a fix list in order, and a written list of what was not checked.</p></div>
+      <div class="cap reveal"><div class="st plan"><i></i>Next</div><h4>AI chatbots and the wider internet view</h4><p>Whether your chatbot can be tricked, and everything your domain shows the internet.</p></div>
+    </div>
+    <p class="reveal" style="color:var(--faint);font-size:14.5px;margin-top:18px">Not what Squall does: break-ins, testing your staff, anything that could take your service down.</p>
     <div class="more reveal">
-      <a class="btn line" href="product.html">See the full product detail <span class="arr">→</span></a>
-      <a class="tlink" href="https://typhoonfleet.com/method/appsec-review.html">Read the published method</a>
+      <a class="btn line" href="product.html">See what Squall checks, in plain words <span class="arr">→</span></a>
+      <a class="tlink" href="product.html#compare">Compare it with the alternatives</a>
     </div>
   </div>
 </section>
@@ -402,7 +421,7 @@
 <footer>
   <div class="wrap">
     <span>Squall is a <a href="https://typhoonfleet.com/" style="color:var(--dim)">Typhoon Fleet</a> service · © 2026</span>
-    <div class="fl"><a href="product.html">Product</a><a href="https://typhoonfleet.com/method/appsec-review.html">Method</a><a href="https://squall.typhoonfleet.com/squall/login">Log in</a></div>
+    <div class="fl"><a href="product.html">What it checks</a><a href="technical.html">Technical detail</a><a href="https://typhoonfleet.com/method/appsec-review.html">Method</a><a href="https://squall.typhoonfleet.com/squall/login">Log in</a></div>
   </div>
 </footer>
 
