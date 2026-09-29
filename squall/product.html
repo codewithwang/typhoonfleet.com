@@ -59,6 +59,29 @@
   .ic.plan{background:var(--plan-bg);color:var(--plan)}
   .ic.no{background:var(--no-bg);color:var(--no)}
 
+  /* csf wheel */
+  .whole{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center}
+  .wheel{width:100%;max-width:440px;height:auto;display:block;margin:0 auto}
+  .fns{display:grid;gap:10px}
+  .fn{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:14px;background:#fff;border:1px solid var(--line)}
+  .fn b{display:block;font-size:16px;font-weight:600}
+  .fn span.d{font-size:14px;color:var(--muted)}
+  .fn .tag{font-size:12.5px;font-weight:600;white-space:nowrap;padding-top:3px}
+  .fn .sw{width:14px;height:14px;border-radius:4px;margin-top:5px}
+  /* toolbox */
+  .tb{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:start}
+  .tcard{border:1px solid var(--line);border-radius:20px;background:#fff;overflow:hidden}
+  .tcard h3{font-size:17px;font-weight:600;padding:18px 22px 4px}
+  .tcard .sub{font-size:13.5px;color:var(--muted);padding:0 22px 12px}
+  .trow{display:grid;grid-template-columns:1.3fr 1fr 150px;gap:12px;padding:12px 22px;border-top:1px solid var(--line);font-size:14.5px;align-items:baseline}
+  .trow .tool{font-weight:600}
+  .trow .lic{text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);white-space:nowrap}
+  .trow.plan .tool,.trow.plan .job{color:var(--muted)}
+  .stackc{display:grid;gap:22px}
+  .own li,.svc li{list-style:none;padding:10px 22px;border-top:1px solid var(--line);font-size:14.5px}
+  .own li small,.svc li small{display:block;color:var(--muted);font-size:13px}
+  .principle{margin-top:26px;padding:22px 26px;border-radius:18px;background:var(--navy);color:#fff;font-size:17px;max-width:none}
+  .principle b{color:var(--gold-l);font-weight:600}
   /* building */
   .bld{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:start}
   .house{position:sticky;top:90px}
@@ -75,7 +98,9 @@
   /* market map */
   .map-wrap{border:1px solid var(--line);border-radius:22px;background:#fff;padding:22px}
   .map{width:100%;height:auto;display:block}
-  .cats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:26px}
+  .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+  .cat.reg{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .cat.reg p{color:#C4CEDD}.cat.reg .pos{color:#fff;border-color:rgba(255,255,255,.15)}.cat.reg .pos span{color:#C4CEDD}.cat.reg .who{color:#9AA8BE}
   .cat{border-radius:16px;padding:18px;border:1px solid var(--line);background:#fff}
   .cat.me{border:2px solid var(--gold);box-shadow:0 14px 34px -22px rgba(181,98,15,.8)}
   .cat h4{font-size:15.5px;font-weight:600;margin-bottom:6px}
@@ -164,6 +189,7 @@
 
   @media (max-width:1000px){
     .bld{grid-template-columns:1fr}
+    .whole,.tb{grid-template-columns:1fr}
     .house{position:static}
     .cats{grid-template-columns:1fr 1fr}
     .chain{grid-template-columns:repeat(4,1fr)}
@@ -186,6 +212,10 @@
     .cats{grid-template-columns:1fr}
     .phase{display:none}
     .chain{grid-template-columns:1fr 1fr}
+    .trow{grid-template-columns:1fr auto;padding:12px 16px}
+    .trow .job{grid-column:1/-1;color:var(--muted);font-size:13.5px}
+    .tcard h3,.tcard .sub{padding-left:16px;padding-right:16px}
+    .own li,.svc li{padding:10px 16px}
     .tac{min-height:0}
     .road{grid-template-columns:1fr;gap:6px}
     .road::before{left:11px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,var(--gold),#C9CED6 30%)}
@@ -228,15 +258,46 @@
     <h1>What Squall checks, <em>in plain words.</em></h1>
     <p>How it compares with the other ways companies test their security, what you get, what you do not, and what is coming next. No jargon needed.</p>
     <div class="jump">
+      <a href="#whole">The whole picture</a>
       <a href="#building">The building test</a>
       <a href="#market">Where it sits</a>
       <a href="#compare">Side by side</a>
       <a href="#attack">Against the attacker's playbook</a>
       <a href="#ctem">Against an exposure programme</a>
+      <a href="#toolbox">What is inside</a>
       <a href="#roadmap">Roadmap</a>
     </div>
   </div>
 </header>
+
+<section id="whole" class="tint">
+  <div class="wrap">
+    <h2>The whole picture first.</h2>
+    <p class="lede">Security is six jobs, as set out in the NIST Cybersecurity Framework 2.0, the most widely used map of the field. Squall does one of them well, checks part of another, and leaves the rest to you or other providers. Knowing which is which is the point.</p>
+    <div class="whole">
+      <svg class="wheel" viewBox="0 0 400 400" role="img" aria-label="Six functions of the NIST Cybersecurity Framework, shaded by Squall coverage">
+<path d="M203.6 30.0 A170 170 0 0 1 345.4 111.9 L278.7 152.3 A92 92 0 0 0 201.9 108.0Z" fill="#DDE1E7" stroke="#fff" stroke-width="2"/><text x="265.5" y="91.6" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#566072">Govern</text>
+<path d="M349.0 118.1 A170 170 0 0 1 349.0 281.9 L280.6 244.3 A92 92 0 0 0 280.6 155.7Z" fill="#18794E" stroke="#fff" stroke-width="2"/><text x="331.0" y="205.0" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#fff">Identify</text>
+<path d="M345.4 288.1 A170 170 0 0 1 203.6 370.0 L201.9 292.0 A92 92 0 0 0 278.7 247.7Z" fill="#E0A04A" stroke="#fff" stroke-width="2"/><text x="265.5" y="318.4" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#1B0F02">Protect</text>
+<path d="M196.4 370.0 A170 170 0 0 1 54.6 288.1 L121.3 247.7 A92 92 0 0 0 198.1 292.0Z" fill="#2459A8" stroke="#fff" stroke-width="2"/><text x="134.5" y="318.4" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#fff">Detect</text>
+<path d="M51.0 281.9 A170 170 0 0 1 51.0 118.1 L119.4 155.7 A92 92 0 0 0 119.4 244.3Z" fill="#DDE1E7" stroke="#fff" stroke-width="2"/><text x="69.0" y="205.0" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#566072">Respond</text>
+<path d="M54.6 111.9 A170 170 0 0 1 196.4 30.0 L198.1 108.0 A92 92 0 0 0 121.3 152.3Z" fill="#DDE1E7" stroke="#fff" stroke-width="2"/><text x="134.5" y="91.6" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#566072">Recover</text>
+        <circle cx="200" cy="200" r="84" fill="#0A2342"/>
+        <text x="200" y="196" text-anchor="middle" font-family="Fraunces,serif" font-size="24" font-weight="600" fill="#F5B26B">Squall</text>
+        <text x="200" y="218" text-anchor="middle" font-family="Inter,system-ui" font-size="12.5" fill="#9AA8BE">coverage today</text>
+      </svg>
+      <div class="fns">
+        <div class="fn"><span class="sw" style="background:#18794E"></span><div><b>Identify</b><span class="d">Know what you have and where it is weak. Squall's core job: finding weaknesses in your app, code and site.</span></div><span class="tag yes">Core</span></div>
+        <div class="fn"><span class="sw" style="background:#E0A04A"></span><div><b>Protect</b><span class="d">Put the safeguards in. Squall checks some of them are set right: settings, stored keys, third-party parts. It does not install them.</span></div><span class="tag part">Checks part</span></div>
+        <div class="fn"><span class="sw" style="background:#2459A8"></span><div><b>Detect</b><span class="d">Notice an attack while it happens. Testing whether your alarms fire is on the roadmap.</span></div><span class="tag plan">Roadmap</span></div>
+        <div class="fn"><span class="sw" style="background:#DDE1E7"></span><div><b>Govern</b><span class="d">Decide who owns the risk, set policy, report to the board.</span></div><span class="tag no">Yours</span></div>
+        <div class="fn"><span class="sw" style="background:#DDE1E7"></span><div><b>Respond</b><span class="d">Act when something goes wrong: contain, investigate, tell people.</span></div><span class="tag no">Not Squall</span></div>
+        <div class="fn"><span class="sw" style="background:#DDE1E7"></span><div><b>Recover</b><span class="d">Get back to normal: backups, restore, lessons learned.</span></div><span class="tag no">Not Squall</span></div>
+      </div>
+    </div>
+    <p class="note">The other lenses on this page sit inside this map: the attacker's playbook and the testing types all belong to Identify, Protect and Detect.</p>
+  </div>
+</section>
 
 <section id="building">
   <div class="wrap">
@@ -316,7 +377,7 @@
 <section id="market" class="tint">
   <div class="wrap">
     <h2>Where Squall sits among the options.</h2>
-    <p class="lede">Companies test security in five broad ways. They differ in two things: how far the test goes, and how often it happens. Squall sits deliberately in one corner: it looks often and proves what it finds, and it does not try to break in.</p>
+    <p class="lede">Companies test security in six broad ways, from a cheap scan to a regulator-led exercise. They differ in two things: how far the test goes, and how often it happens. Squall sits deliberately in one corner: it looks often and proves what it finds, and it does not try to break in.</p>
     <div class="map-wrap">
       <svg class="map" viewBox="0 0 1000 470" role="img" aria-label="Chart of five security testing approaches by how far they go and how often they run">
         <g font-family="Inter,system-ui" font-size="13" fill="#566072">
@@ -364,7 +425,9 @@
       <div class="cat"><h4>Penetration test</h4><p>A skilled tester tries to break in over days or weeks, chaining small problems into a real one. A snapshot, usually once or twice a year.</p><p class="pos">Goes: breaks in<span>Runs: once or twice a year</span></p><p class="who">Specialist firm</p></div>
       <div class="cat"><h4>Red team exercise</h4><p>A team plays a real criminal group for weeks: technology, people and sometimes physical entry. Tests whether your defenders notice.</p><p class="pos">Goes: acts like a criminal gang<span>Runs: once a year or less</span></p><p class="who">Consultancy, large budgets</p></div>
       <div class="cat"><h4>Exposure programme (CTEM)</h4><p>An ongoing programme across the whole organisation: find everything exposed, rank it, prove it, get it fixed. Needs your security team to run with it.</p><p class="pos">Goes: looks, proves, some testing<span>Runs: continuously</span></p><p class="who">Consultancy-run, enterprise</p></div>
+      <div class="cat reg"><h4>Regulator-led red team</h4><p>Intelligence-led red teaming under a regulator's scheme, such as HKMA iCAST in Hong Kong, CBEST in the UK or TIBER-EU. Required for some banks and insurers.</p><p class="pos">Goes: acts like a named real-world threat group<span>Runs: on the regulator's cycle</span></p><p class="who">Accredited providers only. Squall is not this and does not replace it.</p></div>
     </div>
+    <p class="note">One more product category, breach and attack simulation, replays known attacks against your defences on a schedule. It is closest to the alarm testing on Squall's roadmap.</p>
   </div>
 </section>
 
@@ -414,6 +477,47 @@
       <div class="stage"><div class="k">Step 5</div><h4>Mobilise</h4><p class="ask">Does it actually get fixed?</p><div class="bar"><i style="width:50%"></i></div><p class="how"><b>Partly.</b> Nightly watch tells you when things change. A fixed, new, still-open view is being built.</p></div>
     </div>
     <p class="note">A full programme covers the whole organisation and needs your team to run it. Squall covers these steps for one app at a time.</p>
+  </div>
+</section>
+
+<section id="toolbox">
+  <div class="wrap">
+    <h2>What is inside, openly.</h2>
+    <p class="lede">Squall does not invent its own scanners. It curates proven open-source tools, runs them the right way inside a signed scope, and puts a person between the raw output and you. Here is every part, including the parts we built and the commercial services we rely on.</p>
+    <div class="tb">
+      <div class="tcard">
+        <h3>Open-source tools Squall runs today</h3>
+        <p class="sub">Installed and run on our own machine. Your code is never uploaded to a scanning service.</p>
+        <div class="trow"><span class="job">Finds passwords and keys in your code history</span><span class="tool">TruffleHog, Gitleaks</span><span class="lic">AGPL-3.0, MIT</span></div>
+        <div class="trow"><span class="job">Finds third-party parts with known defects</span><span class="tool">OSV-Scanner</span><span class="lic">Apache-2.0</span></div>
+        <div class="trow"><span class="job">Reads your code for risky patterns</span><span class="tool">Semgrep Community Edition</span><span class="lic">LGPL-2.1</span></div>
+        <div class="trow"><span class="job">Uses your app like a person and records what it sends where</span><span class="tool">Playwright (Chromium)</span><span class="lic">Apache-2.0</span></div>
+        <div class="trow"><span class="job">Proves what a live session sends, when needed</span><span class="tool">mitmproxy</span><span class="lic">MIT</span></div>
+        <div class="trow"><span class="job">Checks your site's settings and the accounts that publish it</span><span class="tool">curl, GitHub CLI, provider APIs</span><span class="lic">open / read-only</span></div>
+        <h3 style="border-top:1px solid var(--line);margin-top:6px">Lined up for the roadmap</h3>
+        <p class="sub">Selected, not yet in service.</p>
+        <div class="trow plan"><span class="job">The internet's view of your domain</span><span class="tool">subfinder, Nuclei, Nmap</span><span class="lic">MIT, MIT, NPSL</span></div>
+        <div class="trow plan"><span class="job">Testing AI chatbots</span><span class="tool">garak, PyRIT</span><span class="lic">Apache-2.0, MIT</span></div>
+        <div class="trow plan"><span class="job">Cloud account settings</span><span class="tool">Prowler</span><span class="lic">Apache-2.0</span></div>
+        <div class="trow plan"><span class="job">Alarm testing</span><span class="tool">Atomic Red Team, Caldera</span><span class="lic">MIT, Apache-2.0</span></div>
+      </div>
+      <div class="stackc">
+        <div class="tcard own"><h3>What we built</h3><p class="sub">Our own code. Not open source today.</p><ul>
+          <li>The scope gate<small>Refuses to run against anything not in your signed scope</small></li>
+          <li>The runner<small>Runs each tool the same way every time and keeps its raw output</small></li>
+          <li>The report<small>Proof per finding, what passed, what was not checked</small></li>
+          <li>Change watch<small>Compares each nightly run with the last and stays quiet when nothing changed</small></li>
+          <li>The run log<small>One record per run: who asked, under which scope, what happened</small></li>
+        </ul></div>
+        <div class="tcard svc"><h3>Commercial services we use</h3><p class="sub">Named so you know where your data goes.</p><ul>
+          <li>Anthropic Claude<small>Helps the human reviewer read findings. The scanning itself uses no AI. You can opt out.</small></li>
+          <li>Okta<small>Sign-in to the results page</small></li>
+          <li>Cloudflare<small>Secure connection to the results page, and email</small></li>
+          <li>GitHub<small>Hosts our code and this site</small></li>
+        </ul></div>
+      </div>
+    </div>
+    <p class="principle"><b>The idea:</b> take capabilities that already exist in the open, organise them so anyone shipping an app can use them without a security team, and be exact about what they cover. We run Squall on our own apps every night before we run it on anyone else's.</p>
   </div>
 </section>
 
