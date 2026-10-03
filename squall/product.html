@@ -1,81 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What Squall checks | Squall</title>
 <meta name="description" content="What Squall checks, in plain words: how it compares with scanners, penetration tests, red teams and exposure-management programmes, what you get, what you do not, and what is coming next.">
-<meta name="theme-color" content="#050D1C">
+<meta name="theme-color" content="#040A16">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --night:#050D1C;--navy:#0A2342;--gold:#E0892B;--gold-d:#B5620F;--gold-l:#F5B26B;
-    --ink:#0A2342;--muted:#566072;--faint:#8A93A3;--line:rgba(10,35,66,.12);--panel:#F6F4EF;--paper:#fff;
-    --yes:#18794E;--yes-bg:#E3F4EC;--part:#A15C07;--part-bg:#FCEFD9;--plan:#2459A8;--plan-bg:#E3EDFB;--no:#8A93A3;--no-bg:#EEF0F3;
-    --txt:#E8EDF5;--dim:#9AA8BE;--gline:rgba(255,255,255,.10);
+    --bg:#040A16;--bg2:#0B1E3A;--bg3:#102A4A;--panel:rgba(11,30,58,.55);--panel2:#060E1C;
+    --ink:#E6ECF4;--ink2:#A9B7CB;--ink3:#6E7F9A;--line:rgba(224,137,43,.18);--line2:rgba(160,190,220,.14);
+    --amber:#E0892B;--lit:#F2B347;--cyan:#59D3D1;--slate:#4A5C78;--fog:70,170,175;
   }
+  :root[data-theme="dark"]{--bg:#040A16;--bg2:#0B1E3A}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#040A16;--bg2:#0B1E3A}}
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-  body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{background:var(--bg);background-image:linear-gradient(180deg,#040A16 0%,#071529 45%,#0B1E3A 100%);color:var(--ink);font-family:Manrope,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+  img,svg{display:block;max-width:100%}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 16px}
+  @media (min-width:720px){.wrap{padding:0 32px}}
+  h1,h2,h3,h4,.display{font-family:"Big Shoulders Display",Manrope,sans-serif;font-weight:800;letter-spacing:.2px;line-height:1}
 
-  nav{position:sticky;top:0;z-index:60;background:rgba(5,13,28,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--gline);color:var(--txt)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;gap:18px}
-  .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:20px}
-  .brand svg{width:24px;height:24px}
-  .links{display:flex;align-items:center;gap:26px;font-size:14px;color:var(--dim)}
+  header.top{position:sticky;top:0;z-index:60;background:rgba(4,10,22,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px}
+  .brand{font-family:"Big Shoulders Display",sans-serif;font-weight:800;font-size:25px;display:flex;align-items:center;gap:9px;letter-spacing:.4px}
+  .brand svg{width:24px;height:24px;color:var(--amber);filter:drop-shadow(0 0 6px rgba(224,137,43,.6))}
+  .brand small{font-family:Manrope,sans-serif;font-weight:600;color:var(--ink3);font-size:12.5px;letter-spacing:0}
+  .links{display:flex;align-items:center;gap:22px;font-size:14px;color:var(--ink2)}
   .links a:hover{color:#fff}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:600;font-size:14.5px;white-space:nowrap;transition:box-shadow .2s,background .2s}
-  .btn.gold{background:linear-gradient(180deg,#F09A3E,#D2761C);color:#1B0F02;box-shadow:0 8px 26px -10px rgba(224,137,43,.7)}
-  .btn.sm{padding:8px 15px;font-size:13.5px}
-  .btn.line{border:1px solid rgba(255,255,255,.25);color:#fff}
-  .btn.dark{background:var(--navy);color:#fff}
+  @media (max-width:719px){.links .hide-sm{display:none}.links{gap:14px}.brand small{display:none}}
 
-  .hero{background:var(--night);color:var(--txt);position:relative;overflow:hidden;padding:84px 0 70px;isolation:isolate}
-  .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(50% 70% at 85% 20%,rgba(224,137,43,.18),transparent 65%),radial-gradient(50% 70% at 10% 0%,rgba(46,110,200,.25),transparent 65%)}
-  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(40px,5.6vw,68px);line-height:1.02;letter-spacing:-1.5px;margin-bottom:20px;max-width:820px}
-  h1 em{font-style:italic;color:var(--gold-l)}
-  .hero p{font-size:19px;color:var(--dim);max-width:660px;margin-bottom:30px}
-  .jump{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:14.5px}
-  .jump a{color:var(--gold-l);border-bottom:1px solid rgba(245,178,107,.35);padding-bottom:1px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:6px;font-weight:700;font-size:15px;white-space:nowrap;transition:box-shadow .2s,background .2s}
+  .btn.gold{background:linear-gradient(180deg,#F2B347,#E0892B);color:#1B0F02;box-shadow:0 8px 26px -10px rgba(224,137,43,.75)}
+  .btn.gold:hover{box-shadow:0 12px 34px -8px rgba(224,137,43,.9)}
+  .btn.line{border:1px solid var(--line2);color:var(--ink);background:rgba(4,10,22,.4)}
+  .btn.line:hover{background:rgba(160,190,220,.08)}
+  .btn.sm{padding:8px 14px;font-size:13.5px}
+
+  /* hero splash tile, card treatment from the V4 map */
+  .tile{position:relative;display:block;width:100%;max-width:440px;margin:0 auto;aspect-ratio:3/3.4;background:var(--panel2);border-radius:4px;overflow:hidden;transform:rotate(-.8deg);
+    clip-path:polygon(0 1.2%,2% 0,11% .6%,18% 0,31% .9%,42% 0,56% .7%,67% 0,80% .8%,91% 0,100% .9%,99.3% 10%,100% 22%,99.2% 35%,100% 49%,99.4% 61%,100% 73%,99.1% 86%,100% 97%,97% 100%,88% 99.3%,76% 100%,63% 99.2%,52% 100%,40% 99.3%,27% 100%,16% 99.1%,6% 100%,0 98.8%,.8% 88%,0 75%,.7% 62%,0 50%,.9% 38%,0 25%,.6% 12%);
+    box-shadow:0 14px 30px rgba(0,0,0,.55)}
+  @media (min-width:980px){.tile{aspect-ratio:3/4}}
+  .tile img{width:100%;height:100%;object-fit:cover;object-position:50% 22%}
+  .tile .scuff{position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+    background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 1px,transparent 1px 7px),radial-gradient(40% 18% at 8% 4%,rgba(255,255,255,.22),transparent 70%),radial-gradient(30% 12% at 94% 96%,rgba(255,255,255,.18),transparent 70%)}
+  .tile .bar{position:absolute;left:0;right:0;bottom:0;padding:40px 14px 14px;background:linear-gradient(180deg,rgba(4,10,22,0) 0%,rgba(4,10,22,.86) 40%,rgba(4,10,22,.96) 100%)}
+  .tile .bar b{display:block;font-family:"Big Shoulders Display",sans-serif;font-weight:800;font-size:38px;line-height:1;letter-spacing:.6px;color:#F4F7FB;text-shadow:0 0 14px rgba(224,137,43,.45)}
+  .tile .bar span{display:block;font-size:13px;color:var(--ink2);margin-top:2px}
+  .tile .bar .pill,.pill{display:inline-flex;width:max-content;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;margin-top:8px;border:1px solid rgba(224,137,43,.6);background:rgba(224,137,43,.14);color:#F7C27A}
+  .pill i{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);display:inline-block}
+
+  /* the kit: six glyphs, name under each */
+  .kit{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  @media (min-width:640px){.kit{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media (min-width:1040px){.kit{grid-template-columns:repeat(6,minmax(0,1fr))}}
+  .kc{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:16px 10px 14px;background:var(--panel);border:1px solid var(--line2);border-radius:6px}
+  .kc .item{width:52px;height:52px;border-radius:8px;display:grid;place-items:center;color:var(--amber);background:rgba(4,10,22,.7);border:1px solid rgba(224,137,43,.55);box-shadow:0 0 14px rgba(224,137,43,.28),inset 0 0 8px rgba(224,137,43,.16)}
+  .kc .item svg{width:30px;height:30px;filter:drop-shadow(0 0 3px #E0892B)}
+  .kc b{font-size:14.5px;font-weight:700;line-height:1.25;color:var(--ink)}
+  .kc span{font-size:12.5px;line-height:1.4;color:var(--ink2)}
+  .kitnote{font-size:13px;color:var(--ink3);margin-top:14px}
+  :root{--yes:#F2B347;--yes-bg:rgba(242,179,71,.15);--part:#D9A066;--part-bg:rgba(156,106,46,.22);--plan:#59D3D1;--plan-bg:rgba(89,211,209,.10);--no:#8A9AB2;--no-bg:rgba(160,190,220,.08)}
+  .hero{position:relative;overflow:hidden;padding:22px 0 50px;isolation:isolate}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 40% at 75% 15%,rgba(224,137,43,.14),transparent 65%),radial-gradient(60% 40% at 5% 0%,rgba(var(--fog),.16),transparent 65%)}
+  .hero .wrap{display:grid;gap:24px}
+  .hero .tile{max-width:440px;aspect-ratio:4/3}
+  .hero .tile img{object-position:50% 18%}
+  @media (min-width:980px){.hero{padding:60px 0 70px}.hero .wrap{grid-template-columns:1.2fr .8fr;gap:52px;align-items:center}.hero .art{order:2}.hero .tile{aspect-ratio:3/4}}
+  h1{font-size:clamp(44px,11.5vw,80px);margin-bottom:16px;max-width:820px;text-shadow:0 0 24px rgba(224,137,43,.18)}
+  h1 em{font-style:normal;color:var(--lit)}
+  .hero p{font-size:17px;color:var(--ink2);max-width:660px;margin-bottom:22px}
+  .jump{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px}
+  .jump a{color:var(--lit);border-bottom:1px solid rgba(242,179,71,.35);padding-bottom:1px}
   .jump a:hover{color:#fff}
 
-  section{padding:90px 0;border-top:1px solid var(--line)}
-  section.tint{background:var(--panel)}
-  h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(30px,3.8vw,46px);line-height:1.08;letter-spacing:-.8px;margin-bottom:14px;max-width:780px}
-  .lede{font-size:18px;color:var(--muted);max-width:700px;margin-bottom:44px}
-  .note{font-size:13.5px;color:var(--faint);margin-top:18px;max-width:760px}
+  section{padding:64px 0;border-top:1px solid var(--line2)}
+  @media (min-width:900px){section{padding:88px 0}}
+  section.tint{background:rgba(4,10,22,.42)}
+  h2{font-size:clamp(36px,8.6vw,58px);margin-bottom:12px;max-width:780px}
+  .lede{font-size:16.5px;color:var(--ink2);max-width:700px;margin-bottom:30px}
+  @media (min-width:900px){.lede{font-size:18px;margin-bottom:40px}}
+  .note{font-size:13.5px;color:var(--ink3);margin-top:16px;max-width:760px}
+  .panel{background:var(--panel);border:1px solid var(--line2);border-radius:6px}
 
-  /* legend */
-  .legend{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:14px;color:var(--muted);margin-bottom:26px}
+  .legend{display:flex;flex-wrap:wrap;gap:10px 20px;font-size:13.5px;color:var(--ink2);margin-bottom:22px}
   .legend span{display:inline-flex;align-items:center;gap:8px}
   .ic{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;flex:none}
   .ic svg{width:14px;height:14px}
-  .ic.yes{background:var(--yes-bg);color:var(--yes)}
+  .ic.yes{background:var(--yes-bg);color:var(--yes);box-shadow:0 0 10px -2px rgba(242,179,71,.45)}
   .ic.part{background:var(--part-bg);color:var(--part)}
-  .ic.plan{background:var(--plan-bg);color:var(--plan)}
+  .ic.plan{background:var(--plan-bg);color:var(--plan);outline:1px dashed rgba(89,211,209,.5);outline-offset:-1px}
   .ic.no{background:var(--no-bg);color:var(--no)}
 
-  .road.road4{grid-template-columns:repeat(4,1fr)}
-  @media (max-width:980px){.road.road4{grid-template-columns:1fr 1fr}}
-  @media (max-width:720px){.road.road4{grid-template-columns:1fr}}
   /* full map */
-  .fmap{border:1px solid var(--line);border-radius:22px;background:#fff;padding:18px;overflow:hidden}
+  .fmap{border:1px solid rgba(224,137,43,.28);border-radius:6px;background:linear-gradient(180deg,rgba(11,30,58,.7),rgba(6,14,28,.8));padding:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45)}
   .fgrid{display:grid;grid-template-columns:minmax(0,1.1fr) repeat(4,minmax(0,1fr));gap:6px}
-  .fgrid .ch{font-size:13.5px;font-weight:600;text-align:center;padding:6px 4px 8px}
-  .fgrid .ch small{display:block;font-weight:400;color:var(--faint);font-size:12px}
-  .fgrid .rh{font-size:14.5px;font-weight:600;display:flex;align-items:center;padding:0 6px}
-  .fc{border-radius:10px;padding:9px 10px;font-size:12.5px;line-height:1.35;min-height:58px;display:flex;flex-direction:column;justify-content:center}
-  .fc b{font-weight:600;display:block}
-  .fc small{display:block;font-family:'JetBrains Mono',monospace;font-size:10.5px;opacity:.75;margin-top:2px}
-  .fc.y{background:var(--yes);color:#fff}
-  .fc.p{background:repeating-linear-gradient(135deg,#F3C98A 0 8px,#F7DAB0 8px 16px);color:#5B3405}
-  .fc.r{background:var(--plan-bg);border:1.5px dashed var(--plan);color:var(--plan)}
-  .fc.x{background:var(--no-bg);color:#6b7584}
-  .fkey{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-size:13px;color:var(--muted)}
+  .fgrid .ch{font-size:13.5px;font-weight:700;text-align:center;padding:6px 4px 8px}
+  .fgrid .ch small{display:block;font-weight:500;color:var(--ink3);font-size:12px}
+  .fgrid .rh{font-size:14.5px;font-weight:700;display:flex;align-items:center;padding:0 6px}
+  .fc{border-radius:4px;padding:9px 10px;font-size:12.5px;line-height:1.35;min-height:58px;display:flex;flex-direction:column;justify-content:center}
+  .fc b{font-weight:700;display:block}
+  .fc small{display:block;font-size:10.5px;opacity:.8;margin-top:2px}
+  .fc.y{background:var(--amber);color:#1B0F02;box-shadow:0 0 16px -4px rgba(224,137,43,.7)}
+  .fc.p{background:repeating-linear-gradient(135deg,rgba(224,137,43,.42) 0 8px,rgba(224,137,43,.22) 8px 16px);color:#F7D9A8}
+  .fc.r{background:var(--plan-bg);border:1.5px dashed rgba(89,211,209,.7);color:var(--cyan)}
+  .fc.x{background:var(--no-bg);color:var(--ink3)}
+  .fkey{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-size:13px;color:var(--ink2)}
   .fkey span{display:inline-flex;align-items:center;gap:7px}
   .fkey i{width:18px;height:12px;border-radius:3px;display:inline-block}
   @media (max-width:820px){
@@ -89,177 +125,165 @@
   }
   /* csf wheel */
   .whole{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center}
-  .wheel{width:100%;max-width:440px;height:auto;display:block;margin:0 auto}
+  .wheel{width:100%;max-width:420px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 0 30px rgba(224,137,43,.12))}
   .fns{display:grid;gap:10px}
-  .fn{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:14px;background:#fff;border:1px solid var(--line)}
-  .fn b{display:block;font-size:16px;font-weight:600}
-  .fn span.d{font-size:14px;color:var(--muted)}
-  .fn .tag{font-size:12.5px;font-weight:600;white-space:nowrap;padding-top:3px}
-  .fn .sw{width:14px;height:14px;border-radius:4px;margin-top:5px}
+  .fn{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:13px 14px;border-radius:6px;background:var(--panel);border:1px solid var(--line2)}
+  .fn b{display:block;font-size:15.5px;font-weight:700}
+  .fn span.d{font-size:14px;color:var(--ink2)}
+  .fn .tag{font-size:12.5px;font-weight:700;white-space:nowrap;padding-top:3px}
+  .fn .sw{width:14px;height:14px;border-radius:3px;margin-top:5px}
   /* toolbox */
-  .tb{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:start}
-  .tcard{border:1px solid var(--line);border-radius:20px;background:#fff;overflow:hidden}
-  .tcard h3{font-size:17px;font-weight:600;padding:18px 22px 4px}
-  .tcard .sub{font-size:13.5px;color:var(--muted);padding:0 22px 12px}
-  .trow{display:grid;grid-template-columns:1.3fr 1fr 150px;gap:12px;padding:12px 22px;border-top:1px solid var(--line);font-size:14.5px;align-items:baseline}
-  .trow .tool{font-weight:600}
-  .trow .lic{text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);white-space:nowrap}
-  .trow.plan .tool,.trow.plan .job{color:var(--muted)}
-  .stackc{display:grid;gap:22px}
-  .own li,.svc li{list-style:none;padding:10px 22px;border-top:1px solid var(--line);font-size:14.5px}
-  .own li small,.svc li small{display:block;color:var(--muted);font-size:13px}
-  .principle{margin-top:26px;padding:22px 26px;border-radius:18px;background:var(--navy);color:#fff;font-size:17px;max-width:none}
-  .principle b{color:var(--gold-l);font-weight:600}
+  .tb{display:grid;grid-template-columns:1.25fr .75fr;gap:20px;align-items:start}
+  .tcard{border:1px solid var(--line2);border-radius:6px;background:var(--panel);overflow:hidden}
+  .tcard h3{font-size:24px;padding:18px 22px 4px}
+  .tcard .sub{font-size:13.5px;color:var(--ink2);padding:0 22px 12px}
+  .trow{display:grid;grid-template-columns:1.3fr 1fr 150px;gap:12px;padding:12px 22px;border-top:1px solid var(--line2);font-size:14.5px;align-items:baseline}
+  .trow .tool{font-weight:700;color:var(--lit)}
+  .trow .lic{text-align:right;font-size:12px;color:var(--ink3);white-space:nowrap}
+  .trow.plan .tool{color:var(--cyan)}.trow.plan .job{color:var(--ink2)}
+  .stackc{display:grid;gap:20px}
+  .own li,.svc li{list-style:none;padding:10px 22px;border-top:1px solid var(--line2);font-size:14.5px;font-weight:600}
+  .own li small,.svc li small{display:block;color:var(--ink2);font-size:13px;font-weight:400}
+  .principle{margin-top:24px;padding:20px 22px;border-radius:6px;background:linear-gradient(180deg,rgba(224,137,43,.12),rgba(224,137,43,.04));border:1px solid rgba(224,137,43,.4);color:var(--ink);font-size:16.5px;max-width:none}
+  .principle b{color:var(--lit);font-weight:700}
   /* building */
-  .bld{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:start}
-  .house{position:sticky;top:90px}
-  .house{width:100%;height:auto;display:block}
+  .bld{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:start}
+  .house{position:sticky;top:90px;width:100%;height:auto;display:block;border-radius:6px;border:1px solid rgba(224,137,43,.28);box-shadow:0 24px 60px rgba(0,0,0,.5)}
   .pts{display:grid;gap:10px}
-  .pt{display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:start;padding:12px 14px;border-radius:14px;background:#fff;border:1px solid var(--line)}
-  .pt .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:700;color:#fff}
-  .pt b{display:block;font-size:15.5px;font-weight:600}
-  .pt span.d{font-size:14px;color:var(--muted)}
-  .pt .tag{font-size:12.5px;font-weight:600;white-space:nowrap;padding-top:3px}
-  .n.yes{background:var(--yes)}.n.plan{background:var(--plan)}.n.no{background:var(--no)}.n.part{background:var(--part)}
+  .pt{display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:start;padding:12px 14px;border-radius:6px;background:var(--panel);border:1px solid var(--line2)}
+  .pt .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:800;color:#0B1E3A}
+  .pt b{display:block;font-size:15px;font-weight:700}
+  .pt span.d{font-size:14px;color:var(--ink2)}
+  .pt .tag{font-size:12.5px;font-weight:700;white-space:nowrap;padding-top:3px}
+  .n.yes{background:var(--amber);box-shadow:0 0 10px rgba(224,137,43,.5)}.n.plan{background:var(--cyan)}.n.no{background:#9FB3CF}.n.part{background:var(--part)}
   .tag.yes{color:var(--yes)}.tag.plan{color:var(--plan)}.tag.no{color:var(--no)}.tag.part{color:var(--part)}
 
   /* market map */
-  .map-wrap{border:1px solid var(--line);border-radius:22px;background:#fff;padding:22px}
+  .map-wrap{border:1px solid var(--line2);border-radius:6px;background:rgba(4,10,22,.55);padding:22px}
   .map{width:100%;height:auto;display:block}
-  .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
-  .cat.reg{background:var(--navy);color:#fff;border-color:var(--navy)}
-  .cat.reg p{color:#C4CEDD}.cat.reg .pos{color:#fff;border-color:rgba(255,255,255,.15)}.cat.reg .pos span{color:#C4CEDD}.cat.reg .who{color:#9AA8BE}
-  .cat{border-radius:16px;padding:18px;border:1px solid var(--line);background:#fff}
-  .cat.me{border:2px solid var(--gold);box-shadow:0 14px 34px -22px rgba(181,98,15,.8)}
-  .cat h4{font-size:15.5px;font-weight:600;margin-bottom:6px}
-  .cat p{font-size:13.5px;color:var(--muted)}
-  .cat .who{font-size:12.5px;color:var(--faint);margin-top:8px}
-  .cat .pos{font-size:12.5px;color:var(--ink);margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
-  .cat .pos span{display:block;color:var(--muted)}
+  .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+  .cat{border-radius:6px;padding:16px;border:1px solid var(--line2);background:var(--panel)}
+  .cat.me{border:1.5px solid var(--amber);box-shadow:0 0 26px -6px rgba(224,137,43,.45);background:linear-gradient(180deg,rgba(224,137,43,.12),rgba(11,30,58,.55))}
+  .cat.reg{background:rgba(4,10,22,.75);border-style:dashed}
+  .cat h4{font-size:23px;margin-bottom:6px}
+  .cat p{font-size:13.5px;color:var(--ink2)}
+  .cat .who{font-size:12.5px;color:var(--ink3);margin-top:8px}
+  .cat .pos{font-size:12.5px;color:var(--ink);margin-top:10px;padding-top:10px;border-top:1px solid var(--line2)}
+  .cat .pos span{display:block;color:var(--ink2)}
 
   /* matrix */
-  .mx{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff}
-  .mrow{display:grid;grid-template-columns:minmax(0,2.3fr) repeat(5,minmax(0,1fr));align-items:center;border-top:1px solid var(--line)}
+  .mx{border:1px solid var(--line2);border-radius:6px;overflow:hidden;background:var(--panel)}
+  .mrow{display:grid;grid-template-columns:minmax(0,2.3fr) repeat(5,minmax(0,1fr));align-items:center;border-top:1px solid var(--line2)}
   .mrow:first-child{border-top:0}
-  .mrow.head{background:var(--navy);color:#fff;font-size:13.5px;font-weight:600}
+  .mrow.head{background:rgba(4,10,22,.8);color:var(--ink);font-size:13.5px;font-weight:700}
   .mrow.head div{padding:16px 8px;text-align:center}
-  .mrow.head div:first-child{text-align:left;padding-left:22px;font-weight:500;color:var(--dim)}
+  .mrow.head div:first-child{text-align:left;padding-left:22px;font-weight:500;color:var(--ink2)}
   .mrow .q{padding:15px 12px 15px 22px;font-size:15px}
-  .mrow .q small{display:block;color:var(--faint);font-size:12.5px}
+  .mrow .q small{display:block;color:var(--ink3);font-size:12.5px}
   .mrow .c{display:grid;place-items:center;padding:12px 4px;height:100%}
-  .mrow .c.me{background:rgba(224,137,43,.08)}
-  .mrow.head .me{background:var(--gold);color:#1B0F02}
+  .mrow .c.me{background:rgba(224,137,43,.09)}
+  .mrow.head .me{background:var(--amber);color:#1B0F02}
   .mrow .c .lbl{display:none}
 
   /* attack chain */
-  .chain{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;counter-reset:t}
-  .tac{position:relative;border-radius:14px;padding:14px 12px 13px;border:1px solid var(--line);background:#fff;min-height:128px;display:flex;flex-direction:column}
-  .tac .no-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint)}
-  .tac h4{font-size:14px;font-weight:600;line-height:1.3;margin:4px 0 4px}
-  .tac p{font-size:12.5px;color:var(--muted);line-height:1.45;flex:1}
-  .tac .st{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;margin-top:8px}
-  .tac.yes{background:var(--yes-bg);border-color:rgba(24,121,78,.35)}
-  .tac.part{background:var(--part-bg);border-color:rgba(161,92,7,.3)}
-  .tac.plan{background:var(--plan-bg);border-color:rgba(36,89,168,.3)}
-  .tac.no{background:#fff}
-  .tac.no h4{color:#5b6574}
+  .chain{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+  .tac{position:relative;border-radius:6px;padding:14px 12px 13px;border:1px solid var(--line2);background:var(--panel);min-height:128px;display:flex;flex-direction:column}
+  .tac .no-n{font-size:11.5px;font-weight:700;color:var(--ink3)}
+  .tac h4{font-size:20px;line-height:1.05;margin:4px 0 6px}
+  .tac p{font-size:12.5px;color:var(--ink2);line-height:1.45;flex:1}
+  .tac .st{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;margin-top:8px}
+  .tac.yes{border-color:rgba(224,137,43,.6);background:linear-gradient(180deg,rgba(224,137,43,.16),rgba(11,30,58,.55));box-shadow:0 0 20px -8px rgba(224,137,43,.6)}
+  .tac.part{border-color:rgba(217,160,102,.35);background:var(--part-bg)}
+  .tac.plan{border:1px dashed rgba(89,211,209,.5);background:var(--plan-bg)}
+  .tac.no{background:rgba(4,10,22,.5)}
+  .tac.no h4{color:var(--ink2)}
   .st.yes{color:var(--yes)}.st.part{color:var(--part)}.st.plan{color:var(--plan)}.st.no{color:var(--no)}
-  .phase{display:flex;gap:10px;margin:0 0 10px;font-size:13px;color:var(--muted)}
-  .phase div{flex:1;border-top:3px solid;padding-top:6px}
-  .phase .p1{border-color:var(--gold)}.phase .p2{border-color:#C9CED6}.phase .p3{border-color:#C9CED6}
-  .sumline{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
-  .sumline div{flex:1 1 220px;border-radius:14px;padding:16px 18px;background:#fff;border:1px solid var(--line);font-size:14.5px;color:var(--muted)}
-  .sumline b{display:block;font-family:'Fraunces',serif;font-size:30px;font-weight:500;color:var(--ink);line-height:1.1}
+  .sumline{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+  .sumline div{flex:1 1 220px;border-radius:6px;padding:16px 18px;background:var(--panel);border:1px solid var(--line2);font-size:14.5px;color:var(--ink2)}
+  .sumline b{display:block;font-family:"Big Shoulders Display",sans-serif;font-weight:800;font-size:36px;color:var(--lit);line-height:1.05}
 
   /* ctem */
-  .ctem{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff}
-  .stage{padding:22px 18px;border-left:1px solid var(--line);position:relative}
-  .stage:first-child{border-left:0}
-  .stage .k{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--faint)}
-  .stage h4{font-size:17px;font-weight:600;margin:4px 0 2px}
-  .stage .ask{font-size:13.5px;color:var(--muted);margin-bottom:14px;min-height:42px}
-  .bar{height:10px;border-radius:99px;background:#EDEFF2;overflow:hidden;margin-bottom:8px}
-  .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-l))}
-  .stage .how{font-size:13.5px}
-  .stage .how b{font-weight:600}
-
-  /* get / not / next */
-  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .col{border-radius:20px;padding:26px 24px;border:1px solid var(--line);background:#fff}
-  .col h3{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;margin-bottom:16px}
-  .col ul{list-style:none;display:grid;gap:11px}
-  .col li{font-size:15px;padding-left:18px;position:relative}
-  .col li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:50%}
-  .col.yes{border-top:4px solid var(--yes)} .col.yes li::before{background:var(--yes)}
-  .col.no{border-top:4px solid var(--no)} .col.no li::before{background:var(--no)}
-  .col.plan{border-top:4px solid var(--plan)} .col.plan li::before{background:var(--plan)}
+  .ctem{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line2);border-radius:6px;overflow:hidden;background:var(--panel)}
+  .ctem .stage{padding:20px 18px;border-left:1px solid var(--line2);position:relative}
+  .ctem .stage:first-child{border-left:0}
+  .stage .k{font-size:12px;font-weight:700;color:var(--ink3)}
+  .stage h4{font-size:26px;margin:4px 0 4px}
+  .stage .ask{font-size:13.5px;color:var(--ink2);margin-bottom:14px;min-height:42px}
+  .stage .bar{height:8px;border-radius:99px;background:rgba(160,190,220,.1);overflow:hidden;margin-bottom:8px}
+  .stage .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--amber),var(--lit));box-shadow:0 0 10px rgba(224,137,43,.6)}
+  .stage .how{font-size:13.5px;color:var(--ink2)}
+  .stage .how b{font-weight:700;color:var(--ink)}
 
   /* roadmap */
   .road{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .road::before{content:"";position:absolute;left:0;right:0;top:19px;height:2px;background:linear-gradient(90deg,var(--gold),#C9CED6 40%,#C9CED6)}
+  .road.road4{grid-template-columns:repeat(4,1fr)}
+  .road::before{content:"";position:absolute;left:0;right:0;top:19px;height:2px;background:linear-gradient(90deg,var(--amber),rgba(89,211,209,.4) 30%,rgba(89,211,209,.25))}
   .step{position:relative;padding-top:52px}
-  .step .dot{position:absolute;top:8px;left:0;width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid #C9CED6}
-  .step.now .dot{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 6px rgba(224,137,43,.18)}
-  .step h3{font-family:'Fraunces',serif;font-weight:500;font-size:26px;margin-bottom:4px}
-  .step .sub{font-size:13.5px;color:var(--faint);margin-bottom:14px}
-  .step ul{list-style:none;display:grid;gap:9px}
-  .step li{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-size:14.5px}
-  .step li small{display:block;color:var(--muted);font-size:13px}
+  .step .dot{position:absolute;top:8px;left:0;width:24px;height:24px;border-radius:50%;background:var(--bg);border:2px dashed var(--cyan)}
+  .step.now .dot{border:0;background:var(--amber);box-shadow:0 0 0 6px rgba(224,137,43,.18),0 0 16px var(--amber)}
+  .step h3{font-size:32px;margin-bottom:2px}
+  .step .sub{font-size:13.5px;color:var(--ink3);margin-bottom:12px}
+  .step.now .sub{color:#F7C27A}
+  .step ul{list-style:none;display:grid;gap:8px}
+  .step li{background:var(--panel);border:1px solid var(--line2);border-radius:6px;padding:11px 14px;font-size:14.5px}
+  .step.now li{border-color:rgba(224,137,43,.4)}
+  .step li small{display:block;color:var(--ink2);font-size:13px}
 
-  .final{background:var(--night);color:var(--txt);text-align:center;padding:90px 0}
-  .final h2{margin:0 auto 14px;color:#fff}
-  .final p{color:var(--dim);max-width:560px;margin:0 auto 30px;font-size:17.5px}
-  .final .row{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
-  .final .tech{margin-top:22px;font-size:14px;color:var(--dim)}
-  .final .tech a{color:var(--gold-l);border-bottom:1px solid rgba(245,178,107,.35)}
-  footer{background:var(--night);color:var(--dim);border-top:1px solid var(--gline);padding:28px 0 38px;font-size:13px}
+  .final{text-align:center;padding:72px 0 84px;position:relative;overflow:hidden;isolation:isolate}
+  .final::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 70% 60% at 50% 100%,rgba(224,137,43,.2),transparent)}
+  .final h2{margin:0 auto 12px}
+  .final p{color:var(--ink2);max-width:560px;margin:0 auto 26px;font-size:17px}
+  .final .row{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+  .final .tech{margin-top:20px;font-size:14px;color:var(--ink2)}
+  .final .tech a{color:var(--lit);border-bottom:1px solid rgba(242,179,71,.35)}
+  footer{color:var(--ink3);border-top:1px solid var(--line2);padding:26px 0 40px;font-size:13px}
   footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
   @media (max-width:1000px){
-    .bld{grid-template-columns:1fr}
-    .whole,.tb{grid-template-columns:1fr}
+    .bld,.whole,.tb{grid-template-columns:1fr}
     .house{position:static}
     .cats{grid-template-columns:1fr 1fr}
     .chain{grid-template-columns:repeat(4,1fr)}
     .ctem{grid-template-columns:1fr}
-    .stage{border-left:0;border-top:1px solid var(--line)}
-    .stage:first-child{border-top:0}
+    .ctem .stage{border-left:0;border-top:1px solid var(--line2)}
+    .ctem .stage:first-child{border-top:0}
     .stage .ask{min-height:0}
-    .three{grid-template-columns:1fr}
+    .road.road4{grid-template-columns:1fr 1fr}
   }
   @media (max-width:720px){
-    .wrap{padding:0 16px}
-    .links .hide-sm{display:none}
-    .links{gap:14px}
-    .hero{padding:56px 0 48px}
-    .hero p{font-size:17px}
-    section{padding:64px 0}
-    .lede{font-size:16.5px;margin-bottom:32px}
     .map-wrap{display:none}
-    .cats{margin-top:0}
-    .cats{grid-template-columns:1fr}
-    .phase{display:none}
+    .cats{margin-top:0;grid-template-columns:1fr}
     .chain{grid-template-columns:1fr 1fr}
+    .tac{min-height:0}
     .trow{grid-template-columns:1fr auto;padding:12px 16px}
-    .trow .job{grid-column:1/-1;color:var(--muted);font-size:13.5px}
+    .trow .job{grid-column:1/-1;color:var(--ink2);font-size:13.5px}
     .tcard h3,.tcard .sub{padding-left:16px;padding-right:16px}
     .own li,.svc li{padding:10px 16px}
-    .tac{min-height:0}
-    .road{grid-template-columns:1fr;gap:6px}
-    .road::before{left:11px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,var(--gold),#C9CED6 30%)}
+    .road,.road.road4{grid-template-columns:1fr;gap:6px}
+    .road::before{left:11px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,var(--amber),rgba(89,211,209,.3) 30%)}
     .step{padding:0 0 22px 44px}
     .step .dot{top:4px}
-    /* matrix becomes cards */
     .mrow.head{display:none}
     .mrow{grid-template-columns:repeat(5,minmax(0,1fr));padding:14px 12px 12px}
     .mrow .q{grid-column:1/-1;padding:0 2px 10px}
-    .mrow .c{padding:6px 2px;gap:4px;border-radius:10px}
-    .mrow .c .lbl{display:block;font-size:10.5px;color:var(--muted);text-align:center;line-height:1.2}
-    .mrow .c.me .lbl{color:var(--gold-d);font-weight:600}
+    .mrow .c{padding:6px 2px;gap:4px;border-radius:4px}
+    .mrow .c .lbl{display:block;font-size:10.5px;color:var(--ink2);text-align:center;line-height:1.2}
+    .mrow .c.me .lbl{color:var(--lit);font-weight:700}
   }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="g-tls"><path d="M9 7V5a3 3 0 0 1 6 0v2"/><rect x="6" y="7" width="12" height="12" rx="1.5"/><path d="M9 11h6M9 14h6M9 17h6M5 22h14"/></g>
+    <g id="g-secret"><circle cx="10" cy="10" r="6"/><circle cx="10" cy="10" r="2.2"/><path d="M14.5 14.5L21 21"/></g>
+    <g id="g-deps"><circle cx="9" cy="9" r="6"/><circle cx="9" cy="9" r="2"/><path d="M14.5 12c3 1 5 3.5 5 7v3M9 15v6"/></g>
+    <g id="g-code"><rect x="7" y="3" width="12" height="18" rx="1.5"/><path d="M5 7h3M5 11h3M5 15h3M5 19h3M11 9h5M11 13h5"/></g>
+    <g id="g-mail"><path d="M5 22V3M5 4h8l-2 3 2 3H5"/><path d="M13 22V12M13 13h8l-2 3 2 3h-8"/></g>
+    <g id="g-dns"><path d="M12 2v5"/><path d="M8 7h8l2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="10.5" r="1.2"/><path d="M9 16h6"/></g>
+  </defs>
+</svg>
+
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-yes" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -268,25 +292,34 @@
   <symbol id="i-no" viewBox="0 0 16 16"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 </svg>
 
-<nav>
+<header class="top">
   <div class="wrap">
-    <a class="brand" href="./"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="14" stroke="#E0892B" stroke-opacity=".45" stroke-width="1.5"/><circle cx="16" cy="16" r="8.5" stroke="#E0892B" stroke-opacity=".7" stroke-width="1.5"/><path d="M16 16 L27 9" stroke="#F5B26B" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="2.4" fill="#F5B26B"/></svg>Squall</a>
-    <div class="links">
-      <a class="hide-sm" href="./">Overview</a>
+    <a class="brand" href="index.html" aria-label="Squall home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3v8M8 11h8"/></svg>Squall <small>Typhoon Fleet</small></a>
+    <nav class="links">
+      <a class="hide-sm" href="index.html">Overview</a>
       <a class="hide-sm" href="attack-path.html">Attack path</a>
       <a class="hide-sm" href="#compare">Compare</a>
       <a class="hide-sm" href="#phases">Phases</a>
       <a href="https://squall.typhoonfleet.com/squall/login">Log in</a>
       <a class="btn gold sm" href="mailto:squall@typhoonfleet.com?subject=Squall%20review%20request">Request a review</a>
-    </div>
+    </nav>
   </div>
-</nav>
+</header>
 
 <header class="hero">
   <div class="wrap">
+    <div class="art">
+      <div class="tile">
+        <img src="../fleet/art/squall-tile.jpg" alt="Squall on the night harbour with a signal lamp raised" width="768" height="1024">
+        <div class="scuff"></div>
+        <div class="bar"><b>Squall</b><span>Assurance, sites and code</span><span class="pill"><i></i>In service, phase 0</span></div>
+      </div>
+    </div>
+    <div>
     <h1>The map of security testing, <em>and where Squall stands on it.</em></h1>
     <p>Squall is at phase 0. Here is what it covers today, how it compares with every other way of testing, what it runs on, and what each phase adds.</p>
     <div class="jump">
+      <a href="#kit">The kit</a>
       <a href="#map">The map</a>
       <a href="#whole">The six jobs of security</a>
       <a href="attack-path.html">How an attack unfolds</a>
@@ -298,15 +331,32 @@
       <a href="#toolbox">What is inside</a>
       <a href="#phases">Phases</a>
     </div>
+    </div>
   </div>
 </header>
+
+<section id="kit">
+  <div class="wrap">
+    <h2>What Squall carries today.</h2>
+    <p class="lede">Six checks, each one a piece of kit. All six are in service at phase 0.</p>
+<div class="kit">
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-tls"/></svg></span><b>Header and TLS read</b><span>Reads a site's security headers and certificate.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-secret"/></svg></span><b>Secret scan</b><span>Looks for keys and passwords left in code.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-deps"/></svg></span><b>Dependency audit</b><span>Checks the packages a project depends on for known flaws.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-code"/></svg></span><b>Code vulnerability audit</b><span>Reads the code itself for common weaknesses.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-mail"/></svg></span><b>Email records check</b><span>Checks SPF and DMARC for a domain.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-dns"/></svg></span><b>DNS ownership proof</b><span>Proves you control a domain with a DNS record.</span></div>
+</div>
+    <p class="note">Header and TLS read and the email records check run against your live domain once it is proven yours. Secret scan, dependency audit and code vulnerability audit run on a repository you give read access to.</p>
+  </div>
+</section>
 
 <section id="map">
   <div class="wrap">
     <h2>Eight things to test, four ways to test them.</h2>
-    <p class="lede">Every security service on the market fills some of these cells. Green is Squall today. Dashed is a later Squall phase. Grey names who else does that work.</p>
+    <p class="lede">Every security service on the market fills some of these cells. Amber is Squall today. Dashed is a later Squall phase. Grey names who else does that work.</p>
     <div class="fmap"><div class="fgrid" id="fgrid"></div>
-      <div class="fkey"><span><i style="background:var(--yes)"></i>Squall today</span><span><i style="background:#F3C98A"></i>Squall, partly</span><span><i style="border:1.5px dashed var(--plan);background:var(--plan-bg)"></i>Later Squall phase</span><span><i style="background:var(--no-bg)"></i>Other providers</span></div>
+      <div class="fkey"><span><i style="background:var(--amber)"></i>Squall today</span><span><i style="background:repeating-linear-gradient(135deg,rgba(224,137,43,.6) 0 4px,rgba(224,137,43,.25) 4px 8px)"></i>Squall, partly</span><span><i style="border:1.5px dashed var(--cyan);background:var(--plan-bg)"></i>Later Squall phase</span><span><i style="background:var(--no-bg)"></i>Other providers</span></div>
     </div>
     <p class="note">Industry terms in small type, for readers who want to map each cell to the products they know.</p>
   </div>
@@ -318,23 +368,23 @@
     <p class="lede">Security is six jobs, as set out in the NIST Cybersecurity Framework 2.0, the most widely used map of the field. Squall does one of them well, checks part of another, and leaves the rest to you or other providers. Knowing which is which is the point.</p>
     <div class="whole">
       <svg class="wheel" viewBox="0 0 400 400" role="img" aria-label="Six functions of the NIST Cybersecurity Framework, shaded by Squall coverage">
-<path d="M203.6 30.0 A170 170 0 0 1 345.4 111.9 L278.7 152.3 A92 92 0 0 0 201.9 108.0Z" fill="#DDE1E7" stroke="#fff" stroke-width="2"/><text x="265.5" y="91.6" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#566072">Govern</text>
-<path d="M349.0 118.1 A170 170 0 0 1 349.0 281.9 L280.6 244.3 A92 92 0 0 0 280.6 155.7Z" fill="#18794E" stroke="#fff" stroke-width="2"/><text x="331.0" y="205.0" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#fff">Identify</text>
-<path d="M345.4 288.1 A170 170 0 0 1 203.6 370.0 L201.9 292.0 A92 92 0 0 0 278.7 247.7Z" fill="#E0A04A" stroke="#fff" stroke-width="2"/><text x="265.5" y="318.4" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#1B0F02">Protect</text>
-<path d="M196.4 370.0 A170 170 0 0 1 54.6 288.1 L121.3 247.7 A92 92 0 0 0 198.1 292.0Z" fill="#2459A8" stroke="#fff" stroke-width="2"/><text x="134.5" y="318.4" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#fff">Detect</text>
-<path d="M51.0 281.9 A170 170 0 0 1 51.0 118.1 L119.4 155.7 A92 92 0 0 0 119.4 244.3Z" fill="#DDE1E7" stroke="#fff" stroke-width="2"/><text x="69.0" y="205.0" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#566072">Respond</text>
-<path d="M54.6 111.9 A170 170 0 0 1 196.4 30.0 L198.1 108.0 A92 92 0 0 0 121.3 152.3Z" fill="#DDE1E7" stroke="#fff" stroke-width="2"/><text x="134.5" y="91.6" text-anchor="middle" font-family="Inter,system-ui" font-size="15" font-weight="600" fill="#566072">Recover</text>
-        <circle cx="200" cy="200" r="84" fill="#0A2342"/>
-        <text x="200" y="196" text-anchor="middle" font-family="Fraunces,serif" font-size="24" font-weight="600" fill="#F5B26B">Squall</text>
-        <text x="200" y="218" text-anchor="middle" font-family="Inter,system-ui" font-size="12.5" fill="#9AA8BE">coverage today</text>
+<path d="M203.6 30.0 A170 170 0 0 1 345.4 111.9 L278.7 152.3 A92 92 0 0 0 201.9 108.0Z" fill="#1A2A42" stroke="#040A16" stroke-width="2"/><text x="265.5" y="91.6" text-anchor="middle" font-family="Manrope,system-ui" font-size="15" font-weight="600" fill="#A9B7CB">Govern</text>
+<path d="M349.0 118.1 A170 170 0 0 1 349.0 281.9 L280.6 244.3 A92 92 0 0 0 280.6 155.7Z" fill="#E0892B" stroke="#040A16" stroke-width="2"/><text x="331.0" y="205.0" text-anchor="middle" font-family="Manrope,system-ui" font-size="15" font-weight="700" fill="#1B0F02">Identify</text>
+<path d="M345.4 288.1 A170 170 0 0 1 203.6 370.0 L201.9 292.0 A92 92 0 0 0 278.7 247.7Z" fill="#9C6A2E" stroke="#040A16" stroke-width="2"/><text x="265.5" y="318.4" text-anchor="middle" font-family="Manrope,system-ui" font-size="15" font-weight="700" fill="#F4F7FB">Protect</text>
+<path d="M196.4 370.0 A170 170 0 0 1 54.6 288.1 L121.3 247.7 A92 92 0 0 0 198.1 292.0Z" fill="#2E8F95" stroke="#040A16" stroke-width="2"/><text x="134.5" y="318.4" text-anchor="middle" font-family="Manrope,system-ui" font-size="15" font-weight="700" fill="#06222A">Detect</text>
+<path d="M51.0 281.9 A170 170 0 0 1 51.0 118.1 L119.4 155.7 A92 92 0 0 0 119.4 244.3Z" fill="#1A2A42" stroke="#040A16" stroke-width="2"/><text x="69.0" y="205.0" text-anchor="middle" font-family="Manrope,system-ui" font-size="15" font-weight="600" fill="#A9B7CB">Respond</text>
+<path d="M54.6 111.9 A170 170 0 0 1 196.4 30.0 L198.1 108.0 A92 92 0 0 0 121.3 152.3Z" fill="#1A2A42" stroke="#040A16" stroke-width="2"/><text x="134.5" y="91.6" text-anchor="middle" font-family="Manrope,system-ui" font-size="15" font-weight="600" fill="#A9B7CB">Recover</text>
+        <circle cx="200" cy="200" r="84" fill="#040A16" stroke="rgba(224,137,43,.35)" stroke-width="1.5"/>
+        <text x="200" y="196" text-anchor="middle" font-family="Big Shoulders Display,sans-serif" font-size="24" font-weight="600" fill="#F2B347">Squall</text>
+        <text x="200" y="218" text-anchor="middle" font-family="Manrope,system-ui" font-size="12.5" fill="#A9B7CB">coverage today</text>
       </svg>
       <div class="fns">
-        <div class="fn"><span class="sw" style="background:#18794E"></span><div><b>Identify</b><span class="d">Know what you have and where it is weak. Squall's core job: finding weaknesses in your app, code and site.</span></div><span class="tag yes">Core</span></div>
-        <div class="fn"><span class="sw" style="background:#E0A04A"></span><div><b>Protect</b><span class="d">Put the safeguards in. Squall checks some of them are set right: settings, stored keys, third-party parts. It does not install them.</span></div><span class="tag part">Checks part</span></div>
-        <div class="fn"><span class="sw" style="background:#2459A8"></span><div><b>Detect</b><span class="d">Notice an attack while it happens. Testing whether your alarms fire is on the roadmap.</span></div><span class="tag plan">Roadmap</span></div>
-        <div class="fn"><span class="sw" style="background:#DDE1E7"></span><div><b>Govern</b><span class="d">Decide who owns the risk, set policy, report to the board.</span></div><span class="tag no">Yours</span></div>
-        <div class="fn"><span class="sw" style="background:#DDE1E7"></span><div><b>Respond</b><span class="d">Act when something goes wrong: contain, investigate, tell people.</span></div><span class="tag no">Not Squall</span></div>
-        <div class="fn"><span class="sw" style="background:#DDE1E7"></span><div><b>Recover</b><span class="d">Get back to normal: backups, restore, lessons learned.</span></div><span class="tag no">Not Squall</span></div>
+        <div class="fn"><span class="sw" style="background:#E0892B"></span><div><b>Identify</b><span class="d">Know what you have and where it is weak. Squall's core job: finding weaknesses in your app, code and site.</span></div><span class="tag yes">Core</span></div>
+        <div class="fn"><span class="sw" style="background:#9C6A2E"></span><div><b>Protect</b><span class="d">Put the safeguards in. Squall checks some of them are set right: settings, stored keys, third-party parts. It does not install them.</span></div><span class="tag part">Checks part</span></div>
+        <div class="fn"><span class="sw" style="background:#2E8F95"></span><div><b>Detect</b><span class="d">Notice an attack while it happens. Testing whether your alarms fire is on the roadmap.</span></div><span class="tag plan">Roadmap</span></div>
+        <div class="fn"><span class="sw" style="background:#1A2A42;border:1px solid rgba(160,190,220,.3)"></span><div><b>Govern</b><span class="d">Decide who owns the risk, set policy, report to the board.</span></div><span class="tag no">Yours</span></div>
+        <div class="fn"><span class="sw" style="background:#1A2A42;border:1px solid rgba(160,190,220,.3)"></span><div><b>Respond</b><span class="d">Act when something goes wrong: contain, investigate, tell people.</span></div><span class="tag no">Not Squall</span></div>
+        <div class="fn"><span class="sw" style="background:#1A2A42;border:1px solid rgba(160,190,220,.3)"></span><div><b>Recover</b><span class="d">Get back to normal: backups, restore, lessons learned.</span></div><span class="tag no">Not Squall</span></div>
       </div>
     </div>
     <p class="note">The other lenses on this page sit inside this map: the attacker's playbook and the testing types all belong to Identify, Protect and Detect.</p>
@@ -353,50 +403,50 @@
     <div class="bld">
       <svg class="house" viewBox="0 0 560 470" role="img" aria-label="A building with ten numbered points, each showing whether Squall checks it">
         <defs>
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EAF1FB"/><stop offset="1" stop-color="#F7F5F1"/></linearGradient>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B1E3A"/><stop offset="1" stop-color="#071529"/></linearGradient>
         </defs>
         <rect x="0" y="0" width="560" height="470" rx="22" fill="url(#sky)"/>
         <!-- street -->
-        <rect x="0" y="400" width="560" height="70" fill="#DCE1E8"/>
-        <path d="M20 435h60M120 435h60M220 435h60M320 435h60M420 435h60M520 435h30" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+        <rect x="0" y="400" width="560" height="70" fill="#0E1A2C"/>
+        <path d="M20 435h60M120 435h60M220 435h60M320 435h60M420 435h60M520 435h30" stroke="rgba(160,190,220,.28)" stroke-width="4" stroke-linecap="round"/>
         <!-- building -->
-        <path d="M110 190 L260 80 L410 190" fill="#0A2342"/>
-        <rect x="130" y="185" width="260" height="215" fill="#fff" stroke="#0A2342" stroke-width="3"/>
+        <path d="M110 190 L260 80 L410 190" fill="#1A2A42" stroke="#8FB8BF" stroke-width="3" stroke-linejoin="round"/>
+        <rect x="130" y="185" width="260" height="215" fill="#102A4A" stroke="#8FB8BF" stroke-width="3"/>
         <!-- windows -->
-        <rect x="155" y="215" width="58" height="48" rx="4" fill="#CFE0F5" stroke="#0A2342" stroke-width="2.5"/><path d="M184 215v48M155 239h58" stroke="#0A2342" stroke-width="2"/>
-        <rect x="307" y="215" width="58" height="48" rx="4" fill="#CFE0F5" stroke="#0A2342" stroke-width="2.5"/><path d="M336 215v48M307 239h58" stroke="#0A2342" stroke-width="2"/>
+        <rect x="155" y="215" width="58" height="48" rx="4" fill="#C99A45" stroke="#8FB8BF" stroke-width="2.5"/><path d="M184 215v48M155 239h58" stroke="#8FB8BF" stroke-width="2"/>
+        <rect x="307" y="215" width="58" height="48" rx="4" fill="#C99A45" stroke="#8FB8BF" stroke-width="2.5"/><path d="M336 215v48M307 239h58" stroke="#8FB8BF" stroke-width="2"/>
         <!-- door -->
-        <rect x="235" y="300" width="50" height="100" rx="3" fill="#B5620F" stroke="#0A2342" stroke-width="2.5"/><circle cx="275" cy="352" r="4" fill="#F5B26B"/>
+        <rect x="235" y="300" width="50" height="100" rx="3" fill="#B5620F" stroke="#8FB8BF" stroke-width="2.5"/><circle cx="275" cy="352" r="4" fill="#F2B347"/>
         <!-- mat + key -->
         <rect x="222" y="398" width="76" height="9" rx="2" fill="#8C6B4A"/>
         <g transform="translate(262 394)"><circle cx="0" cy="0" r="5" fill="none" stroke="#E0892B" stroke-width="2.5"/><path d="M5 0h14M14 0v5M18 0v4" stroke="#E0892B" stroke-width="2.5" stroke-linecap="round"/></g>
         <!-- mailbox -->
-        <rect x="415" y="330" width="34" height="26" rx="6" fill="#fff" stroke="#0A2342" stroke-width="2.5"/><path d="M432 356v44" stroke="#0A2342" stroke-width="3"/><path d="M421 343h22" stroke="#0A2342" stroke-width="2"/>
+        <rect x="415" y="330" width="34" height="26" rx="6" fill="#102A4A" stroke="#8FB8BF" stroke-width="2.5"/><path d="M432 356v44" stroke="#8FB8BF" stroke-width="3"/><path d="M421 343h22" stroke="#8FB8BF" stroke-width="2"/>
         <!-- delivery crates -->
-        <rect x="60" y="360" width="40" height="40" fill="#E9D9C3" stroke="#0A2342" stroke-width="2.5"/><path d="M60 380h40M80 360v40" stroke="#0A2342" stroke-width="1.5"/>
+        <rect x="60" y="360" width="40" height="40" fill="#4A3A22" stroke="#8FB8BF" stroke-width="2.5"/><path d="M60 380h40M80 360v40" stroke="#8FB8BF" stroke-width="1.5"/>
         <!-- alarm -->
-        <rect x="352" y="292" width="26" height="20" rx="4" fill="#fff" stroke="#0A2342" stroke-width="2.5"/><circle cx="365" cy="302" r="4" fill="#E5484D"/>
+        <rect x="352" y="292" width="26" height="20" rx="4" fill="#102A4A" stroke="#8FB8BF" stroke-width="2.5"/><circle cx="365" cy="302" r="4" fill="#E5484D"/>
         <!-- receptionist robot in window -->
-        <g transform="translate(184 314)"><rect x="-16" y="-14" width="32" height="26" rx="7" fill="#fff" stroke="#0A2342" stroke-width="2.5"/><circle cx="-6" cy="-2" r="3" fill="#0A2342"/><circle cx="6" cy="-2" r="3" fill="#0A2342"/><path d="M0 -14v-8" stroke="#0A2342" stroke-width="2.5"/><circle cx="0" cy="-24" r="3" fill="#E0892B"/><rect x="-22" y="14" width="44" height="20" rx="3" fill="#EAF1FB" stroke="#0A2342" stroke-width="2"/></g>
+        <g transform="translate(184 314)"><rect x="-16" y="-14" width="32" height="26" rx="7" fill="#102A4A" stroke="#8FB8BF" stroke-width="2.5"/><circle cx="-6" cy="-2" r="3" fill="#8FB8BF"/><circle cx="6" cy="-2" r="3" fill="#8FB8BF"/><path d="M0 -14v-8" stroke="#8FB8BF" stroke-width="2.5"/><circle cx="0" cy="-24" r="3" fill="#E0892B"/><rect x="-22" y="14" width="44" height="20" rx="3" fill="#0B1E3A" stroke="#8FB8BF" stroke-width="2"/></g>
         <!-- staff person -->
-        <g transform="translate(490 360)"><circle cx="0" cy="-26" r="9" fill="#fff" stroke="#0A2342" stroke-width="2.5"/><path d="M-14 12c1-14 6-22 14-22s13 8 14 22z" fill="#fff" stroke="#0A2342" stroke-width="2.5"/></g>
+        <g transform="translate(490 360)"><circle cx="0" cy="-26" r="9" fill="#102A4A" stroke="#8FB8BF" stroke-width="2.5"/><path d="M-14 12c1-14 6-22 14-22s13 8 14 22z" fill="#102A4A" stroke="#8FB8BF" stroke-width="2.5"/></g>
         <!-- binoculars street view -->
-        <g transform="translate(470 105)"><circle cx="-11" cy="0" r="11" fill="#fff" stroke="#0A2342" stroke-width="2.5"/><circle cx="11" cy="0" r="11" fill="#fff" stroke="#0A2342" stroke-width="2.5"/><path d="M-4 -8h8" stroke="#0A2342" stroke-width="3"/></g>
+        <g transform="translate(470 105)"><circle cx="-11" cy="0" r="11" fill="#102A4A" stroke="#8FB8BF" stroke-width="2.5"/><circle cx="11" cy="0" r="11" fill="#102A4A" stroke="#8FB8BF" stroke-width="2.5"/><path d="M-4 -8h8" stroke="#8FB8BF" stroke-width="3"/></g>
         <!-- burglar mask -->
-        <g transform="translate(70 115)"><ellipse cx="0" cy="0" rx="22" ry="18" fill="#0A2342"/><rect x="-18" y="-5" width="36" height="10" rx="5" fill="#fff"/><circle cx="-8" cy="0" r="3" fill="#0A2342"/><circle cx="8" cy="0" r="3" fill="#0A2342"/></g>
+        <g transform="translate(70 115)"><ellipse cx="0" cy="0" rx="22" ry="18" fill="#2A3A55"/><rect x="-18" y="-5" width="36" height="10" rx="5" fill="#102A4A"/><circle cx="-8" cy="0" r="3" fill="#8FB8BF"/><circle cx="8" cy="0" r="3" fill="#8FB8BF"/></g>
 
         <!-- markers -->
-        <g font-family="Inter,system-ui" font-weight="700" font-size="13" text-anchor="middle">
-          <g transform="translate(300 330)"><circle r="14" fill="#18794E" stroke="#fff" stroke-width="3"/><text y="4.5" fill="#fff">1</text></g>
-          <g transform="translate(262 372)"><circle r="14" fill="#18794E" stroke="#fff" stroke-width="3"/><text y="4.5" fill="#fff">2</text></g>
-          <g transform="translate(378 212)"><circle r="14" fill="#18794E" stroke="#fff" stroke-width="3"/><text y="4.5" fill="#fff">3</text></g>
-          <g transform="translate(456 318)"><circle r="14" fill="#18794E" stroke="#fff" stroke-width="3"/><text y="4.5" fill="#fff">4</text></g>
-          <g transform="translate(80 345)"><circle r="14" fill="#18794E" stroke="#fff" stroke-width="3"/><text y="4.5" fill="#fff">5</text></g>
-          <g transform="translate(470 78)"><circle r="14" fill="#2459A8" stroke="#fff" stroke-width="3"/><text y="4.5" fill="#fff">6</text></g>
-          <g transform="translate(210 290)"><circle r="14" fill="#2459A8" stroke="#fff" stroke-width="3"/><text y="4.5" fill="#fff">7</text></g>
-          <g transform="translate(378 280)"><circle r="14" fill="#2459A8" stroke="#fff" stroke-width="3"/><text y="4.5" fill="#fff">8</text></g>
-          <g transform="translate(512 325)"><circle r="14" fill="#8A93A3" stroke="#fff" stroke-width="3"/><text y="4.5" fill="#fff">9</text></g>
-          <g transform="translate(98 92)"><circle r="14" fill="#8A93A3" stroke="#fff" stroke-width="3"/><text y="4.5" fill="#fff">10</text></g>
+        <g font-family="Manrope,system-ui" font-weight="700" font-size="13" text-anchor="middle">
+          <g transform="translate(300 330)"><circle r="14" fill="#E0892B" stroke="#040A16" stroke-width="3"/><text y="4.5" fill="#102A4A">1</text></g>
+          <g transform="translate(262 372)"><circle r="14" fill="#E0892B" stroke="#040A16" stroke-width="3"/><text y="4.5" fill="#102A4A">2</text></g>
+          <g transform="translate(378 212)"><circle r="14" fill="#E0892B" stroke="#040A16" stroke-width="3"/><text y="4.5" fill="#102A4A">3</text></g>
+          <g transform="translate(456 318)"><circle r="14" fill="#E0892B" stroke="#040A16" stroke-width="3"/><text y="4.5" fill="#102A4A">4</text></g>
+          <g transform="translate(80 345)"><circle r="14" fill="#E0892B" stroke="#040A16" stroke-width="3"/><text y="4.5" fill="#102A4A">5</text></g>
+          <g transform="translate(470 78)"><circle r="14" fill="#59D3D1" stroke="#040A16" stroke-width="3"/><text y="4.5" fill="#102A4A">6</text></g>
+          <g transform="translate(210 290)"><circle r="14" fill="#59D3D1" stroke="#040A16" stroke-width="3"/><text y="4.5" fill="#102A4A">7</text></g>
+          <g transform="translate(378 280)"><circle r="14" fill="#59D3D1" stroke="#040A16" stroke-width="3"/><text y="4.5" fill="#102A4A">8</text></g>
+          <g transform="translate(512 325)"><circle r="14" fill="#9FB3CF" stroke="#040A16" stroke-width="3"/><text y="4.5" fill="#102A4A">9</text></g>
+          <g transform="translate(98 92)"><circle r="14" fill="#9FB3CF" stroke="#040A16" stroke-width="3"/><text y="4.5" fill="#102A4A">10</text></g>
         </g>
       </svg>
 
@@ -422,43 +472,43 @@
     <p class="lede">Companies test security in six broad ways, from a cheap scan to a regulator-led exercise. They differ in two things: how far the test goes, and how often it happens. Squall sits deliberately in one corner: it looks often and proves what it finds, and it does not try to break in.</p>
     <div class="map-wrap">
       <svg class="map" viewBox="0 0 1000 470" role="img" aria-label="Chart of five security testing approaches by how far they go and how often they run">
-        <g font-family="Inter,system-ui" font-size="13" fill="#566072">
+        <g font-family="Manrope,system-ui" font-size="13" fill="#A9B7CB">
           <!-- grid -->
-          <g stroke="#E6E9EE" stroke-width="1"><path d="M150 40v360M362 40v360M575 40v360M787 40v360"/><path d="M150 40h830M150 160h830M280 280h700M150 400h830"/></g>
-          <path d="M150 400h830" stroke="#0A2342" stroke-width="2"/><path d="M150 40v360" stroke="#0A2342" stroke-width="2"/>
+          <g stroke="#1E3352" stroke-width="1"><path d="M150 40v360M362 40v360M575 40v360M787 40v360"/><path d="M150 40h830M150 160h830M280 280h700M150 400h830"/></g>
+          <path d="M150 400h830" stroke="#8FB8BF" stroke-width="2"/><path d="M150 40v360" stroke="#8FB8BF" stroke-width="2"/>
           <!-- x labels -->
           <text x="256" y="428" text-anchor="middle">Looks for openings</text>
           <text x="468" y="428" text-anchor="middle">Proves they are real</text>
           <text x="681" y="428" text-anchor="middle">Breaks in</text>
           <text x="883" y="428" text-anchor="middle">Acts like a criminal gang</text>
-          <text x="565" y="458" text-anchor="middle" font-weight="600" fill="#0A2342">How far the test goes →</text>
+          <text x="565" y="458" text-anchor="middle" font-weight="600" fill="#8FB8BF">How far the test goes →</text>
           <!-- y labels -->
           <text x="138" y="104" text-anchor="end">Every night</text>
           <text x="138" y="224" text-anchor="end">A few times</text>
           <text x="138" y="241" text-anchor="end">a year</text>
           <text x="138" y="344" text-anchor="end">Once a year</text>
           <text x="138" y="361" text-anchor="end">or less</text>
-          <text x="22" y="220" text-anchor="middle" font-weight="600" fill="#0A2342" transform="rotate(-90 22 220)">How often it runs →</text>
+          <text x="22" y="220" text-anchor="middle" font-weight="600" fill="#8FB8BF" transform="rotate(-90 22 220)">How often it runs →</text>
         </g>
         <!-- CTEM band -->
-        <rect x="165" y="52" width="560" height="120" rx="60" fill="#2459A8" fill-opacity=".08" stroke="#2459A8" stroke-dasharray="6 6" stroke-width="1.5"/>
-        <text x="445" y="72" text-anchor="middle" font-family="Inter,system-ui" font-size="13.5" font-weight="600" fill="#2459A8">Exposure programme (whole company, consultancy-run)</text>
+        <rect x="165" y="52" width="560" height="120" rx="60" fill="#2E8F95" fill-opacity=".08" stroke="#2E8F95" stroke-dasharray="6 6" stroke-width="1.5"/>
+        <text x="445" y="72" text-anchor="middle" font-family="Manrope,system-ui" font-size="13.5" font-weight="600" fill="#2E8F95">Exposure programme (whole company, consultancy-run)</text>
         <!-- scanner -->
-        <circle cx="235" cy="118" r="38" fill="#EEF0F3" stroke="#8A93A3" stroke-width="2"/>
-        <text x="235" y="114" text-anchor="middle" font-family="Inter,system-ui" font-size="13" font-weight="600" fill="#0A2342">Automated</text>
-        <text x="235" y="130" text-anchor="middle" font-family="Inter,system-ui" font-size="13" font-weight="600" fill="#0A2342">scanner</text>
+        <circle cx="235" cy="118" r="38" fill="#1A2A42" stroke="#6E7F9A" stroke-width="2"/>
+        <text x="235" y="114" text-anchor="middle" font-family="Manrope,system-ui" font-size="13" font-weight="600" fill="#8FB8BF">Automated</text>
+        <text x="235" y="130" text-anchor="middle" font-family="Manrope,system-ui" font-size="13" font-weight="600" fill="#8FB8BF">scanner</text>
         <!-- squall -->
         <circle cx="400" cy="120" r="50" fill="#E0892B" fill-opacity=".16"/>
         <circle cx="400" cy="120" r="40" fill="#E0892B" stroke="#B5620F" stroke-width="2.5"/>
-        <text x="400" y="125" text-anchor="middle" font-family="Fraunces,serif" font-size="19" font-weight="600" fill="#1B0F02">Squall</text>
+        <text x="400" y="125" text-anchor="middle" font-family="Big Shoulders Display,sans-serif" font-size="19" font-weight="600" fill="#1B0F02">Squall</text>
         <!-- pen test -->
-        <circle cx="660" cy="320" r="44" fill="#fff" stroke="#0A2342" stroke-width="2"/>
-        <text x="660" y="316" text-anchor="middle" font-family="Inter,system-ui" font-size="13" font-weight="600" fill="#0A2342">Penetration</text>
-        <text x="660" y="332" text-anchor="middle" font-family="Inter,system-ui" font-size="13" font-weight="600" fill="#0A2342">test</text>
+        <circle cx="660" cy="320" r="44" fill="#102A4A" stroke="#8FB8BF" stroke-width="2"/>
+        <text x="660" y="316" text-anchor="middle" font-family="Manrope,system-ui" font-size="13" font-weight="600" fill="#8FB8BF">Penetration</text>
+        <text x="660" y="332" text-anchor="middle" font-family="Manrope,system-ui" font-size="13" font-weight="600" fill="#8FB8BF">test</text>
         <!-- red team -->
-        <circle cx="880" cy="345" r="48" fill="#0A2342"/>
-        <text x="880" y="341" text-anchor="middle" font-family="Inter,system-ui" font-size="13" font-weight="600" fill="#fff">Red team</text>
-        <text x="880" y="357" text-anchor="middle" font-family="Inter,system-ui" font-size="11.5" fill="#9AA8BE">exercise</text>
+        <circle cx="880" cy="345" r="48" fill="#0B1E3A" stroke="#FF6A5A" stroke-opacity=".7" stroke-width="2"/>
+        <text x="880" y="341" text-anchor="middle" font-family="Manrope,system-ui" font-size="13" font-weight="600" fill="#E6ECF4">Red team</text>
+        <text x="880" y="357" text-anchor="middle" font-family="Manrope,system-ui" font-size="11.5" fill="#A9B7CB">exercise</text>
       </svg>
     </div>
     <div class="cats">

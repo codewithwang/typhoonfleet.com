@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Typhoon Fleet | The map</title>
+<meta name="description" content="Typhoon Fleet, the illustrative map: eight crew, each an agent with one security job.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#040A16;--bg2:#0B1E3A;--bg3:#102A4A;--ink:#E6ECF4;--ink2:#A9B7CB;--ink3:#6E7F9A;--line:rgba(224,137,43,.18);--line2:rgba(160,190,220,.14);
+    --amber:#E0892B;--cyan:#59D3D1;--magenta:#D64BA3;--red:#FF3B3B;
+    --lit:#F2B347;--dim:#7B8CA3;--dark:#2A3A55;
+    --fog:70,170,175;
+    --sheet:#081426;--shadow:0 -12px 40px rgba(0,0,0,.7);
+  }
+  :root[data-theme="dark"]{--bg:#040A16;--bg2:#0B1E3A}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#040A16;--bg2:#0B1E3A}}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--bg);background-image:linear-gradient(180deg,#040A16 0%,#071529 40%,#0B1E3A 100%);background-attachment:fixed;color:var(--ink);font-family:Manrope,system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  img,svg{display:block;max-width:100%}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+  h1,h2,h3,.display{font-family:"Big Shoulders Display",Manrope,sans-serif;font-weight:800;letter-spacing:.2px;line-height:1}
+
+  header{position:sticky;top:0;z-index:30;background:rgba(4,10,22,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  header .wrap{display:flex;align-items:center;gap:10px 14px;min-height:56px;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+  .brand{font-family:"Big Shoulders Display",sans-serif;font-weight:800;font-size:24px;display:flex;align-items:center;gap:9px;letter-spacing:.4px}
+  .brand svg{width:24px;height:24px;color:var(--amber);filter:drop-shadow(0 0 6px rgba(224,137,43,.6))}
+  .brand small{font-family:Manrope,sans-serif;font-weight:600;color:var(--ink3);font-size:12.5px;margin-left:2px;letter-spacing:0}
+  .status-line{font-size:12.5px;color:var(--ink2);flex:1 0 100%}
+  @media (min-width:700px){.status-line{flex:1 1 auto;text-align:right}}
+
+  .stage{padding-top:16px}
+  @media (min-width:900px){
+    .stage{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start}
+    .stage .side{min-width:0}
+    .frame-wrap{position:sticky;top:72px}
+  }
+
+  /* the map frame: the painted plate fills it edge to edge, every overlay sits in plate units */
+  .frame{position:relative;width:100%;aspect-ratio:1024/1536;border-radius:6px;overflow:hidden;border:1px solid rgba(224,137,43,.28);background:#02060F;box-shadow:0 0 0 1px rgba(0,0,0,.6),0 24px 60px rgba(0,0,0,.6),0 0 60px rgba(70,170,175,.08)}
+  @media (min-width:900px){.frame{height:min(86vh,900px);width:auto}}
+  .frame svg.map{position:absolute;inset:0;width:100%;height:100%}
+  .fog{position:absolute;pointer-events:none;will-change:background-position,transform;mix-blend-mode:screen}
+  .fog-top{top:0;left:-10%;right:-10%;height:36%;
+    background:
+      radial-gradient(60% 55% at 20% 30%, rgba(var(--fog),.55), rgba(var(--fog),0) 70%),
+      radial-gradient(55% 60% at 70% 20%, rgba(var(--fog),.5), rgba(var(--fog),0) 70%),
+      radial-gradient(70% 50% at 50% 70%, rgba(var(--fog),.42), rgba(var(--fog),0) 72%),
+      radial-gradient(45% 45% at 90% 60%, rgba(var(--fog),.4), rgba(var(--fog),0) 70%),
+      linear-gradient(180deg, rgba(var(--fog),.45) 0%, rgba(var(--fog),.25) 45%, rgba(var(--fog),0) 100%);
+    background-size:140% 100%,140% 100%,140% 100%,140% 100%,100% 100%;
+    background-repeat:no-repeat;
+    -webkit-mask-image:linear-gradient(180deg,#000 50%,transparent 100%);mask-image:linear-gradient(180deg,#000 50%,transparent 100%);
+    animation:fogdrift 46s ease-in-out infinite alternate}
+  .fog-right{top:20%;left:60%;width:36%;height:44%;opacity:.7;
+    background:
+      radial-gradient(50% 40% at 50% 25%, rgba(var(--fog),.5), rgba(var(--fog),0) 72%),
+      radial-gradient(45% 40% at 55% 60%, rgba(var(--fog),.45), rgba(var(--fog),0) 72%),
+      radial-gradient(45% 35% at 45% 88%, rgba(var(--fog),.4), rgba(var(--fog),0) 72%);
+    animation:fogsway 32s ease-in-out infinite alternate}
+  .fog-quay{bottom:0;left:0;right:0;height:22%;opacity:.55;mix-blend-mode:screen;
+    background:linear-gradient(0deg, rgba(224,137,43,.22) 0%, rgba(224,137,43,0) 100%)}
+  @keyframes fogdrift{0%{background-position:0% 0,100% 0,50% 0,0 0,0 0}100%{background-position:100% 0,0% 0,0% 0,100% 0,0 0}}
+  @keyframes fogsway{0%{transform:translate(-3%,0)}100%{transform:translate(3%,1.5%)}}
+
+  /* svg bits */
+  .map text{font-family:Manrope,system-ui,sans-serif;fill:#DCE6F2;paint-order:stroke;stroke:#03070F;stroke-width:8;stroke-linejoin:round}
+  .map .lbl{font-size:25px;font-weight:700}
+  .map .lbl.soft{fill:#8FB8BF;font-weight:600;font-style:italic}
+  .map .hname{font-family:"Big Shoulders Display",Manrope,sans-serif;font-size:36px;font-weight:800;text-anchor:middle;letter-spacing:.5px}
+  .map .hnote{font-size:21px;font-weight:600;fill:#8FB8BF;text-anchor:middle;font-style:italic}
+  .lane{fill:none;stroke:#59D3D1;stroke-width:2.5;stroke-dasharray:3 16;stroke-linecap:round;opacity:.55}
+  .lane.glow{stroke-width:9;stroke-dasharray:none;opacity:.12;filter:url(#soft)}
+  .hero{cursor:pointer}
+  .hero image{transform-box:fill-box;transform-origin:center}
+  .hero.live image{animation:bob 3.4s ease-in-out infinite alternate}
+  .hero.live.alt image{animation-duration:4.1s;animation-delay:-1.7s}
+  .hero.built image{filter:grayscale(.9) brightness(.8);opacity:.85}
+  .hero.designed image{filter:grayscale(1) brightness(.55) contrast(.9);opacity:.6}
+  .hero.planned image{filter:brightness(0);opacity:.75}
+  .hero .halo{opacity:.22;filter:url(#soft)}
+  .hero.designed .halo{opacity:.18}
+  .hero.planned .halo{opacity:.14}
+  .hero .spot{opacity:0;filter:url(#soft)}
+  .hero.planned .spot{opacity:1;animation:ember 3s ease-in-out infinite alternate}
+  .hero.designed .spot{opacity:.55}
+  .hero .ring{fill:none;stroke:#59D3D1;stroke-width:2.5;stroke-dasharray:8 7;opacity:0}
+  .hero.planned .ring,.hero.designed .ring{opacity:.5}
+  .hero:focus-visible{outline:none}
+  .hero:focus-visible .ring{opacity:1;stroke:var(--amber);stroke-dasharray:none}
+  @keyframes bob{from{transform:translateY(0)}to{transform:translateY(6px)}}
+  @keyframes ember{from{opacity:.7}to{opacity:1}}
+
+  .lh .rock{fill:#0E1A2C;stroke:#59D3D1;stroke-width:1.5;opacity:.9}
+  .lh .tower{fill:#1A2A42;stroke:#8FB8BF;stroke-width:2;stroke-linejoin:round}
+  .lh .band{stroke:#8FB8BF;stroke-width:2}
+  .lh .lantern{stroke:#8FB8BF;stroke-width:2;fill:#1A2A42}
+  .lh .glow,.lh .beam{opacity:0}
+  .lh.lit .lantern{fill:var(--lit);stroke:var(--lit)}
+  .lh.lit .tower{stroke:#F2D59A}
+  .lh.lit .glow{opacity:1;animation:pulse 4.5s ease-in-out infinite alternate}
+  .lh.lit .beam{opacity:.5}
+  .lh.dim .lantern{fill:var(--dim)}
+  .lh.dim .glow{opacity:.3}
+  .lh.dark .lantern{fill:#0A1322}
+  .lh.dark .tower{stroke:#4A5C78}
+  @keyframes pulse{from{opacity:.6}to{opacity:1}}
+
+  .mark{transform-box:view-box;transform-origin:0 0;opacity:0;will-change:transform,opacity}
+  .flash{opacity:0;fill:var(--lit);transform-box:view-box;transform-origin:0 0;filter:url(#soft)}
+  .m1{animation:m1 19s linear infinite}
+  .m2{animation:m2 15s linear infinite;animation-delay:2s}
+  .m3{animation:m3 21s linear infinite;animation-delay:7s}
+  .m4{animation:m4 17s linear infinite;animation-delay:4s}
+  .f2{animation:f2 15s linear infinite;animation-delay:2s}
+  .f3{animation:f3 21s linear infinite;animation-delay:7s}
+  @keyframes m1{0%{transform:translate(240px,380px);opacity:0}7%{opacity:.95}25%{transform:translate(270px,560px)}50%{transform:translate(330px,740px)}75%{transform:translate(420px,930px)}90%{transform:translate(437px,1150px);opacity:.95}97%{transform:translate(437px,1240px);opacity:0}100%{transform:translate(437px,1240px);opacity:0}}
+  @keyframes m2{0%{transform:translate(560px,330px) scale(1);opacity:0}8%{opacity:.95}38%{transform:translate(540px,540px) scale(1);opacity:.95}41%{transform:translate(540px,540px) scale(1.5);opacity:.9}44%{transform:translate(540px,540px) scale(.2);opacity:0}100%{transform:translate(540px,540px) scale(.2);opacity:0}}
+  @keyframes f2{0%,37%{opacity:0;transform:translate(540px,540px) scale(.2)}40%{opacity:.8;transform:translate(540px,540px) scale(1)}45%{opacity:0;transform:translate(540px,540px) scale(1.8)}100%{opacity:0}}
+  @keyframes m3{0%{transform:translate(560px,330px) scale(1);opacity:0}6%{opacity:.95}25%{transform:translate(540px,540px)}45%{transform:translate(590px,700px)}64%{transform:translate(610px,840px) scale(1);opacity:.95}67%{transform:translate(610px,840px) scale(1.5);opacity:.9}70%{transform:translate(610px,840px) scale(.2);opacity:0}100%{transform:translate(610px,840px) scale(.2);opacity:0}}
+  @keyframes f3{0%,63%{opacity:0;transform:translate(610px,840px) scale(.2)}66%{opacity:.8;transform:translate(610px,840px) scale(1)}71%{opacity:0;transform:translate(610px,840px) scale(1.8)}100%{opacity:0}}
+  @keyframes m4{0%{transform:translate(830px,360px);opacity:0}6%{opacity:.95}20%{transform:translate(800px,480px)}35%{transform:translate(770px,620px)}55%{transform:translate(760px,780px)}70%{transform:translate(780px,930px)}85%{transform:translate(800px,1100px)}92%{transform:translate(800px,1200px);opacity:.95}98%{transform:translate(800px,1260px);opacity:0}100%{transform:translate(800px,1260px);opacity:0}}
+
+  @media (prefers-reduced-motion: reduce){
+    .fog,.hero image,.hero .spot,.lh .glow,.flash{animation:none !important}
+    .mark{animation:none !important;opacity:.85}
+    .m1{transform:translate(330px,740px)}.m2{transform:translate(550px,450px)}.m3{transform:translate(600px,760px)}.m4{transform:translate(770px,620px)}
+  }
+
+  /* side: intro and legend */
+  .intro{padding:14px 0 6px}
+  h1{font-size:clamp(38px,9.6vw,60px);text-shadow:0 0 24px rgba(224,137,43,.18)}
+  .lead{color:var(--ink2);font-size:15px;margin-top:8px;max-width:600px}
+  .lead + .lead{margin-top:8px}
+  .legend{margin-top:14px;background:rgba(11,30,58,.55);border:1px solid var(--line2);border-radius:6px;padding:12px 14px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px 14px;font-size:13px;color:var(--ink2)}
+  @media (min-width:520px){.legend{grid-template-columns:repeat(3,1fr)}}
+  .legend div{display:flex;align-items:center;gap:8px;min-height:28px}
+  .legend svg{width:26px;height:26px;flex:none}
+  .legend .swatch{width:26px;height:18px;border-radius:3px;flex:none;border:1px solid var(--line2)}
+  .legend b{color:var(--ink);font-weight:700}
+
+  /* hero cards: splash tile, name bar, off-grid with a torn edge */
+  .crew{padding:22px 0 8px}
+  .crew h2{font-size:34px;margin-bottom:4px}
+  .crew .sub{color:var(--ink3);font-size:13px;margin-bottom:16px;max-width:560px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 12px;padding:4px 2px}
+  @media (min-width:900px){.grid{grid-template-columns:repeat(4,1fr);gap:18px 14px}}
+  .card{position:relative;text-align:left;background:#060E1C;border-radius:4px;overflow:hidden;display:block;width:100%;aspect-ratio:3/4.35;transition:transform .18s ease,box-shadow .18s ease;
+    clip-path:polygon(0 1.2%,2% 0,11% .6%,18% 0,31% .9%,42% 0,56% .7%,67% 0,80% .8%,91% 0,100% .9%, 99.3% 10%,100% 22%,99.2% 35%,100% 49%,99.4% 61%,100% 73%,99.1% 86%,100% 97%, 97% 100%,88% 99.3%,76% 100%,63% 99.2%,52% 100%,40% 99.3%,27% 100%,16% 99.1%,6% 100%,0 98.8%, .8% 88%,0 75%,.7% 62%,0 50%,.9% 38%,0 25%,.6% 12%);
+    box-shadow:0 14px 30px rgba(0,0,0,.55)}
+  .card:nth-child(8n+1){transform:rotate(-.9deg) translateY(2px)}
+  .card:nth-child(8n+2){transform:rotate(.7deg) translateY(-4px)}
+  .card:nth-child(8n+3){transform:rotate(.5deg) translateY(3px)}
+  .card:nth-child(8n+4){transform:rotate(-.6deg) translateY(-2px)}
+  .card:nth-child(8n+5){transform:rotate(.8deg) translateY(-3px)}
+  .card:nth-child(8n+6){transform:rotate(-.5deg) translateY(4px)}
+  .card:nth-child(8n+7){transform:rotate(-.8deg) translateY(-1px)}
+  .card:nth-child(8n+8){transform:rotate(.6deg) translateY(2px)}
+  .card:hover{transform:rotate(0) translateY(-4px) scale(1.015);box-shadow:0 20px 40px rgba(0,0,0,.6),0 0 24px rgba(224,137,43,.14)}
+  .card:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+  .tile{position:absolute;inset:0;background:#060E1C}
+  .tile img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+  .card.built .tile img{filter:grayscale(.92) brightness(.62) contrast(1.05)}
+  .card.designed .tile img{filter:grayscale(1) brightness(.42) contrast(1.05)}
+  .card.planned .tile img{filter:grayscale(1) brightness(.22) contrast(1.1)}
+  .tile .fogx{position:absolute;inset:0;opacity:0;pointer-events:none;mix-blend-mode:screen;
+    background:radial-gradient(70% 50% at 30% 80%, rgba(var(--fog),.5), transparent 70%),radial-gradient(60% 50% at 80% 30%, rgba(var(--fog),.4), transparent 70%),linear-gradient(0deg, rgba(var(--fog),.35), rgba(var(--fog),.05))}
+  .card.built .tile .fogx{opacity:.45}
+  .card.designed .tile .fogx{opacity:.7}
+  .card.planned .tile .fogx{opacity:.9}
+  .tile .light{position:absolute;left:var(--lx);top:var(--ly);width:46%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;mix-blend-mode:screen;opacity:0;
+    background:radial-gradient(circle, var(--spot) 0%, color-mix(in srgb, var(--spot) 55%, transparent) 22%, transparent 68%)}
+  .card.built .tile .light{opacity:.75}
+  .card.designed .tile .light{opacity:.6;filter:saturate(.7)}
+  .card.planned .tile .light{opacity:1;animation:ember 3s ease-in-out infinite alternate}
+  .tile .point{position:absolute;left:var(--lx);top:var(--ly);width:7px;height:7px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;box-shadow:0 0 10px 3px var(--spot),0 0 26px 8px color-mix(in srgb, var(--spot) 60%, transparent);opacity:0;pointer-events:none}
+  .card.planned .tile .point{opacity:1}
+  .scuff{position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+    background:
+      repeating-linear-gradient(115deg, rgba(255,255,255,.06) 0 1px, transparent 1px 7px),
+      radial-gradient(40% 18% at 8% 4%, rgba(255,255,255,.22), transparent 70%),
+      radial-gradient(30% 12% at 94% 96%, rgba(255,255,255,.18), transparent 70%)}
+  .bar{position:absolute;left:0;right:0;bottom:0;padding:34px 10px 10px;background:linear-gradient(180deg, rgba(4,10,22,0) 0%, rgba(4,10,22,.86) 38%, rgba(4,10,22,.96) 100%)}
+  .bar h3{font-size:28px;letter-spacing:.6px;color:#F4F7FB;text-shadow:0 0 14px color-mix(in srgb, var(--spot) 45%, transparent)}
+  .bar .role{font-size:11.5px;color:var(--ink2);margin-top:1px}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid var(--line2);color:var(--ink2);width:max-content;max-width:100%;margin-top:6px;letter-spacing:.1px}
+  .pill i{width:7px;height:7px;border-radius:50%;background:var(--ink3);display:inline-block;flex:none}
+  .pill.live{border-color:rgba(224,137,43,.6);background:rgba(224,137,43,.14);color:#F7C27A}.pill.live i{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+  .pill.built{border-color:rgba(159,179,207,.5);background:rgba(159,179,207,.1);color:#C5D1E2}.pill.built i{background:#9FB3CF;box-shadow:0 0 6px #9FB3CF}
+  .pill.designed{border-style:dashed;color:var(--ink2)}
+  .pill.planned{border-style:dashed;color:var(--ink3)}
+  .kit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 4px;margin-top:10px}
+  .kc{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+  .kc span{font-size:10.5px;line-height:1.2;color:var(--ink2)}
+  .kc.off span{color:var(--ink3)}
+  .csf{font-size:11px;color:var(--ink3);margin-top:2px}
+  .item{position:relative;width:28px;height:28px;border-radius:5px;border:1px solid var(--line2);background:rgba(4,10,22,.7);display:grid;place-items:center;color:var(--ink3)}
+  .item svg{width:19px;height:19px}
+  .item.on{color:var(--spot,#E0892B);border-color:color-mix(in srgb, var(--spot,#E0892B) 55%, transparent);box-shadow:0 0 10px color-mix(in srgb, var(--spot,#E0892B) 30%, transparent),inset 0 0 6px color-mix(in srgb, var(--spot,#E0892B) 18%, transparent)}
+  .item.on svg{filter:drop-shadow(0 0 3px var(--spot,#E0892B))}
+  .item.off{opacity:.55}
+  .item .lock{position:absolute;right:-4px;bottom:-4px;width:12px;height:12px;background:#0B1E3A;border-radius:3px;border:1px solid var(--line2);display:grid;place-items:center;color:var(--ink3)}
+  .item .lock svg{width:8px;height:8px;filter:none}
+  .item.on .lock{display:none}
+  .sheet .item{width:32px;height:32px}
+  .sheet .item svg{width:22px;height:22px}
+
+  footer{padding:22px 0 44px;color:var(--ink3);font-size:12.5px;border-top:1px solid var(--line2);margin-top:26px}
+
+  /* bottom sheet */
+  .backdrop{position:fixed;inset:0;background:rgba(2,6,14,.7);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
+  .backdrop.open{opacity:1;pointer-events:auto}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;background:linear-gradient(180deg,#0B1E3A,#081426 40%,#040A16);border-top:1px solid rgba(224,137,43,.35);border-radius:10px 10px 0 0;box-shadow:var(--shadow);transform:translateY(105%);visibility:hidden;transition:transform .25s ease,visibility 0s .25s;max-height:88vh;overflow:auto;padding:14px 16px calc(20px + env(safe-area-inset-bottom))}
+  .sheet.open{transform:translateY(0);visibility:visible;transition:transform .25s ease,visibility 0s}
+  @media (min-width:900px){.sheet{left:50%;right:auto;width:600px;transform:translate(-50%,105%)}.sheet.open{transform:translate(-50%,0)}}
+  .sheet .handle{width:40px;height:4px;border-radius:2px;background:var(--ink3);margin:0 auto 12px;opacity:.6}
+  .sheet .top{display:flex;gap:14px;align-items:flex-start}
+  .sheet .full{position:relative;width:124px;flex:none;border-radius:4px;background:radial-gradient(60% 40% at 50% 85%, rgba(var(--fog),.22), transparent 70%),#050B18;padding:6px;overflow:hidden;border:1px solid var(--line2)}
+  .sheet .full::before{content:"";position:absolute;left:var(--lx);top:var(--ly);width:70%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle, var(--spot) 0%, transparent 65%);opacity:.3;mix-blend-mode:screen;pointer-events:none}
+  .sheet .full img{position:relative;width:100%;height:auto}
+  .sheet.built .full img{filter:grayscale(.9) brightness(.85)}
+  .sheet.designed .full img{filter:grayscale(1) brightness(.55)}
+  .sheet.planned .full img{filter:brightness(0);opacity:.8}
+  .sheet.planned .full::before{opacity:.95}
+  .sheet.planned .full::after{content:"";position:absolute;left:var(--lx);top:var(--ly);width:6px;height:6px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;box-shadow:0 0 10px 3px var(--spot),0 0 22px 8px color-mix(in srgb, var(--spot) 60%, transparent)}
+  .sheet h3{font-size:34px;letter-spacing:.6px}
+  .sheet .role{color:var(--ink2);font-size:13.5px}
+  .sheet .what{margin-top:8px;font-size:14px;color:var(--ink)}
+  .sheet .note{margin-top:6px;font-size:12.5px;color:var(--ink3)}
+  .sheet .close{position:absolute;right:10px;top:10px;width:40px;height:40px;border-radius:6px;border:1px solid var(--line2);background:rgba(4,10,22,.6);display:grid;place-items:center;color:var(--ink2)}
+  .sheet .close svg{width:16px;height:16px}
+  .sheet ul{list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:9px}
+  .sheet li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px}
+  .sheet li .item{flex:none}
+  .sheet li b{display:block;font-weight:700}
+  .sheet li span{color:var(--ink2);font-size:13px}
+  .sheet li em{display:block;font-style:normal;color:var(--ink3);font-size:12px;margin-top:1px}
+  .sheet li.off b{color:var(--ink3)}
+  .sheet li small{color:var(--ink3);font-size:11.5px;margin-left:6px;font-weight:500}
+  @media (prefers-reduced-motion: reduce){.sheet,.backdrop,.card{transition:none}}
+</style>
+</head>
+<body>
+
+<!-- shared glyphs: each kit item is drawn as the object the bible puts on the body, 24px grid, 2px ink line -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="g-lock"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g>
+    <!-- squall: signal lamp, sighting lens, sounding reel, notebook, signal flags, brass tag -->
+    <g id="g-tls"><path d="M9 7V5a3 3 0 0 1 6 0v2"/><rect x="6" y="7" width="12" height="12" rx="1.5"/><path d="M9 11h6M9 14h6M9 17h6M5 22h14"/></g>
+    <g id="g-secret"><circle cx="10" cy="10" r="6"/><circle cx="10" cy="10" r="2.2"/><path d="M14.5 14.5L21 21"/></g>
+    <g id="g-deps"><circle cx="9" cy="9" r="6"/><circle cx="9" cy="9" r="2"/><path d="M14.5 12c3 1 5 3.5 5 7v3M9 15v6"/></g>
+    <g id="g-code"><rect x="7" y="3" width="12" height="18" rx="1.5"/><path d="M5 7h3M5 11h3M5 15h3M5 19h3M11 9h5M11 13h5"/></g>
+    <g id="g-mail"><path d="M5 22V3M5 4h8l-2 3 2 3H5"/><path d="M13 22V12M13 13h8l-2 3 2 3h-8"/></g>
+    <g id="g-dns"><path d="M12 2v5"/><path d="M8 7h8l2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="10.5" r="1.2"/><path d="M9 16h6"/></g>
+    <!-- glass: barometer dial, weather log, chart case with asset tags (absent) -->
+    <g id="g-kev"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-5M12 3v2M21 12h-2M12 21v-2M3 12h2"/><circle cx="12" cy="12" r="1.2"/></g>
+    <g id="g-cve"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8 8c1.3-1 2.7-1 4 0s2.7 1 4 0M8 12c1.3-1 2.7-1 4 0s2.7 1 4 0M8 16h5"/></g>
+    <g id="g-match"><rect x="3" y="8" width="18" height="7" rx="3.5"/><path d="M7 8v7M17 8v7M12 15v3M9 21h6l-1-3h-4z"/></g>
+    <!-- haze: masking cloak, padlock, rigging shears -->
+    <g id="g-cloak"><path d="M12 3c-3 0-5 2-5 5l-3 13h16l-3-13c0-3-2-5-5-5z"/><path d="M9 8c0-2 1.5-3 3-3s3 1 3 3M12 10v11"/></g>
+    <g id="g-gate"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1.2"/></g>
+    <g id="g-shred"><path d="M12 12L5 3M12 12l7-9M12 12l-2.5 3M12 12l2.5 3"/><circle cx="8" cy="18" r="3"/><circle cx="16" cy="18" r="3"/></g>
+    <!-- bridge: holographic chart, bound logbook, sealed envelope (absent) -->
+    <g id="g-route"><path d="M4 7l5-2 6 2 5-2v12l-5 2-6-2-5 2z"/><path d="M9 5v12M15 7v12M7 11h4M13 13h4"/></g>
+    <g id="g-log"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M8 4v16M11 9h5M11 13h5"/></g>
+    <g id="g-brief"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 8l9 6 9-6"/><circle cx="12" cy="14" r="2.2"/></g>
+    <!-- anchor: keyring, lantern, map case (all absent) -->
+    <g id="g-census"><circle cx="9" cy="15" r="5"/><path d="M12.5 11.5L21 3M18 6l2 2M15 9l2 2"/></g>
+    <g id="g-dormant"><path d="M9 3h6M12 3v2"/><rect x="7" y="5" width="10" height="12" rx="2"/><path d="M12 8v6M6 21h12M9 17v4M15 17v4"/></g>
+    <g id="g-reset"><rect x="8" y="3" width="8" height="18" rx="4"/><path d="M8 8h8M8 16h8M4 12h4M16 12h4"/></g>
+    <!-- fathom: breach ledger, broker list, document satchel (all absent) -->
+    <g id="g-breach"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h3M14 13l-2 3h3l-2 3"/></g>
+    <g id="g-broker"><path d="M5 21h11a3 3 0 0 0 3-3V3H8a3 3 0 0 0-3 3v15z"/><path d="M5 21a3 3 0 0 1 0-6h11M11 8h5M11 12h5"/></g>
+    <g id="g-docleak"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 13h18M9 8V5h6v3M12 13v3"/></g>
+    <!-- lookout: device tags, alarm lamp, watch bell (all absent) -->
+    <g id="g-device"><path d="M3 4h7l7 7-7 7-7-7z"/><circle cx="7" cy="8" r="1.2"/><path d="M14 13l4 4-4 4"/></g>
+    <g id="g-firewall"><circle cx="12" cy="12" r="4"/><path d="M8 21h8M12 16v5M12 2v3M20 12h-3M4 12h3M18 6l-2 2M6 6l2 2"/></g>
+    <g id="g-login"><path d="M6 17V11a6 6 0 0 1 12 0v6l2 2H4z"/><path d="M10 21h4"/></g>
+    <!-- harbour: first-hour playbook, backup chest, drill whistle (all absent) -->
+    <g id="g-playbook"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M12 8v6M9 11h6"/></g>
+    <g id="g-backup"><rect x="3" y="10" width="18" height="10" rx="2"/><path d="M5 10V8a7 3 0 0 1 14 0v2"/><rect x="10.5" y="12.5" width="3" height="3"/></g>
+    <g id="g-drill"><path d="M3 11a4 4 0 0 1 4-4h8v8H7a4 4 0 0 1-4-4z"/><path d="M15 9h6v4h-6"/><circle cx="7" cy="11" r="1.2"/></g>
+    <!-- map pieces -->
+    <g id="storm"><circle r="26" fill="#FF3B3B" opacity=".3" filter="url(#soft)"/><circle r="9" fill="#FF6A5A" filter="url(#tiny)"/><circle r="3" fill="#FFE2D6"/></g>
+    <radialGradient id="glow"><stop offset="0" stop-color="#F2B347" stop-opacity=".95"/><stop offset="1" stop-color="#F2B347" stop-opacity="0"/></radialGradient>
+    <filter id="soft" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="tiny" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3v8M8 11h8"/></svg>
+      Typhoon Fleet <small>map V4</small>
+    </div>
+    <div class="status-line">Illustrative. Hero and item status is real; the sea is a story.</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="stage">
+    <div class="frame-wrap">
+      <div class="frame" id="frame">
+        <svg class="map" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Illustrative sea map at night: fog and open black sea at the top with red lights far out, three channels running down to a lit harbour of piers, lighthouses along the channels, eight crew members at their posts.">
+          <image href="art/plate.png" x="0" y="0" width="1024" height="1536"/>
+
+          <!-- three channels in from the open sea to the three basins -->
+          <g>
+            <path class="lane glow" d="M235,380 C255,520 290,660 340,780 S410,890 437,935"/>
+            <path class="lane glow" d="M560,330 C545,470 560,640 585,760 S615,900 620,935"/>
+            <path class="lane glow" d="M830,360 C800,480 760,620 758,760 S790,900 800,935"/>
+            <path class="lane" d="M235,380 C255,520 290,660 340,780 S410,890 437,935"/>
+            <path class="lane" d="M560,330 C545,470 560,640 585,760 S615,900 620,935"/>
+            <path class="lane" d="M830,360 C800,480 760,620 758,760 S790,900 800,935"/>
+          </g>
+
+          <!-- trade current: suppliers and third parties, sweeping in from the left -->
+          <g fill="none" stroke="#59D3D1" stroke-width="3" stroke-linecap="round" opacity=".45">
+            <path d="M20,640 C120,624 190,660 290,650 S460,624 550,644 S710,670 800,654"/>
+            <path d="M20,670 C120,654 190,690 290,680 S460,654 550,674 S710,700 800,684"/>
+            <path d="M20,700 C120,684 190,720 290,710 S460,684 550,704 S710,730 800,714"/>
+            <path d="M120,640 l12,10 l-12,10 M120,670 l12,10 l-12,10"/>
+          </g>
+          <text class="lbl soft" x="255" y="624">trade current</text>
+
+          <!-- shoals and reefs: footprint and data brokers, over the plate's glowing shallows -->
+          <text class="lbl soft" x="1000" y="640" text-anchor="end">shoals and reefs</text>
+
+          <!-- labels -->
+          <text class="lbl soft" x="512" y="250" text-anchor="middle">open sea</text>
+          <text class="lbl" x="40" y="440">email and identity</text>
+          <text class="lbl" x="500" y="440" text-anchor="middle">sites, apps and code</text>
+          <text class="lbl" x="1004" y="488" text-anchor="end">devices and home network</text>
+          <text class="lbl soft" x="620" y="1470" text-anchor="middle">your harbour</text>
+
+          <!-- lighthouses: illustrative states (inlined by script) -->
+          <g id="lights"></g>
+
+          <!-- threat marks: red lights drifting in out of the fog; the threat is never drawn -->
+          <g class="flash f2"><circle r="34"/></g>
+          <g class="flash f3"><circle r="34"/></g>
+          <g class="mark m1"><use href="#storm"/></g>
+          <g class="mark m2"><use href="#storm"/></g>
+          <g class="mark m3"><use href="#storm"/></g>
+          <g class="mark m4"><use href="#storm"/></g>
+
+          <!-- crew at their posts (full-body cutouts, 190 units tall) -->
+          <g id="crew"></g>
+        </svg>
+        <div class="fog fog-top" aria-hidden="true"></div>
+        <div class="fog fog-right" aria-hidden="true"></div>
+        <div class="fog fog-quay" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="intro">
+        <h1>Your security, as a harbour at night</h1>
+        <p class="lead">The harbour is what you protect. Attacks arrive from the open sea along three routes: email and accounts, sites and code, devices and home network. Lighthouses are security controls. Fog marks what has not been checked. Each crew member is an agent with one job; the ones shown only as a light are not built yet.</p>
+        <p class="lead">The lighthouse states on this map are a story, not a reading of any estate. Nothing here was measured.</p>
+      </div>
+      <div class="legend" aria-label="Legend">
+        <div><svg viewBox="-30 -80 60 86"><g class="lh lit"></g></svg><span><b>Lit</b>, control standing</span></div>
+        <div><svg viewBox="-30 -80 60 86"><g class="lh dim"></g></svg><span><b>Dim</b>, control weak</span></div>
+        <div><svg viewBox="-30 -80 60 86"><g class="lh dark"></g></svg><span><b>Dark</b>, control missing</span></div>
+        <div><span class="swatch" style="background:linear-gradient(90deg,rgba(70,170,175,.15),rgba(70,170,175,.6))"></span><span><b>Fog</b>, nobody has looked</span></div>
+        <div><svg viewBox="-20 -20 40 40"><use href="#storm"/></svg><span><b>Red light</b>, a threat drifting in</span></div>
+        <div><span class="swatch" style="background:radial-gradient(circle at 50% 55%,#E0892B 0,#E0892B 2px,rgba(224,137,43,.35) 5px,#0B1E3A 9px)"></span><span><b>A light alone</b>, crew not sailing yet</span></div>
+      </div>
+
+      <section class="crew">
+        <h2>Crew</h2>
+        <p class="sub">Each card is one agent and the checks it runs. Lit checks work today. Grey checks are not built yet. Tap a card for detail.</p>
+        <div class="grid" id="grid"></div>
+      </section>
+    </div>
+  </section>
+
+  <footer>Typhoon Fleet. Illustrative map, original artwork, not affiliated with any game.</footer>
+</main>
+
+<div class="backdrop" id="backdrop"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title"></div>
+
+<script>
+/* kit order per hero follows the bible's "visible gear, kit map" order; w = where it sits on the body.
+   spot = the hero's light; tl = where that light sits in the action tile (fractions); cl = in the cutout. */
+const HEROES=[
+ {id:'squall',name:'Squall',role:'Assurance, sites and code',st:'live',what:'Reads your sites and code for weak spots. Proves the domain is yours.',
+  spot:'#E0892B',tl:[.58,.33],cl:[.44,.33],pos:[600,700],kit:[
+   {g:'tls',n:'Header and TLS read',s:'Reads a site\'s security headers and certificate.',on:true,w:'the signal lamp at the chest, throwing the beam'},
+   {g:'secret',n:'Secret scan',s:'Looks for keys and passwords left in code.',on:true,w:'the sighting lens on the lamp'},
+   {g:'deps',n:'Dependency audit',s:'Checks the packages a project depends on for known flaws.',on:true,w:'the sounding reel and coiled cable on the belt'},
+   {g:'code',n:'Code vulnerability audit',s:'Reads the code itself for common weaknesses.',on:true,w:'the notebook in the chest pocket'},
+   {g:'mail',n:'Email records check',s:'Checks SPF and DMARC for a domain via start.typhoonfleet.com.',on:true,w:'the two signal flags behind the shoulder'},
+   {g:'dns',n:'DNS ownership proof',s:'Proves you control a domain with a DNS record.',on:true,w:'the brass tag on a cord'}]},
+ {id:'glass',name:'Glass',role:'Threat intelligence',st:'live',what:'Watches the exploited lists so you do not have to.',
+  spot:'#6FA2F0',tl:[.47,.42],cl:[.46,.33],pos:[720,905],alt:true,kit:[
+   {g:'kev',n:'KEV watch',s:'Watches the list of vulnerabilities known to be exploited.',on:true,w:'the glowing barometer dial'},
+   {g:'cve',n:'CVE digest',s:'A daily digest of new CVEs that matter.',on:true,w:'the weather log under the arm'},
+   {g:'match',n:'Matched to your assets',s:'Only the CVEs that touch what you actually run.',on:false,note:'not yet',w:'no chart case, no asset tags'}]},
+ {id:'haze',name:'Haze',role:'Data masking',st:'built',stl:'built, work use only',what:'Masks and shreds what should not leave the room.',
+  spot:'#9FB3CF',tl:[.57,.36],cl:[.54,.38],pos:[170,730],note:'Built for work use. Not sailing with the fleet yet.',kit:[
+   {g:'cloak',n:'Masking cloak',s:'Replaces names and numbers with stand-ins before text goes out.',on:false,note:'work use only',w:'the grey hooded cloak, worn open'},
+   {g:'gate',n:'Leak gate',s:'Blocks a message that still carries something sensitive.',on:false,note:'work use only',w:'the padlock on the satchel strap'},
+   {g:'shred',n:'Crypto-shred',s:'Destroys the key so the data cannot come back.',on:false,note:'work use only',w:'the rigging shears in the belt'}]},
+ {id:'bridge',name:'Bridge',role:'Routing and briefing',st:'live',stl:'live, v0',what:'Sends each finding to whoever owns it, and writes down why.',
+  spot:'#F5B26B',tl:[.76,.22],cl:[.76,.21],pos:[620,1300],alt:true,kit:[
+   {g:'route',n:'Routing',s:'Sends each finding to the crew member who owns it.',on:true,w:'the holographic chart over the free hand'},
+   {g:'log',n:'Decision log',s:'Keeps a record of what was decided and why.',on:true,w:'the logbook on the hip strap'},
+   {g:'brief',n:'Monthly brief',s:'One page a month on where things stand.',on:false,note:'not yet',w:'no sealed envelope'}]},
+ {id:'anchor',name:'Anchor',role:'Identity',st:'designed',what:'Counts your accounts, finds the ones you forgot, maps who can reset whom.',
+  spot:'#E0B43B',tl:[.47,.44],cl:[.42,.42],pos:[400,790],note:'Designed. The engine exists in Eidos and is not docked to the fleet yet. Only the chain is on the body.',kit:[
+   {g:'census',n:'Account census',s:'A list of every account you hold.',on:false,w:'no keyring'},
+   {g:'dormant',n:'Dormant finder',s:'Finds accounts you have not touched in a long time.',on:false,w:'no lantern'},
+   {g:'reset',n:'Reset-path map',s:'Shows which account can reset which.',on:false,w:'no map case'}]},
+ {id:'fathom',name:'Fathom',role:'Footprint',st:'planned',what:'Looks for your data where it has no business being.',
+  spot:'#7DD3B0',tl:[.58,.60],cl:[.33,.79],pos:[930,780],note:'Planned. Only the lead line and the probe are on the body.',kit:[
+   {g:'breach',n:'Breach lookup',s:'Checks whether your address shows up in known breaches.',on:false,w:'no breach ledger'},
+   {g:'broker',n:'Broker sweep',s:'Finds data brokers holding your details.',on:false,w:'no broker list'},
+   {g:'docleak',n:'Document leak sweep',s:'Looks for your documents in places they should not be.',on:false,w:'no document satchel'}]},
+ {id:'lookout',name:'Lookout',role:'Device monitoring',st:'planned',what:'Keeps an eye on your devices and the home network.',
+  spot:'#C9A7F0',tl:[.56,.09],cl:[.65,.58],pos:[840,350],note:'Planned. Only the binoculars are on the body.',kit:[
+   {g:'device',n:'Device watch',s:'Knows which devices are on your network.',on:false,w:'no device tags'},
+   {g:'firewall',n:'Firewall check',s:'Confirms the home firewall is doing its job.',on:false,w:'no alarm lamp'},
+   {g:'login',n:'Login alerts',s:'Tells you when someone signs in somewhere new.',on:false,w:'no watch bell'}]},
+ {id:'harbour',name:'Harbour',role:'Respond and recover',st:'planned',what:'Gets you back on your feet after a bad night.',
+  spot:'#F0A3B4',tl:[.82,.60],cl:[.27,.62],pos:[235,1210],note:'Planned. Only the lantern is on the body.',kit:[
+   {g:'playbook',n:'First-hour playbook',s:'What to do in the first hour after something goes wrong.',on:false,w:'no playbook'},
+   {g:'backup',n:'Backup check',s:'Confirms the backups exist and restore.',on:false,w:'no backup chest'},
+   {g:'drill',n:'Recovery drill',s:'Practises getting back up before it is needed.',on:false,w:'no drill whistle'}]}
+];
+const STATUS={live:'live',built:'built, work use only',designed:'designed',planned:'planned'};
+const ART='art/';
+const LOCK='<span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#g-lock"/></svg></span>';
+const CLOSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+function glyph(k){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-'+k.g+'"/></svg>';}
+function item(k){return '<span class="item '+(k.on?'on':'off')+'" title="'+k.n+'">'+glyph(k)+LOCK+'</span>';}
+function vars(h){return '--spot:'+h.spot+';--lx:'+(h.tl[0]*100)+'%;--ly:'+(h.tl[1]*100)+'%';}
+function cvars(h){return '--spot:'+h.spot+';--lx:'+(h.cl[0]*100)+'%;--ly:'+(h.cl[1]*100)+'%';}
+
+/* lighthouses (inline markup so state classes style the parts) */
+const LH=`<circle class="glow" cx="0" cy="-58" r="46" fill="url(#glow)"/>
+      <polygon class="beam" points="-6,-58 -60,-80 -60,-38" fill="#F2B347"/>
+      <polygon class="beam" points="6,-58 60,-80 60,-38" fill="#F2B347"/>
+      <ellipse class="rock" cx="0" cy="1" rx="19" ry="6"/>
+      <polygon class="tower" points="-10,0 10,0 6,-48 -6,-48"/>
+      <path class="band" d="M-7.5,-16 h15 M-6.5,-32 h13" fill="none"/>
+      <rect class="tower" x="-10" y="-53" width="20" height="5"/>
+      <rect class="lantern" x="-6" y="-63" width="12" height="10"/>
+      <polygon class="tower" points="-9,-63 9,-63 0,-72"/>`;
+/* left channel: dim then dark; centre: lit, lit; right: dark then dim. A story, not a reading. */
+const LIGHTS=[[262,560,'dim'],[380,870,'dark'],[540,540,'lit'],[610,840,'lit'],[822,520,'dark'],[760,870,'dim']];
+document.getElementById('lights').innerHTML=LIGHTS.map(([x,y,st])=>'<g class="lh '+st+'" transform="translate('+x+','+y+')">'+LH+'</g>').join('');
+document.querySelectorAll('.legend .lh').forEach(g=>{g.innerHTML=LH;});
+
+/* map miniatures: cutouts are 341x512, so 190 units tall is about 66px on a 390px phone */
+const HH=190,HW=Math.round(HH*341/512);
+const crew=document.getElementById('crew');
+crew.innerHTML=HEROES.map(h=>{
+  const [x,y]=h.pos, lx=-HW/2+h.cl[0]*HW, ly=-HH+h.cl[1]*HH;
+  return '<g class="hero '+h.st+(h.alt?' alt':'')+'" data-id="'+h.id+'" tabindex="0" role="button" aria-label="'+h.name+', '+STATUS[h.st]+'" transform="translate('+x+','+y+')">'+
+   '<ellipse class="halo" cx="0" cy="'+(-HH*0.5)+'" rx="'+(HW*0.7)+'" ry="'+(HH*0.5)+'" fill="'+h.spot+'"/>'+
+   '<ellipse class="ring" cx="0" cy="-4" rx="50" ry="13"/>'+
+   '<image href="'+ART+h.id+'-full-512.png" x="'+(-HW/2)+'" y="'+(-HH)+'" width="'+HW+'" height="'+HH+'"/>'+
+   '<g class="spot"><circle cx="'+lx+'" cy="'+ly+'" r="16" fill="'+h.spot+'"/><circle cx="'+lx+'" cy="'+ly+'" r="5" fill="#fff"/></g>'+
+   '<text class="hname" x="0" y="30">'+h.name+'</text>'+
+   (h.st==='built'?'<text class="hnote" x="0" y="54">built, work use only</text>':'')+
+  '</g>';}).join('');
+
+/* hero cards: action tile, name bar, kit */
+const CSF={squall:'NIST CSF: Identify, Protect',glass:'NIST CSF: Identify',haze:'NIST CSF: Protect',bridge:'NIST CSF: Govern',anchor:'NIST CSF: Protect',fathom:'NIST CSF: Identify',lookout:'NIST CSF: Detect',harbour:'NIST CSF: Respond, Recover'};
+const SHORT={'Header and TLS read':'Headers and TLS','Secret scan':'Secret scan','Dependency audit':'Dependencies','Code vulnerability audit':'Code audit','Email records check':'Email records','DNS ownership proof':'Domain proof','Matched to your assets':'Asset match','Document leak sweep':'Doc leaks','First-hour playbook':'First hour','Masking cloak':'Masking','KEV watch':'Exploited list','Reset-path map':'Reset paths','Dormant finder':'Dormant accounts'};
+const grid=document.getElementById('grid');
+grid.innerHTML=HEROES.map(h=>
+ '<button class="card '+h.st+'" data-id="'+h.id+'" aria-haspopup="dialog" style="'+vars(h)+'">'+
+  '<div class="tile"><img src="'+ART+h.id+'-tile.jpg" alt="" loading="lazy"><div class="fogx"></div><div class="light"></div><div class="point"></div></div>'+
+  '<div class="scuff"></div>'+
+  '<div class="bar"><h3>'+h.name+'</h3><div class="role">'+h.role+'</div>'+
+  '<span class="pill '+h.st+'"><i></i>'+(h.stl||STATUS[h.st])+'</span>'+
+  '<div class="csf">'+(CSF[h.id]||'')+'</div>'+'<div class="kit">'+h.kit.map(k=>'<div class="kc '+(k.on?'on':'off')+'">'+item(k)+'<span>'+(SHORT[k.n]||k.n)+'</span></div>').join('')+'</div></div>'+
+ '</button>').join('');
+
+/* bottom sheet */
+const sheet=document.getElementById('sheet'),backdrop=document.getElementById('backdrop');
+let lastFocus=null;
+function openSheet(id){
+  const h=HEROES.find(x=>x.id===id); if(!h) return;
+  lastFocus=document.activeElement;
+  sheet.className='sheet '+h.st;
+  sheet.style.cssText=vars(h);
+  sheet.innerHTML='<div class="handle"></div><button class="close" aria-label="Close">'+CLOSE+'</button>'+
+   '<div class="top"><div class="full" style="'+cvars(h)+'"><img src="'+ART+h.id+'-full-512.png" alt=""></div>'+
+   '<div><h3 id="sheet-title">'+h.name+'</h3><div class="role">'+h.role+'</div>'+
+   '<span class="pill '+h.st+'" style="margin-top:6px"><i></i>'+(h.stl||STATUS[h.st])+'</span>'+
+   '<p class="what">'+h.what+'</p>'+(h.note?'<p class="note">'+h.note+'</p>':'')+'</div></div>'+
+   '<ul>'+h.kit.map(k=>'<li class="'+(k.on?'on':'off')+'">'+item(k)+'<div><b>'+k.n+(k.note?'<small>'+k.note+'</small>':'')+'</b><span>'+k.s+'</span>'+(k.w?'<em>On the body: '+k.w+'</em>':'')+'</div></li>').join('')+'</ul>';
+  requestAnimationFrame(()=>{sheet.classList.add('open');backdrop.classList.add('open');});
+  sheet.querySelector('.close').focus();
+  sheet.querySelector('.close').addEventListener('click',closeSheet);
+}
+function closeSheet(){sheet.classList.remove('open');backdrop.classList.remove('open');if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+backdrop.addEventListener('click',closeSheet);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();});
+grid.addEventListener('click',e=>{const c=e.target.closest('.card');if(c)openSheet(c.dataset.id);});
+crew.addEventListener('click',e=>{const g=e.target.closest('.hero');if(g)openSheet(g.dataset.id);});
+crew.addEventListener('keydown',e=>{const g=e.target.closest('.hero');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openSheet(g.dataset.id);}});
+</script>
+</body>
+</html>

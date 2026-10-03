@@ -1,161 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Squall | Security checks without a security team</title>
 <meta name="description" content="Squall runs proven open-source security tools against your app, your code and the services it relies on. A person reviews what they find. You see the proof, the fixes, and what was out of reach.">
-<meta name="theme-color" content="#050D1C">
+<meta name="theme-color" content="#040A16">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --night:#050D1C;--navy:#0A2342;--gold:#E0892B;--gold-l:#F5B26B;
-    --txt:#E8EDF5;--dim:#9AA8BE;--faint:#6A7890;--gline:rgba(255,255,255,.10);
-    --yes:#2FB57A;--part:#E0A04A;--plan:#4F86D9;--off:rgba(255,255,255,.06);
+    --bg:#040A16;--bg2:#0B1E3A;--bg3:#102A4A;--panel:rgba(11,30,58,.55);--panel2:#060E1C;
+    --ink:#E6ECF4;--ink2:#A9B7CB;--ink3:#6E7F9A;--line:rgba(224,137,43,.18);--line2:rgba(160,190,220,.14);
+    --amber:#E0892B;--lit:#F2B347;--cyan:#59D3D1;--slate:#4A5C78;--fog:70,170,175;
   }
+  :root[data-theme="dark"]{--bg:#040A16;--bg2:#0B1E3A}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#040A16;--bg2:#0B1E3A}}
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-  body{background:var(--night);color:var(--txt);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{background:var(--bg);background-image:linear-gradient(180deg,#040A16 0%,#071529 45%,#0B1E3A 100%);color:var(--ink);font-family:Manrope,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:1160px;margin:0 auto;padding:0 32px}
+  img,svg{display:block;max-width:100%}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 16px}
+  @media (min-width:720px){.wrap{padding:0 32px}}
+  h1,h2,h3,h4,.display{font-family:"Big Shoulders Display",Manrope,sans-serif;font-weight:800;letter-spacing:.2px;line-height:1}
 
-  nav{position:sticky;top:0;z-index:60;background:rgba(5,13,28,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--gline)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:18px}
-  .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:21px}
-  .brand svg{width:26px;height:26px}
-  .links{display:flex;align-items:center;gap:26px;font-size:14px;color:var(--dim)}
+  header.top{position:sticky;top:0;z-index:60;background:rgba(4,10,22,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px}
+  .brand{font-family:"Big Shoulders Display",sans-serif;font-weight:800;font-size:25px;display:flex;align-items:center;gap:9px;letter-spacing:.4px}
+  .brand svg{width:24px;height:24px;color:var(--amber);filter:drop-shadow(0 0 6px rgba(224,137,43,.6))}
+  .brand small{font-family:Manrope,sans-serif;font-weight:600;color:var(--ink3);font-size:12.5px;letter-spacing:0}
+  .links{display:flex;align-items:center;gap:22px;font-size:14px;color:var(--ink2)}
   .links a:hover{color:#fff}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:600;font-size:14.5px;white-space:nowrap;transition:box-shadow .2s,background .2s}
-  .btn.gold{background:linear-gradient(180deg,#F09A3E,#D2761C);color:#1B0F02;box-shadow:0 8px 30px -8px rgba(224,137,43,.65)}
-  .btn.gold:hover{box-shadow:0 12px 40px -8px rgba(224,137,43,.85)}
-  .btn.line{border:1px solid rgba(255,255,255,.22);color:#fff}
-  .btn.line:hover{background:rgba(255,255,255,.08)}
-  .btn.sm{padding:9px 16px;font-size:13.5px}
+  @media (max-width:719px){.links .hide-sm{display:none}.links{gap:14px}.brand small{display:none}}
 
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:6px;font-weight:700;font-size:15px;white-space:nowrap;transition:box-shadow .2s,background .2s}
+  .btn.gold{background:linear-gradient(180deg,#F2B347,#E0892B);color:#1B0F02;box-shadow:0 8px 26px -10px rgba(224,137,43,.75)}
+  .btn.gold:hover{box-shadow:0 12px 34px -8px rgba(224,137,43,.9)}
+  .btn.line{border:1px solid var(--line2);color:var(--ink);background:rgba(4,10,22,.4)}
+  .btn.line:hover{background:rgba(160,190,220,.08)}
+  .btn.sm{padding:8px 14px;font-size:13.5px}
+
+  /* hero splash tile, card treatment from the V4 map */
+  .tile{position:relative;display:block;width:100%;max-width:440px;margin:0 auto;aspect-ratio:3/3.4;background:var(--panel2);border-radius:4px;overflow:hidden;transform:rotate(-.8deg);
+    clip-path:polygon(0 1.2%,2% 0,11% .6%,18% 0,31% .9%,42% 0,56% .7%,67% 0,80% .8%,91% 0,100% .9%,99.3% 10%,100% 22%,99.2% 35%,100% 49%,99.4% 61%,100% 73%,99.1% 86%,100% 97%,97% 100%,88% 99.3%,76% 100%,63% 99.2%,52% 100%,40% 99.3%,27% 100%,16% 99.1%,6% 100%,0 98.8%,.8% 88%,0 75%,.7% 62%,0 50%,.9% 38%,0 25%,.6% 12%);
+    box-shadow:0 14px 30px rgba(0,0,0,.55)}
+  @media (min-width:980px){.tile{aspect-ratio:3/4}}
+  .tile img{width:100%;height:100%;object-fit:cover;object-position:50% 22%}
+  .tile .scuff{position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+    background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 1px,transparent 1px 7px),radial-gradient(40% 18% at 8% 4%,rgba(255,255,255,.22),transparent 70%),radial-gradient(30% 12% at 94% 96%,rgba(255,255,255,.18),transparent 70%)}
+  .tile .bar{position:absolute;left:0;right:0;bottom:0;padding:40px 14px 14px;background:linear-gradient(180deg,rgba(4,10,22,0) 0%,rgba(4,10,22,.86) 40%,rgba(4,10,22,.96) 100%)}
+  .tile .bar b{display:block;font-family:"Big Shoulders Display",sans-serif;font-weight:800;font-size:38px;line-height:1;letter-spacing:.6px;color:#F4F7FB;text-shadow:0 0 14px rgba(224,137,43,.45)}
+  .tile .bar span{display:block;font-size:13px;color:var(--ink2);margin-top:2px}
+  .tile .bar .pill,.pill{display:inline-flex;width:max-content;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;margin-top:8px;border:1px solid rgba(224,137,43,.6);background:rgba(224,137,43,.14);color:#F7C27A}
+  .pill i{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);display:inline-block}
+
+  /* the kit: six glyphs, name under each */
+  .kit{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  @media (min-width:640px){.kit{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media (min-width:1040px){.kit{grid-template-columns:repeat(6,minmax(0,1fr))}}
+  .kc{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:16px 10px 14px;background:var(--panel);border:1px solid var(--line2);border-radius:6px}
+  .kc .item{width:52px;height:52px;border-radius:8px;display:grid;place-items:center;color:var(--amber);background:rgba(4,10,22,.7);border:1px solid rgba(224,137,43,.55);box-shadow:0 0 14px rgba(224,137,43,.28),inset 0 0 8px rgba(224,137,43,.16)}
+  .kc .item svg{width:30px;height:30px;filter:drop-shadow(0 0 3px #E0892B)}
+  .kc b{font-size:14.5px;font-weight:700;line-height:1.25;color:var(--ink)}
+  .kc span{font-size:12.5px;line-height:1.4;color:var(--ink2)}
+  .kitnote{font-size:13px;color:var(--ink3);margin-top:14px}
   /* hero */
-  .hero{position:relative;padding:92px 0 96px;overflow:hidden;isolation:isolate}
-  .hero::before{content:"";position:absolute;inset:-10% -10% 0 -10%;z-index:-1;
-    background:radial-gradient(55% 60% at 80% 35%,rgba(224,137,43,.16),transparent 62%),radial-gradient(50% 60% at 10% 0%,rgba(46,110,200,.26),transparent 62%)}
-  .hero .wrap{display:grid;grid-template-columns:1fr 1.05fr;gap:60px;align-items:center}
-  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(42px,5.4vw,72px);line-height:1;letter-spacing:-1.8px;margin-bottom:24px}
-  h1 em{font-style:italic;color:var(--gold-l)}
-  .lede{font-size:18.5px;color:var(--dim);max-width:520px;margin-bottom:32px}
-  .lede b{color:var(--txt);font-weight:500}
-  .ctas{display:flex;flex-wrap:wrap;gap:12px}
+  .hero{position:relative;padding:22px 0 54px;overflow:hidden;isolation:isolate}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 40% at 70% 20%,rgba(224,137,43,.14),transparent 65%),radial-gradient(60% 40% at 10% 0%,rgba(var(--fog),.16),transparent 65%)}
+  .hero .wrap{display:grid;gap:26px}
+  @media (min-width:980px){.hero{padding:64px 0 80px}.hero .wrap{grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}.hero .art{order:2}}
+  h1{font-size:clamp(46px,12.5vw,84px);text-shadow:0 0 24px rgba(224,137,43,.18);margin-bottom:16px}
+  h1 em{font-style:normal;color:var(--lit)}
+  .lede{font-size:17px;color:var(--ink2);max-width:540px;margin-bottom:26px}
+  .lede b{color:var(--ink);font-weight:600}
+  .ctas{display:flex;flex-wrap:wrap;gap:10px}
+  @media (max-width:640px){.ctas .btn{flex:1 1 auto}}
+
+  .facts{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 28px;padding:18px 16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(4,10,22,.5);font-size:14px;color:var(--ink2)}
+  .facts b{color:var(--ink);font-weight:600}
+  .facts a b{border-bottom:1px solid rgba(242,179,71,.4)}
+
+  section{padding:64px 0;border-top:1px solid var(--line2)}
+  @media (min-width:900px){section{padding:90px 0}}
+  h2.big{font-size:clamp(38px,9vw,60px);margin-bottom:12px;max-width:760px}
+  .slede{font-size:16.5px;color:var(--ink2);max-width:640px;margin-bottom:30px}
 
   /* the map */
-  .map{border:1px solid var(--gline);border-radius:22px;background:linear-gradient(180deg,rgba(20,38,68,.6),rgba(9,21,42,.6));padding:22px 22px 18px;box-shadow:0 40px 80px -40px rgba(0,0,0,.8)}
-  .map h2{font-size:15px;font-weight:600;margin-bottom:2px}
-  .map .sub{font-size:13px;color:var(--faint);margin-bottom:16px}
-  .grid{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(4,minmax(0,1fr));gap:6px;align-items:center}
-  .grid .ch{font-size:12px;color:var(--dim);text-align:center;padding-bottom:4px;line-height:1.3}
-  .grid .ch small{display:block;color:var(--faint);font-size:11px}
-  .grid .rh{font-size:13.5px;color:var(--txt);padding-right:6px;line-height:1.3}
-  .cell{height:34px;border-radius:8px;background:var(--off);position:relative}
-  .cell.y{background:var(--yes);box-shadow:0 0 18px -4px rgba(47,181,122,.7)}
-  .cell.p{background:repeating-linear-gradient(135deg,var(--part) 0 6px,rgba(224,160,74,.55) 6px 12px)}
-  .cell.r{background:transparent;border:1.5px dashed var(--plan)}
-  .cell.x::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;background:rgba(255,255,255,.18);transform:translate(-50%,-50%) rotate(45deg)}
-  .key{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;font-size:12.5px;color:var(--dim)}
+  .map{border:1px solid rgba(224,137,43,.28);border-radius:6px;background:linear-gradient(180deg,rgba(11,30,58,.7),rgba(6,14,28,.8));padding:16px 12px 14px;box-shadow:0 0 0 1px rgba(0,0,0,.6),0 24px 60px rgba(0,0,0,.5)}
+  @media (min-width:640px){.map{padding:22px 22px 18px}}
+  .map h3{font-size:26px;margin-bottom:4px}
+  .map .sub{font-size:13px;color:var(--ink3);margin-bottom:14px}
+  .grid{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(4,minmax(0,1fr));gap:4px;align-items:center}
+  @media (min-width:640px){.grid{gap:6px}}
+  .grid .ch{font-size:11px;color:var(--ink2);text-align:center;padding-bottom:4px;line-height:1.3;font-weight:600}
+  .grid .ch small{display:none;color:var(--ink3);font-size:11px;font-weight:500}
+  .grid .rh{font-size:12.5px;color:var(--ink);padding-right:6px;line-height:1.3}
+  @media (min-width:640px){.grid .ch{font-size:12px}.grid .ch small{display:block}.grid .rh{font-size:13.5px}}
+  .cell{height:26px;border-radius:4px;background:rgba(160,190,220,.06);position:relative}
+  @media (min-width:640px){.cell{height:34px}}
+  .cell.y{background:var(--amber);box-shadow:0 0 16px -3px rgba(224,137,43,.75)}
+  .cell.p{background:repeating-linear-gradient(135deg,rgba(224,137,43,.8) 0 6px,rgba(224,137,43,.32) 6px 12px)}
+  .cell.r{background:transparent;border:1.5px dashed var(--cyan);opacity:.75}
+  .cell.x::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;background:rgba(160,190,220,.2);transform:translate(-50%,-50%) rotate(45deg)}
+  .key{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;font-size:12.5px;color:var(--ink2)}
   .key span{display:inline-flex;align-items:center;gap:7px}
   .key i{width:16px;height:12px;border-radius:3px;display:inline-block}
-  .key i.y{background:var(--yes)}.key i.p{background:var(--part)}.key i.r{border:1.5px dashed var(--plan)}.key i.o{background:rgba(255,255,255,.12)}
-  .map .more{display:block;margin-top:14px;font-size:13px;color:var(--gold-l)}
-
-  section{padding:96px 0;border-top:1px solid var(--gline)}
-  h2.big{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(32px,4.2vw,52px);line-height:1.05;letter-spacing:-1.1px;margin-bottom:16px;max-width:760px}
-  .slede{font-size:18px;color:var(--dim);max-width:640px;margin-bottom:50px}
+  .key i.y{background:var(--amber)}.key i.p{background:repeating-linear-gradient(135deg,rgba(224,137,43,.8) 0 4px,rgba(224,137,43,.32) 4px 8px)}.key i.r{border:1.5px dashed var(--cyan)}.key i.o{background:rgba(160,190,220,.12)}
+  .map .more{display:inline-block;margin-top:12px;font-size:13.5px;color:var(--lit)}
 
   /* phases */
-  .phases{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-  .phases::before{content:"";position:absolute;left:12px;right:12px;top:11px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--gold) 0 14%,rgba(255,255,255,.12) 14%)}
-  .ph{position:relative;padding-top:44px}
-  .ph .dot{position:absolute;top:0;left:0;width:25px;height:25px;border-radius:50%;background:var(--night);border:3px solid rgba(255,255,255,.22)}
-  .ph.now .dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 8px rgba(224,137,43,.18)}
-  .ph .k{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--faint)}
-  .ph.now .k{color:var(--gold-l)}
-  .ph h3{font-size:19px;font-weight:600;margin:2px 0 10px}
+  .phases{display:grid;gap:12px}
+  @media (min-width:720px){.phases{grid-template-columns:1fr 1fr}}
+  @media (min-width:1040px){.phases{grid-template-columns:repeat(4,1fr)}}
+  .ph{position:relative;padding:16px 16px 18px;background:var(--panel);border:1px solid var(--line2);border-radius:6px}
+  .ph.now{border-color:rgba(224,137,43,.55);box-shadow:0 0 24px -6px rgba(224,137,43,.35)}
+  .ph .k{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink3);font-weight:600}
+  .ph .k i{width:9px;height:9px;border-radius:50%;border:1.5px dashed var(--cyan);display:inline-block}
+  .ph.now .k{color:#F7C27A}.ph.now .k i{border:0;background:var(--amber);box-shadow:0 0 8px var(--amber)}
+  .ph h3{font-size:26px;margin:6px 0 10px}
   .ph ul{list-style:none;display:grid;gap:7px}
-  .ph li{font-size:14.5px;color:var(--dim);padding-left:16px;position:relative}
-  .ph li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:2px;background:rgba(255,255,255,.18)}
-  .ph.now li{color:var(--txt)}
-  .ph.now li::before{background:var(--yes)}
-  .limits{margin-top:30px;font-size:15px}
-  .limits a{color:var(--gold-l);border-bottom:1px solid rgba(245,178,107,.35)}
-  .never{margin-top:34px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:16px 20px;border:1px dashed rgba(255,255,255,.18);border-radius:16px;font-size:14.5px;color:var(--dim)}
-  .never b{color:var(--txt);font-weight:600}
+  .ph li{font-size:14.5px;color:var(--ink2);padding-left:16px;position:relative}
+  .ph li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:2px;background:rgba(160,190,220,.2)}
+  .ph.now li{color:var(--ink)}.ph.now li::before{background:var(--amber)}
+  .limits{margin-top:22px;font-size:15px}
+  .limits a{color:var(--lit);border-bottom:1px solid rgba(242,179,71,.35)}
 
-  /* start */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .st{padding:28px 26px;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border:1px solid var(--gline)}
-  .st .n{font-family:'Fraunces',serif;font-size:40px;line-height:1;color:var(--gold-l);margin-bottom:16px}
-  .st h3{font-size:19px;font-weight:600;margin-bottom:8px}
-  .st p{font-size:15px;color:var(--dim)}
+  /* start steps */
+  .steps{display:grid;gap:12px}
+  @media (min-width:900px){.steps{grid-template-columns:repeat(3,1fr);gap:16px}}
+  .st{padding:20px 18px;border-radius:6px;background:var(--panel);border:1px solid var(--line2)}
+  .st .n{font-family:"Big Shoulders Display",sans-serif;font-weight:800;font-size:44px;line-height:1;color:var(--lit);margin-bottom:10px;text-shadow:0 0 16px rgba(224,137,43,.35)}
+  .st h3{font-size:26px;margin-bottom:8px}
+  .st p{font-size:15px;color:var(--ink2)}
 
-  .facts{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 40px;padding:26px 0;border-top:1px solid var(--gline);border-bottom:1px solid var(--gline);background:rgba(255,255,255,.02);font-size:14.5px;color:var(--dim)}
-  .facts a{border-bottom:1px solid rgba(255,255,255,.2)}
-  .facts a:hover{color:#fff}
-  .facts b{color:var(--txt);font-weight:500}
-
-  .final{text-align:center;padding:110px 0 120px;position:relative;overflow:hidden;isolation:isolate;border-top:0}
+  .final{text-align:center;padding:72px 0 84px;position:relative;overflow:hidden;isolation:isolate}
   .final::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 70% 60% at 50% 100%,rgba(224,137,43,.2),transparent)}
-  .final h2{margin:0 auto 16px}
-  .final p{color:var(--dim);font-size:18px;max-width:520px;margin:0 auto 32px}
+  .final h2{margin:0 auto 12px}
+  .final p{color:var(--ink2);font-size:17px;max-width:520px;margin:0 auto 26px}
   .final .ctas{justify-content:center}
-  footer{border-top:1px solid var(--gline);padding:30px 0 40px;font-size:13px;color:var(--faint)}
+  footer{border-top:1px solid var(--line2);padding:26px 0 40px;font-size:13px;color:var(--ink3)}
   footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-  footer .fl{display:flex;gap:22px;flex-wrap:wrap}
+  footer .fl{display:flex;gap:20px;flex-wrap:wrap}
   footer a:hover{color:#fff}
-
-  @media (max-width:980px){
-    .hero .wrap{grid-template-columns:1fr;gap:44px}
-    .phases{grid-template-columns:1fr 1fr;row-gap:34px}
-    .phases::before{display:none}
-    .steps{grid-template-columns:1fr}
-  }
-  @media (max-width:640px){
-    .wrap{padding:0 16px}
-    nav .wrap{height:62px}
-    .links .hide-sm{display:none}
-    .links{gap:14px}
-    .hero{padding:56px 0 64px}
-    h1{letter-spacing:-1.1px}
-    .lede{font-size:17px}
-    .ctas .btn{flex:1 1 auto}
-    .map{padding:16px 12px 14px}
-    .grid{gap:4px}
-    .grid .rh{font-size:12.5px}
-    .grid .ch{font-size:11px}
-    .grid .ch small{display:none}
-    .cell{height:26px;border-radius:6px}
-    section{padding:70px 0}
-    .slede{font-size:16.5px;margin-bottom:36px}
-    .phases{grid-template-columns:1fr;row-gap:26px}
-    .final{padding:80px 0 90px}
-  }
 </style>
 </head>
 <body>
-
-<nav>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="g-tls"><path d="M9 7V5a3 3 0 0 1 6 0v2"/><rect x="6" y="7" width="12" height="12" rx="1.5"/><path d="M9 11h6M9 14h6M9 17h6M5 22h14"/></g>
+    <g id="g-secret"><circle cx="10" cy="10" r="6"/><circle cx="10" cy="10" r="2.2"/><path d="M14.5 14.5L21 21"/></g>
+    <g id="g-deps"><circle cx="9" cy="9" r="6"/><circle cx="9" cy="9" r="2"/><path d="M14.5 12c3 1 5 3.5 5 7v3M9 15v6"/></g>
+    <g id="g-code"><rect x="7" y="3" width="12" height="18" rx="1.5"/><path d="M5 7h3M5 11h3M5 15h3M5 19h3M11 9h5M11 13h5"/></g>
+    <g id="g-mail"><path d="M5 22V3M5 4h8l-2 3 2 3H5"/><path d="M13 22V12M13 13h8l-2 3 2 3h-8"/></g>
+    <g id="g-dns"><path d="M12 2v5"/><path d="M8 7h8l2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="10.5" r="1.2"/><path d="M9 16h6"/></g>
+  </defs>
+</svg>
+<header class="top">
   <div class="wrap">
-    <a class="brand" href="./" aria-label="Squall home">
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="14" stroke="#E0892B" stroke-opacity=".45" stroke-width="1.5"/><circle cx="16" cy="16" r="8.5" stroke="#E0892B" stroke-opacity=".7" stroke-width="1.5"/><path d="M16 16 L27 9" stroke="#F5B26B" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="2.4" fill="#F5B26B"/></svg>
-      Squall
+    <a class="brand" href="index.html" aria-label="Squall home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3v8M8 11h8"/></svg>
+      Squall <small>Typhoon Fleet</small>
     </a>
-    <div class="links">
+    <nav class="links">
       <a class="hide-sm" href="attack-path.html">Attack path</a>
       <a class="hide-sm" href="product.html">Details</a>
       <a href="https://squall.typhoonfleet.com/squall/login">Log in</a>
       <a class="btn gold sm" href="https://start.typhoonfleet.com/">Start</a>
-    </div>
+    </nav>
   </div>
-</nav>
+</header>
 
 <header class="hero">
   <div class="wrap">
+    <div class="art">
+      <div class="tile">
+        <img src="../fleet/art/squall-tile.jpg" alt="Squall on the night harbour with a signal lamp raised, the beam reaching out over the water" width="768" height="1024">
+        <div class="scuff"></div>
+        <div class="bar"><b>Squall</b><span>Assurance, sites and code</span><span class="pill"><i></i>In service, phase 0</span></div>
+      </div>
+    </div>
     <div>
       <h1>Serious security checks, <em>without a security team.</em></h1>
       <p class="lede">Squall runs proven open-source security tools against your app, your code and the services it relies on. A person reviews what they find. <b>You get the proof and the fixes.</b></p>
@@ -164,9 +189,35 @@
         <a class="btn line" href="https://squall.typhoonfleet.com/squall/login">Log in</a>
       </div>
     </div>
+  </div>
+</header>
 
+<div class="facts">
+  <span><a href="product.html#toolbox"><b>Open-source tools</b></a></span>
+  <span><b>Read-only</b></span>
+  <span><b>Runs on our own apps every night</b></span>
+</div>
+
+<section id="kit">
+  <div class="wrap">
+    <h2 class="big">What Squall carries.</h2>
+    <p class="slede">Six checks, each one a piece of kit. Each runs on our own apps before it runs on yours.</p>
+<div class="kit">
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-tls"/></svg></span><b>Header and TLS read</b><span>Reads a site's security headers and certificate.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-secret"/></svg></span><b>Secret scan</b><span>Looks for keys and passwords left in code.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-deps"/></svg></span><b>Dependency audit</b><span>Checks the packages a project depends on for known flaws.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-code"/></svg></span><b>Code vulnerability audit</b><span>Reads the code itself for common weaknesses.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-mail"/></svg></span><b>Email records check</b><span>Checks SPF and DMARC for a domain.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-dns"/></svg></span><b>DNS ownership proof</b><span>Proves you control a domain with a DNS record.</span></div>
+</div>
+    <p class="kitnote">Mapped to the NIST Cybersecurity Framework 2.0: Identify, and part of Protect. <a href="product.html#whole" style="color:var(--lit)">What that covers and what it leaves out</a></p>
+  </div>
+</section>
+
+<section id="map">
+  <div class="wrap">
     <div class="map" role="img" aria-label="Map of security testing: what gets tested against how deep, with Squall's coverage shaded">
-      <h2>The security testing map</h2>
+      <h3>The security testing map</h3>
       <p class="sub">What security testing covers, and the part Squall covers today.</p>
       <div class="grid" id="grid"></div>
       <div class="key">
@@ -178,36 +229,30 @@
       <a class="more" href="product.html#map">Where each cell comes from →</a>
     </div>
   </div>
-</header>
-
-<div class="facts">
-  <span><a href="product.html#toolbox"><b>Open-source tools</b></a></span>
-  <span><b>Read-only</b></span>
-  <span><b>Runs on our own apps every night</b></span>
-</div>
+</section>
 
 <section id="phases">
   <div class="wrap">
     <h2 class="big">We are at phase 0.</h2>
     <p class="slede">Each phase lights up more of the map. Every capability runs on our own apps before it joins Squall.</p>
     <div class="phases">
-      <div class="ph now"><span class="dot"></span><span class="k">Phase 0 (now)</span><h3>Your app and its code</h3><ul>
+      <div class="ph now"><span class="k"><i></i>Phase 0 (now)</span><h3>Your app and its code</h3><ul>
         <li>Weak spots in your site and code</li>
         <li>Passwords and keys left in code</li>
         <li>Third-party parts with known defects</li>
         <li>Where your app sends data</li>
         <li>Nightly re-checks</li>
       </ul></div>
-      <div class="ph"><span class="dot"></span><span class="k">Phase 1</span><h3>AI and the internet edge</h3><ul>
+      <div class="ph"><span class="k"><i></i>Phase 1</span><h3>AI and the internet edge</h3><ul>
         <li>AI chatbots and features</li>
         <li>What your domain shows the internet</li>
         <li>A one-page verdict and retest view</li>
       </ul></div>
-      <div class="ph"><span class="dot"></span><span class="k">Phase 2</span><h3>Accounts and cloud</h3><ul>
+      <div class="ph"><span class="k"><i></i>Phase 2</span><h3>Accounts and cloud</h3><ul>
         <li>Cloud and publishing accounts</li>
         <li>Findings matched to regulations</li>
       </ul></div>
-      <div class="ph"><span class="dot"></span><span class="k">Phase 3</span><h3>Your defences</h3><ul>
+      <div class="ph"><span class="k"><i></i>Phase 3</span><h3>Your defences</h3><ul>
         <li>Would your alarms fire</li>
       </ul></div>
     </div>
@@ -241,7 +286,7 @@
 
 <footer>
   <div class="wrap">
-    <span>Squall is a <a href="https://typhoonfleet.com/" style="color:var(--dim)">Typhoon Fleet</a> service · squall@typhoonfleet.com</span>
+    <span>Squall is a <a href="https://typhoonfleet.com/" style="color:var(--ink2)">Typhoon Fleet</a> service · squall@typhoonfleet.com</span>
     <div class="fl"><a href="attack-path.html">Attack path</a><a href="product.html">Details</a><a href="technical.html">Technical</a><a href="https://squall.typhoonfleet.com/squall/login">Log in</a></div>
   </div>
 </footer>
