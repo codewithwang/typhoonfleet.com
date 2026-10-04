@@ -30,7 +30,7 @@
 
   function on(c){return c?' class="on" aria-current="page"':'';}
   function row(c){
-    return '<a href="'+u(c.href)+'" class="'+(c.st==='dim'?'dim':'')+(c.id===HERO?' on':'')+'"><img src="'+u('fleet/art/'+c.id+'-tile.jpg')+'" alt="" loading="lazy" width="36" height="36">'+
+    return '<a href="'+u(c.href)+'" class="'+(c.st==='dim'?'dim':'')+(c.id===HERO?' on':'')+'"><img src="'+u('fleet/crew/'+c.id+'.png')+'" alt="" loading="lazy" width="36" height="36">'+
       '<div><b>'+c.name+'</b><span>'+c.role+' · <i class="'+(c.st==='live'?'live':'')+'">'+c.label+'</i></span></div></a>';
   }
   function side(s){return CREW.filter(function(c){return c.side===s;});}
@@ -42,7 +42,7 @@
       '<a href="'+u('fleet/skills.html')+'"'+on(PAGE==='skills-all')+'>Skill trees</a>'+
       '<a href="'+u('index.html#how')+'">How it works</a>'+
     '</div>'+
-    '<div class="tf-right"><a class="tf-login" href="'+LOGIN+'">Log in</a><a class="tf-start" href="'+START+'">Start</a>'+
+    '<div class="tf-right"><a class="tf-login" href="'+LOGIN+'">Log in</a><a class="tf-start" href="'+START+'">Get started</a>'+
       '<button type="button" class="tf-menu" data-tf-toggle aria-expanded="false" aria-controls="tf-panel">'+BARS+'Menu</button></div>'+
     '</div>'+
     '<div class="tf-panel" id="tf-panel"><div class="tf-wrap">'+
@@ -69,7 +69,7 @@
   var footer='<footer class="tf-foot"><div class="tf-wrap"><div class="tf-fcols">'+
     '<div><h4>The crew</h4><div class="tf-fl">'+side('crew').map(fl).join('')+'</div><h4 style="margin-top:14px">Fleet services</h4><div class="tf-fl">'+side('service').map(fl).join('')+'</div></div>'+
     '<div><h4>The site</h4><div class="tf-fl"><a href="'+u('index.html')+'">Home</a><a href="'+u('fleet/skills.html')+'">Skill trees</a><a href="'+u('index.html#how')+'">How it works</a></div></div>'+
-    '<div><h4>Your account</h4><div class="tf-fl"><a href="'+START+'">Start with your domain</a><a href="'+LOGIN+'">Log in</a><a href="mailto:squall@typhoonfleet.com">squall@typhoonfleet.com</a></div></div>'+
+    '<div><h4>Your account</h4><div class="tf-fl"><a href="'+START+'">Get started</a><a href="'+LOGIN+'">Log in</a><a href="mailto:squall@typhoonfleet.com">squall@typhoonfleet.com</a></div></div>'+
     '</div><div class="tf-legal">Typhoon Fleet, Hong Kong. Original artwork, not affiliated with any game.'+
     ''+'</div></div></footer>';
   function foot(){B.insertAdjacentHTML('beforeend',footer);}

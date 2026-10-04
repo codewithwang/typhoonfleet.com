@@ -121,3 +121,15 @@ section{border-top:1px solid rgba(10,35,66,.1) !important}
 .tmap .ch,.tmap .rh{color:#E6ECF4 !important}
 .tmap .ch small{color:#A9B7CB !important}
 .tkey{color:#C9D4E3 !important}
+/* agent overview hero: the canonical crew character on a soft stage (replaces the old painted tile) */
+.crewfig{position:relative;max-width:420px;margin:0 auto;padding:24px 24px 0;text-align:center}
+.crewfig img{height:440px;width:auto;margin:0 auto;object-fit:contain}
+.crewfig .cfbar{border-top:1px solid var(--line2);margin-top:6px;padding:12px 0 0}
+.crewfig .cfbar b{display:block;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:28px;color:var(--ink)}
+.crewfig .cfbar span{font-size:14px;color:var(--ink3)}
+@media (max-width:720px){.crewfig img{height:300px}}
+/* crew art in the menu and on skill-tree cards: transparent figures, not painted tiles */
+.tf-crew img{object-fit:contain !important;background:transparent !important;object-position:50% 100% !important}
+.tf-crew a.dim img{filter:grayscale(1) brightness(.2);opacity:.25}
+.sk-card img.crewimg{object-fit:contain;object-position:50% 100%;background:transparent}
+.sk-card img.crewimg.off{filter:grayscale(1) brightness(.2);opacity:.2}
