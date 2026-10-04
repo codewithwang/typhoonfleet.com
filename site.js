@@ -40,7 +40,6 @@
     '<div class="tf-nav" role="navigation" aria-label="Site">'+
       '<button type="button" data-tf-toggle aria-expanded="false" aria-controls="tf-panel"'+(HERO?' class="on"':'')+'>Crew '+CARET+'</button>'+
       '<a href="'+u('fleet/skills.html')+'"'+on(PAGE==='skills-all')+'>Skill trees</a>'+
-      '<a href="'+u('index.html#fleet')+'">Fleet</a>'+
       '<a href="'+u('index.html#how')+'">How it works</a>'+
     '</div>'+
     '<div class="tf-right"><a class="tf-login" href="'+LOGIN+'">Log in</a><a class="tf-start" href="'+START+'">Start</a>'+
@@ -51,7 +50,7 @@
       '<div class="tf-crew">'+side('crew').map(row).join('')+'</div>'+
       '<div class="tf-ph tf-ph2">Fleet services. They work behind the wall, for the crew.</div>'+
       '<div class="tf-crew">'+side('service').map(row).join('')+'</div>'+
-      '<div class="tf-more"><a href="'+u('index.html')+'">Home</a><a href="'+u('fleet/skills.html')+'">Skill trees</a><a href="'+u('index.html#fleet')+'">The rest of the fleet</a><a href="'+u('index.html#how')+'">How it works</a><a href="'+LOGIN+'">Log in</a></div>'+
+      '<div class="tf-more"><a href="'+u('index.html')+'">Home</a><a href="'+u('fleet/skills.html')+'">Skill trees</a><a href="'+u('index.html#how')+'">How it works</a><a href="'+LOGIN+'">Log in</a></div>'+
     '</div></div></header>';
 
   var sub='';
@@ -69,7 +68,7 @@
   function fl(c){return '<a href="'+u(c.href)+'">'+c.name+'<small>'+c.label+'</small></a>';}
   var footer='<footer class="tf-foot"><div class="tf-wrap"><div class="tf-fcols">'+
     '<div><h4>The crew</h4><div class="tf-fl">'+side('crew').map(fl).join('')+'</div><h4 style="margin-top:14px">Fleet services</h4><div class="tf-fl">'+side('service').map(fl).join('')+'</div></div>'+
-    '<div><h4>The site</h4><div class="tf-fl"><a href="'+u('index.html')+'">Home</a><a href="'+u('fleet/skills.html')+'">Skill trees</a><a href="'+u('index.html#fleet')+'">The fleet</a><a href="'+u('index.html#how')+'">How it works</a></div></div>'+
+    '<div><h4>The site</h4><div class="tf-fl"><a href="'+u('index.html')+'">Home</a><a href="'+u('fleet/skills.html')+'">Skill trees</a><a href="'+u('index.html#how')+'">How it works</a></div></div>'+
     '<div><h4>Your account</h4><div class="tf-fl"><a href="'+START+'">Start with your domain</a><a href="'+LOGIN+'">Log in</a><a href="mailto:squall@typhoonfleet.com">squall@typhoonfleet.com</a></div></div>'+
     '</div><div class="tf-legal">Typhoon Fleet, Hong Kong. Original artwork, not affiliated with any game.'+
     ''+'</div></div></footer>';

@@ -1,112 +1,148 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>How Squall reviews an app | Typhoon Fleet</title>
 <meta name="description" content="The steps of a Squall review, the rules it runs under, the report, and the tools.">
-<meta name="theme-color" content="#040A16">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../site.css?v=20261004d">
-<link rel="stylesheet" href="../hero.css?v=20261004d">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  .hero.lite{padding-bottom:30px}
-  .hero.lite .wrap{grid-template-columns:1fr}
-  .sev{display:grid;gap:8px;margin-top:22px}
-  @media (min-width:720px){.sev{grid-template-columns:repeat(3,1fr)}}
-  .sv{padding:12px 14px;border-radius:6px;background:var(--panel);border:1px solid var(--line2);border-left:4px solid var(--c)}
-  .sv b{display:block;font-size:15px;color:var(--ink)}
-  .sv span{font-size:13.5px;color:var(--ink2)}
+  :root{--page:#FAF7F1;--panel:#F3EFE6;--ink:#0A2342;--muted:#566072;--faint:#9AA3B2;--line:rgba(10,35,66,.12);--amber:#B5620F;--amber-lit:#E0892B}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--page);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  .col{max-width:720px;margin:0 auto;padding:0 20px}
+  @media (min-width:720px){.wrap{padding:0 32px}}
+  h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:500;letter-spacing:-.5px;line-height:1.08}
+  em{font-style:italic;color:var(--amber)}
+
+  nav{position:sticky;top:0;z-index:20;background:rgba(250,247,241,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:3px solid var(--ink)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
+  .word{font-family:Fraunces,serif;font-weight:600;font-size:20px}
+  .word span{color:var(--amber)}
+  .links{display:flex;align-items:center;gap:26px;font-size:14.5px;color:var(--muted)}
+  .links a:hover{color:var(--ink)}
+  @media (max-width:640px){.links .hide{display:none}.links{gap:14px}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 22px;font-weight:700;font-size:16.5px;color:var(--ink);background:var(--amber-lit);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+  .btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+  .btn .tri{width:0;height:0;border-left:10px solid var(--ink);border-top:7px solid transparent;border-bottom:7px solid transparent}
+  .btn.ghost{background:#FFFDF8}
+  .btn.sm{min-height:40px;padding:6px 14px;font-size:14.5px;box-shadow:3px 3px 0 var(--ink)}
+  .box{border:3px solid var(--ink);background:#FFFDF8;box-shadow:6px 6px 0 var(--ink);padding:4px 20px}
+  .word{display:flex;align-items:center;gap:10px}
+  .word svg{width:22px;height:22px;display:block;image-rendering:pixelated}
+
+  header{padding:100px 0 50px}
+  header h1{font-size:clamp(44px,8vw,80px);letter-spacing:-1.5px}
+  section{padding:64px 0;border-top:3px solid var(--ink)}
+  h2{font-size:clamp(32px,5vw,46px);margin-bottom:26px}
+  .box .rules div,.box li{padding-left:0}
+  .say{font-size:19px;color:var(--muted);margin-bottom:26px}
+
+  ol.steps{list-style:none;counter-reset:s}
+  ol.steps li{counter-increment:s;display:grid;grid-template-columns:56px 1fr;gap:4px 16px;padding:18px 0;border-top:1px solid var(--line)}
+  ol.steps li:first-child{border-top:0}
+  ol.steps li::before{content:counter(s);grid-row:1/3;display:grid;place-items:center;width:44px;height:44px;font-family:Fraunces,serif;font-size:24px;font-weight:600;line-height:1;color:var(--ink);background:var(--amber-lit);border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
+  ol.steps h3{font-size:24px}
+  ol.steps p{font-size:17px;color:var(--muted)}
+
+  dl.rules{display:grid;grid-template-columns:1fr}
+  dl.rules div{padding:16px 0;border-bottom:2px solid var(--line);display:grid;gap:2px 24px}
+  dl.rules div:last-child{border-bottom:0}
+  @media (min-width:640px){dl.rules div{grid-template-columns:200px 1fr}}
+  dl.rules dt{font-weight:600;font-size:17px}
+  dl.rules dd{font-size:17px;color:var(--muted)}
+
+  .sev{list-style:none;display:grid;gap:10px}
+  .sev li{display:grid;grid-template-columns:14px 120px 1fr;gap:14px;align-items:baseline;font-size:17px;padding:10px 0;border-bottom:2px solid var(--line)}
+  .sev li:last-child{border-bottom:0}
+  @media (max-width:520px){.sev li{grid-template-columns:14px 1fr}.sev li span{grid-column:2}}
+  .sev i{width:14px;height:14px;background:var(--c);border:2px solid var(--ink);align-self:center}
+  .sev b{font-weight:600}
+  .sev span{color:var(--muted)}
+
+  .closer{text-align:center;padding:90px 0 100px}
+  .closer h2{margin-bottom:28px}
+  .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 </style>
+<link rel="stylesheet" href="../site.css?v=20261004e">
+<link rel="stylesheet" href="../light.css?v=20261004e">
 </head>
-<body data-hero="squall" data-page="method" style="--spot:#E0892B">
-<script src="../skills.js?v=20261004d"></script>
-<script src="../site.js?v=20261004d"></script>
-<noscript><p style="padding:12px 16px"><a href="../index.html">Typhoon Fleet home</a></p></noscript>
+<body data-page="method" data-hero="squall" style="--spot:#E0892B">
+<script src="../skills.js?v=20261004e"></script>
+<script src="../site.js?v=20261004e"></script>
 
-<header class="hero lite">
-  <div class="wrap">
-    <div>
-      <h1>How Squall reviews <em>an app</em></h1>
-    </div>
-  </div>
-</header>
+<header><div class="col">
+  <h1>How Squall reviews <em>an app</em></h1>
+</div></header>
 
-<section id="steps">
-  <div class="wrap">
-    <h2 class="big">Review steps</h2>
-    <div class="steps">
-      <div class="st"><h3>Permission</h3><p>Anything not named in the signed permission is refused.</p></div>
-      <div class="st"><h3>Secrets in history</h3><p>Two scanners read the full code history. A key proven live is rated High.</p></div>
-      <div class="st"><h3>Flawed packages</h3><p>Shows the version that fixes each one.</p></div>
-      <div class="st"><h3>Code analysis</h3><p>Rules for your language and framework.</p></div>
-      <div class="st"><h3>Site settings</h3><p>Security headers and the content security policy.</p></div>
-      <div class="st"><h3>Where your data goes</h3><p>Every host the app can reach and what it stores in the browser.</p></div>
-      <div class="st"><h3>Changes on a preview</h3><p>So a fix cannot break the live app.</p></div>
-      <div class="st"><h3>Hostile input</h3><p>Crafted inputs run offline through the app's own parsing.</p></div>
-      <div class="st"><h3>Account settings</h3><p>Read-only checks on the accounts that publish your app.</p></div>
-      <div class="st"><h3>A person decides</h3><p>Each unproven item is confirmed or cleared with a reason.</p></div>
-    </div>
-  </div>
-</section>
+<section><div class="col">
+  <h2>Review steps</h2>
+  <ol class="steps">
+    <li><h3>Permission</h3><p>Anything not named in the signed permission is refused.</p></li>
+    <li><h3>Secrets in history</h3><p>Two scanners read the full code history. A key proven live is rated High.</p></li>
+    <li><h3>Flawed packages</h3><p>Shows the version that fixes each one.</p></li>
+    <li><h3>Code analysis</h3><p>Rules for your language and framework.</p></li>
+    <li><h3>Site settings</h3><p>Security headers and the content security policy.</p></li>
+    <li><h3>Where your data goes</h3><p>Every host the app can reach and what it stores in the browser.</p></li>
+    <li><h3>Changes on a preview</h3><p>So a fix cannot break the live app.</p></li>
+    <li><h3>Hostile input</h3><p>Crafted inputs run offline through the app's own parsing.</p></li>
+    <li><h3>Account settings</h3><p>Read-only checks on the accounts that publish your app.</p></li>
+    <li><h3>A person decides</h3><p>Each unproven item is confirmed or cleared with a reason.</p></li>
+  </ol>
+</div></section>
 
-<section id="rules">
-  <div class="wrap">
-    <h2 class="big">Rules</h2>
-    <div class="rows">
-      <div class="row"><b>Permission first</b><span>Nothing is touched without a signed permission naming it. Third-party services are only observed.</span></div>
-      <div class="row"><b>Read-only</b><span>Squall changes nothing in your code, deployment or accounts.</span></div>
-      <div class="row"><b>No disruption</b><span>One request at a time. No load testing or fuzzing.</span></div>
-      <div class="row"><b>No people</b><span>Nothing is aimed at your staff.</span></div>
-      <div class="row"><b>Every run recorded</b><span>Each run logs the request, the permission and the outcome.</span></div>
-      <div class="row"><b>Private</b><span>Findings go only to you. Nothing is published.</span></div>
-      <div class="row"><b>Not certification</b><span>Does not replace regulator-required testing or certification.</span></div>
-    </div>
-  </div>
-</section>
+<section><div class="col">
+  <h2>Rules</h2>
+  <dl class="rules box">
+    <div><dt>Permission first</dt><dd>Nothing is touched without a signed permission naming it. Third-party services are only observed.</dd></div>
+    <div><dt>Read-only</dt><dd>Squall changes nothing in your code, deployment or accounts.</dd></div>
+    <div><dt>No disruption</dt><dd>One request at a time. No load testing or fuzzing.</dd></div>
+    <div><dt>No people</dt><dd>Nothing is aimed at your staff.</dd></div>
+    <div><dt>Every run recorded</dt><dd>Each run logs the request, the permission and the outcome.</dd></div>
+    <div><dt>Private</dt><dd>Findings go only to you. Nothing is published.</dd></div>
+    <div><dt>Not certification</dt><dd>Does not replace regulator-required testing or certification.</dd></div>
+  </dl>
+</div></section>
 
-<section id="report">
-  <div class="wrap">
-    <h2 class="big">The report</h2>
-    <p class="slede">Each finding has its proof and its fix. The report also lists what passed and what was not covered.</p>
-    <div class="sev">
-      <div class="sv" style="--c:#FF6A5A"><b>Critical</b><span>Confirmed and reachable. Data theft or full compromise.</span></div>
-      <div class="sv" style="--c:#F2894A"><b>High</b><span>Serious and exploitable with modest effort.</span></div>
-      <div class="sv" style="--c:#F2B347"><b>Medium</b><span>A real weakness that needs conditions to exploit.</span></div>
-      <div class="sv" style="--c:#8FB8BF"><b>Low</b><span>A minor gap with limited impact.</span></div>
-      <div class="sv" style="--c:#6E7F9A"><b>Info</b><span>An observation with no direct risk.</span></div>
-      <div class="sv" style="--c:#59D3D1"><b>Unverified</b><span>Not proven yet. The missing proof is named.</span></div>
-    </div>
-  </div>
-</section>
+<section><div class="col">
+  <h2>The report</h2>
+  <p class="say">Each finding has its proof and its fix. The report also lists what passed and what was not covered.</p>
+  <ul class="sev box">
+    <li style="--c:#C8372D"><i></i><b>Critical</b><span>Confirmed and reachable. Data theft or full compromise.</span></li>
+    <li style="--c:#E0702B"><i></i><b>High</b><span>Serious and exploitable with modest effort.</span></li>
+    <li style="--c:#E0A82B"><i></i><b>Medium</b><span>A real weakness that needs conditions to exploit.</span></li>
+    <li style="--c:#6B8FA8"><i></i><b>Low</b><span>A minor gap with limited impact.</span></li>
+    <li style="--c:#9AA3B2"><i></i><b>Info</b><span>An observation with no direct risk.</span></li>
+    <li style="--c:#2E8F95"><i></i><b>Unverified</b><span>Not proven yet. The missing proof is named.</span></li>
+  </ul>
+</div></section>
 
-<section id="tools">
-  <div class="wrap">
-    <h2 class="big">Tools</h2>
-    <p class="slede">Your code is never uploaded to a scanning service.</p>
-    <div class="rows">
-      <div class="row"><b>Secrets</b><span>TruffleHog, Gitleaks</span></div>
-      <div class="row"><b>Flawed packages</b><span>OSV-Scanner</span></div>
-      <div class="row"><b>Code analysis</b><span>Semgrep Community Edition</span></div>
-      <div class="row"><b>Browser sessions</b><span>Playwright with Chromium</span></div>
-      <div class="row"><b>Traffic proof</b><span>mitmproxy</span></div>
-      <div class="row"><b>Built by us</b><span>The permission gate, the runner, the report and the run log.</span></div>
-      <div class="row"><b>AI</b><span>Anthropic Claude helps the reviewer read findings. The checks use no AI.</span></div>
-      <div class="row"><b>Services</b><span>Okta for sign-in. Cloudflare for the connection and email. GitHub for hosting.</span></div>
-    </div>
-  </div>
-</section>
+<section><div class="col">
+  <h2>Tools</h2>
+  <p class="say">Your code is never uploaded to a scanning service.</p>
+  <dl class="rules box">
+    <div><dt>Secrets</dt><dd>TruffleHog, Gitleaks</dd></div>
+    <div><dt>Flawed packages</dt><dd>OSV-Scanner</dd></div>
+    <div><dt>Code analysis</dt><dd>Semgrep Community Edition</dd></div>
+    <div><dt>Browser sessions</dt><dd>Playwright with Chromium</dd></div>
+    <div><dt>Traffic proof</dt><dd>mitmproxy</dd></div>
+    <div><dt>Built by us</dt><dd>The permission gate, the runner, the report and the run log.</dd></div>
+    <div><dt>AI</dt><dd>Anthropic Claude helps the reviewer read findings. The checks use no AI.</dd></div>
+    <div><dt>Services</dt><dd>Okta for sign-in. Cloudflare for the connection and email. GitHub for hosting.</dd></div>
+  </dl>
+</div></section>
 
-<section class="final">
-  <div class="wrap">
-    <h2 class="big">Shipping soon?</h2>
-    <div class="ctas">
-      <a class="btn gold" href="https://start.typhoonfleet.com/">Start with your domain</a>
-      <a class="btn line" href="mailto:squall@typhoonfleet.com?subject=Squall%20review%20request">Email about your code</a>
-    </div>
+<section class="closer"><div class="wrap">
+  <div class="ctas">
+    <a class="btn" href="https://start.typhoonfleet.com/"><span class="tri"></span>Start with your domain</a>
+    <a class="btn ghost" href="mailto:squall@typhoonfleet.com?subject=Squall%20review%20request">Email about your code</a>
   </div>
-</section>
+</div></section>
+
 </body>
 </html>
