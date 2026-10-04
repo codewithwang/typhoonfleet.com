@@ -204,8 +204,8 @@
 <link rel="stylesheet" href="site.css">
 </head>
 <body data-page="home">
-<script src="skills.js?v=20261004c"></script>
-<script src="site.js?v=20261004c"></script>
+<script src="skills.js?v=20261004d"></script>
+<script src="site.js?v=20261004d"></script>
 <noscript><p style="padding:12px 16px"><a href="index.html">Typhoon Fleet home</a></p></noscript>
 
 <!-- shared glyphs, copied from map-v4 so each kit item is the object the bible puts on the body -->
@@ -247,41 +247,35 @@
   <section class="hero">
     <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="wrap">
-      <h1>Enterprise security principles, available to all.</h1>
-      <p class="lead">A small crew of agents, each with one job, checking the things a good security team would check. Some are working today; the rest are still being built. <b>Every report says what was checked, and what was not.</b></p>
+      <h1>Enterprise security principles for everyone</h1>
+      <p class="lead">Each agent does one job a good security team would do.</p>
       <div class="ctas">
         <a class="btn primary" href="https://start.typhoonfleet.com">Start with your domain</a>
         <a class="btn ghost" href="#crew">See the crew</a>
       </div>
-      <p class="small">Starting takes about two minutes. You prove the domain is yours before anything is checked.</p>
+      <p class="small">Takes about two minutes.</p>
     </div>
   </section>
 
   <section id="crew" class="rule">
     <div class="wrap">
       <h2>The security crew</h2>
-      <p class="sub">Five agents, one job each. Each checks something of yours. Lit gear is a check that runs today. Locked gear is not built yet. Tap a card to read what that agent does.</p>
+      <p class="sub">Each one checks something of yours.</p>
       <div class="grid" data-sk="cards" data-side="crew"></div>
       <h2 style="margin-top:44px">Fleet services</h2>
-      <p class="sub">Three agents that support the crew. They do not check anything of yours.</p>
+      <p class="sub">They support the crew.</p>
       <div class="grid" data-sk="cards" data-side="service"></div>
-      <p class="sub" style="margin-top:22px"><a href="fleet/skills.html" style="color:#F5B26B;border-bottom:1px solid rgba(245,178,107,.4)">Fleet skill trees: every capability, how far along it is, and how it maps to NIST CSF 2.0</a></p>
-      <div class="key" aria-label="Key">
-        <span><span class="item on" style="--spot:#E0892B"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-tls"/></svg></span> runs today</span>
-        <span><span class="item off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-brief"/></svg><span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#g-lock"/></svg></span></span> not built yet</span>
-        <span>Small type under each name: the NIST CSF 2.0 function the agent serves.</span>
-      </div>
+      <p class="sub" style="margin-top:22px"><a href="fleet/skills.html" style="color:#F5B26B;border-bottom:1px solid rgba(245,178,107,.4)">All skill trees →</a></p>
     </div>
   </section>
 
   <section id="fleet" class="rule">
     <div class="wrap">
       <h2>The rest of the fleet</h2>
-      <p class="sub">Security leads, but the same machine runs the other ships. Every one of them routes through LifeOS and writes to one log.</p>
       <div class="machine">
         <div class="transport">
           <span class="dot" aria-hidden="true"></span>
-          <span><b>Bridge</b> routing, decision log</span>
+          <span><b>Bridge</b> routes and logs</span>
           <span class="r">
             <span>Security agents <b>8</b></span>
             <span>Other ships <b>5</b></span>
@@ -289,7 +283,6 @@
           </span>
         </div>
         <div class="pads" id="pads"></div>
-        <div class="fleet-note">The Red-Teamer from the earlier roster now sails as Squall, in the security crew above.</div>
       </div>
     </div>
   </section>
@@ -297,25 +290,21 @@
   <section id="how" class="rule">
     <div class="wrap">
       <h2>How it works</h2>
-      <p class="sub">Three steps. What runs today is marked on each one.</p>
       <div class="steps3">
         <div class="step">
           <div class="n">1</div>
           <h3>Add what you own and prove it</h3>
-          <p>Enter a domain at start.typhoonfleet.com and add one DNS record to show it is yours. For code, give read access to the repo. Nothing is checked until ownership is proved.</p>
-          <span class="now"><b>Live today:</b> domain proof by DNS record. Code repository checks are not self-serve yet.</span>
+          <p>Add one DNS record to your domain. For code, give read access to the repo.</p>
         </div>
         <div class="step">
           <div class="n">2</div>
           <h3>The crew checks it</h3>
-          <p>Squall reads headers, TLS and email records on the domain, and runs secret, dependency and code checks on the repo. Glass watches the exploited lists. Open-source tools, read-only, and a person reviews what they find.</p>
-          <span class="now"><b>Live today:</b> Squall and Glass. Identity, footprint, device and recovery checks are not built yet.</span>
+          <p>Squall checks your site and your code. Glass watches for flaws attackers are using.</p>
         </div>
         <div class="step">
           <div class="n">3</div>
-          <h3>You get a one-page brief</h3>
-          <p>Findings come ranked with their proof, and the brief says what was out of reach. Bridge sends each finding to the crew member who owns it and keeps the decision log.</p>
-          <span class="now"><b>Live today:</b> findings with proof, routing, decision log. The monthly brief is not built yet.</span>
+          <h3>You get a report</h3>
+          <p>Findings ranked by what to fix first.</p>
         </div>
       </div>
     </div>
@@ -323,11 +312,10 @@
 
   <div class="closer rule">
     <div class="wrap">
-      <h2>Start with the domain you own.</h2>
-      <p>Two minutes to prove it, one night for the first checks, and a report that says what it did not look at.</p>
+      <h2>Start with the domain you own</h2>
       <div class="ctas">
         <a class="btn primary" href="https://start.typhoonfleet.com">Start with your domain</a>
-        <a class="btn ghost" href="squall/index.html">What Squall checks</a>
+        <a class="btn ghost" href="squall/index.html">About Squall</a>
       </div>
     </div>
   </div>
@@ -338,16 +326,16 @@
 /* Crew cards are drawn by skills.js from the skill tree data. */
 /* The rest of the fleet: the non-security ships from the live roster, same pad idiom, night palette. */
 const SHIPS=[
- {name:'LifeOS',dom:'Life',st:'live',origin:true,what:'Captures what you give it, routes it by meaning, keeps the six dimensions of your life in view. Every other ship runs through it.',pat:[1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1]},
- {name:'Fitness',dom:'Body',st:'live',what:'Logs workouts, reconciles the numbers, reads a meal photo back as macros, reads recovery each morning.',pat:[1,0,0,0,1,0,0,0,1,0,0,0,1,0,1,0]},
- {name:'Wang Report Editor',dom:'Newsroom',st:'live',what:'Runs a newsroom of correspondents with fixed voices, drafting and editing columns on schedule.',pat:[1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0]},
- {name:'Photos',dom:'Life',st:'designed',what:'Reads a day of photos, writes down what they were, turns the ones worth keeping into a journal page.',pat:[0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0]},
- {name:'On the Dock',dom:'Life',st:'planned',what:'A new ship being fitted out. Not ready to launch yet.',pat:[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0]}
+ {name:'LifeOS',dom:'Life',st:'live',origin:true,what:'Captures what you give it and keeps your life in view.',pat:[1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1]},
+ {name:'Fitness',dom:'Body',st:'live',what:'Logs workouts and meals and reads recovery each morning.',pat:[1,0,0,0,1,0,0,0,1,0,0,0,1,0,1,0]},
+ {name:'Wang Report Editor',dom:'Newsroom',st:'live',what:'Runs a newsroom of correspondents on a schedule.',pat:[1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0]},
+ {name:'Photos',dom:'Life',st:'designed',what:'Turns a day of photos into a journal page.',pat:[0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0]},
+ {name:'On the Dock',dom:'Life',st:'planned',what:'Being fitted out.',pat:[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0]}
 ];
 const SLABEL={live:'live',designed:'designed',planned:'planned'};
 const pads=document.getElementById('pads');
 pads.innerHTML=SHIPS.map(s=>
- '<div class="pad'+(s.origin?' origin':'')+'"><span class="pd '+s.st+'"></span><span class="dom">'+s.dom+(s.origin?', origin':'')+'</span><h3>'+s.name+'</h3><p>'+s.what+'</p><span class="st">'+SLABEL[s.st]+'</span>'+
+ '<div class="pad'+(s.origin?' origin':'')+'"><span class="pd '+s.st+'"></span><span class="dom">'+s.dom+'</span><h3>'+s.name+'</h3><p>'+s.what+'</p><span class="st">'+SLABEL[s.st]+'</span>'+
  '<div class="steps">'+s.pat.map(on=>'<span class="cell'+(on?' on':'')+'"></span>').join('')+'</div></div>').join('')+
  '<div class="pad empty">open slot</div><div class="pad empty">open slot</div>';
 const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -19,20 +19,20 @@ squall:{name:'Squall',side:'crew',spot:'#E0892B',fn:'Identify',job:'Checks sites
  {id:'dns',n:'Domain proof',t:0,c:1,r:3,g:'dns',csf:'ID.AM',d:'Proves you own the domain. Fleet services are turned on only after this.',ev:'Self-serve at start.typhoonfleet.com.'},
  {id:'tls',n:'Site security settings',t:0,c:1,r:3,g:'tls',csf:'ID.RA',d:'Checks your site\'s security settings and certificate.',ev:'Self-serve once your domain is proved, then re-checked daily.',req:['dns']},
  {id:'mail',n:'Email protection',t:0,c:1,r:3,g:'mail',csf:'ID.RA',d:'Checks that no one else can send email pretending to be you.',ev:'Self-serve once your domain is proved.',req:['dns']},
- {id:'egress',n:'Where your data goes',t:0,c:2,r:1,g:'route',csf:'ID.AM',d:'Records every host connected to your app, and the data it saves in the browser.',ev:'Part of the full application review.'},
- {id:'repo',n:'Repository self-serve',t:1,c:0,r:0,g:'gate',csf:'ID.RA',d:'Connect your repository yourself, no email needed.',ev:'',req:['secret','deps','code']},
- {id:'recon',n:'Internet exposure',t:1,c:1,r:0,g:'census',csf:'ID.AM',d:'Finds what your domain shows the internet, such as forgotten subdomains and open services.',ev:'',req:['tls']},
- {id:'verdict',n:'Verdict and retest',t:1,c:1,r:0,g:'brief',csf:'ID.RA',d:'A one-page verdict, and a retest that closes each finding once it is fixed.',ev:'',req:['mail']},
+ {id:'egress',n:'Where your data goes',t:0,c:2,r:1,g:'route',csf:'ID.AM',d:'Records every host your app connects to and what it saves in the browser.',ev:'Part of the full application review.'},
+ {id:'repo',n:'Repository self-serve',t:1,c:0,r:0,g:'gate',csf:'ID.RA',d:'Connect your repository yourself without emailing us.',ev:'',req:['secret','deps','code']},
+ {id:'recon',n:'Internet exposure',t:1,c:1,r:0,g:'census',csf:'ID.AM',d:'Finds forgotten subdomains and open services on your domain.',ev:'',req:['tls']},
+ {id:'verdict',n:'Verdict and retest',t:1,c:1,r:0,g:'brief',csf:'ID.RA',d:'A one-page verdict and a retest that closes each fixed finding.',ev:'',req:['mail']},
  {id:'ai',n:'AI feature testing',t:1,c:2,r:0,g:'match',csf:'ID.RA',d:'Tests your chatbots and AI features for tricks that make them leak data or misbehave.',ev:'',req:['egress']},
  {id:'cloud',n:'Cloud and publishing accounts',t:2,c:1,r:0,g:'backup',csf:'ID.RA',d:'Reads the settings of the accounts that host and publish your app.',ev:'',req:['recon']},
  {id:'regs',n:'Regulation mapping',t:2,c:2,r:0,g:'playbook',csf:'GV.OC',d:'Matches each finding to the rules that apply to you.',ev:'',req:['verdict']},
- {id:'cont',n:'Continuous assurance',t:3,c:0,r:0,g:'kev',csf:'ID.IM',d:'Every check on a schedule, every fix retested automatically.',ev:'',req:['repo','verdict']},
- {id:'alarm',n:'Alarm test',t:3,c:2,r:0,g:'firewall',csf:'ID.IM',d:'Safe, staged attack steps that show whether your alarms go off.',ev:'',req:['cloud','lookout:login']}
+ {id:'cont',n:'Continuous assurance',t:3,c:0,r:0,g:'kev',csf:'ID.IM',d:'Runs every check on a schedule and retests every fix.',ev:'',req:['repo','verdict']},
+ {id:'alarm',n:'Alarm test',t:3,c:2,r:0,g:'firewall',csf:'ID.IM',d:'Safe staged attack steps that show whether your alarms go off.',ev:'',req:['cloud','lookout:login']}
 ]},
-anchor:{name:'Anchor',side:'crew',spot:'#E0B43B',fn:'Protect',job:'Counts your accounts, finds the forgotten ones, maps who can reset whom.',branches:['Find','Understand','Fix'],skills:[
- {id:'census',n:'Account census',t:0,c:0,r:0,g:'census',csf:'PR.AA',d:'A list of every account you hold, found from your mailbox.',ev:''},
+anchor:{name:'Anchor',side:'crew',spot:'#E0B43B',fn:'Protect',job:'Finds every account you hold and who can reset them.',branches:['Find','Understand','Fix'],skills:[
+ {id:'census',n:'Account census',t:0,c:0,r:0,g:'census',csf:'PR.AA',d:'Finds every account you hold from your mailbox.',ev:''},
  {id:'dormant',n:'Dormant accounts',t:0,c:1,r:0,g:'dormant',csf:'PR.AA',d:'Finds accounts you have not touched in a long time.',ev:'',req:['census']},
- {id:'reset',n:'Reset paths',t:0,c:2,r:0,g:'reset',csf:'PR.AA',d:'Shows which account can reset which, so you can see the one that unlocks the rest.',ev:'',req:['census']},
+ {id:'reset',n:'Reset paths',t:0,c:2,r:0,g:'reset',csf:'PR.AA',d:'Shows which account can reset the others.',ev:'',req:['census']},
  {id:'mfa',n:'Sign-in strength',t:1,c:1,r:0,g:'gate',csf:'PR.AA',d:'Which accounts still lack two-step sign-in or a passkey.',ev:'',req:['census']},
  {id:'close',n:'Guided clean-up',t:1,c:2,r:0,g:'shred',csf:'PR.AA',d:'Walks you to the close button of each dormant account. You press it.',ev:'',req:['dormant']},
  {id:'more',n:'More mailboxes',t:2,c:0,r:0,g:'mail',csf:'PR.AA',d:'Mail providers beyond the first.',ev:'',req:['census']},
@@ -53,19 +53,19 @@ lookout:{name:'Lookout',side:'crew',spot:'#C9A7F0',fn:'Detect',job:'Keeps an eye
  {id:'patch',n:'Patch state',t:1,c:0,r:0,g:'deps',csf:'DE.CM',d:'Which devices are behind on updates.',ev:'',req:['device']},
  {id:'login',n:'Login alerts',t:1,c:2,r:0,g:'login',csf:'DE.CM',d:'Tells you when someone signs in somewhere new.',ev:''},
  {id:'base',n:'Normal versus odd',t:2,c:1,r:0,g:'kev',csf:'DE.AE',d:'Learns what your network usually does and flags what does not fit.',ev:'',req:['firewall','device']},
- {id:'detect',n:'Detection across devices',t:3,c:1,r:0,g:'match',csf:'DE.AE',d:'Joins device, network and sign-in signals into one alert worth reading.',ev:'',req:['base','login']}
+ {id:'detect',n:'Detection across devices',t:3,c:1,r:0,g:'match',csf:'DE.AE',d:'Combines device and sign-in signals into one alert.',ev:'',req:['base','login']}
 ]},
 harbour:{name:'Harbour',side:'crew',spot:'#F0A3B4',fn:'Respond, Recover',job:'Gets you back on your feet after a bad night.',branches:['Respond','Recover','Accounts'],skills:[
  {id:'play',n:'First-hour playbook',t:0,c:0,r:0,g:'playbook',csf:'RS.MA',d:'What to do in the first hour of the most common incidents.',ev:''},
- {id:'backup',n:'Backup check',t:0,c:1,r:0,g:'backup',csf:'RC.RP',d:'Confirms a backup exists, is recent, and is somewhere else.',ev:''},
+ {id:'backup',n:'Backup check',t:0,c:1,r:0,g:'backup',csf:'RC.RP',d:'Confirms you have a recent backup stored somewhere else.',ev:''},
  {id:'drill',n:'Recovery drill',t:1,c:1,r:0,g:'drill',csf:'RC.RP',d:'Restores one thing from backup to prove it works.',ev:'',req:['backup']},
- {id:'kit',n:'Account recovery kit',t:1,c:2,r:0,g:'reset',csf:'RC.RP',d:'The codes and contacts you need to get back into your key accounts, kept offline.',ev:'',req:['anchor:reset']},
- {id:'tell',n:'Who to tell',t:2,c:0,r:0,g:'mail',csf:'RS.CO',d:'Who you must notify, by when, with a draft.',ev:'',req:['play']},
+ {id:'kit',n:'Account recovery kit',t:1,c:2,r:0,g:'reset',csf:'RC.RP',d:'Offline codes and contacts to get back into your key accounts.',ev:'',req:['anchor:reset']},
+ {id:'tell',n:'Who to tell',t:2,c:0,r:0,g:'mail',csf:'RS.CO',d:'Drafts the notices you must send and says by when.',ev:'',req:['play']},
  {id:'guided',n:'Guided response',t:3,c:1,r:0,g:'route',csf:'RS.MA',d:'Walks you through a live incident step by step and keeps the record.',ev:'',req:['play','drill']}
 ]},
 glass:{name:'Glass',side:'service',spot:'#6FA2F0',fn:'Identify',job:'Watches the lists of flaws attackers are using right now.',branches:['Sources','Judgement','Reach'],skills:[
  {id:'kev',n:'Exploited flaws watch',t:0,c:0,r:2,g:'kev',csf:'ID.RA',d:'Follows the list of flaws confirmed as used in real attacks.',ev:'Every morning.'},
- {id:'rebuild',n:'Record rebuild',t:0,c:1,r:2,g:'cve',csf:'ID.RA',d:'Fills in the severity and affected products most new entries arrive without, and shows where each detail came from.',ev:'Every morning.'},
+ {id:'rebuild',n:'Record rebuild',t:0,c:1,r:2,g:'cve',csf:'ID.RA',d:'Fills in missing severity and product details and shows the source of each.',ev:'Every morning.'},
  {id:'digest',n:'Scored digest',t:0,c:2,r:2,g:'brief',csf:'ID.RA',d:'Ranks the day\'s flaws and publishes the top 250 with a reason for each.',ev:'Published every morning at wangreport.com/cve.',req:['kev','rebuild']},
  {id:'oss',n:'Open-source advisories',t:1,c:0,r:0,g:'deps',csf:'ID.RA',d:'Adds the advisory lists for open-source packages.',ev:'',req:['kev']},
  {id:'match',n:'Asset match',t:1,c:2,r:0,g:'match',csf:'ID.RA',d:'Only the flaws that touch what you actually run.',ev:'',req:['digest','squall:deps']},
@@ -74,27 +74,27 @@ glass:{name:'Glass',side:'service',spot:'#6FA2F0',fn:'Identify',job:'Watches the
  {id:'alert',n:'Alert on match',t:2,c:2,r:0,g:'login',csf:'ID.RA',d:'One message when a flaw that touches you joins the exploited list.',ev:'',req:['match']},
  {id:'first',n:'Patch-first order',t:3,c:1,r:0,g:'route',csf:'ID.RA',d:'One ordered list of what to fix first across everything you run.',ev:'',req:['lens','alert']}
 ]},
-bridge:{name:'Bridge',side:'service',spot:'#F5B26B',fn:'Govern',job:'Sends each request to the one agent whose job it is, and writes down why.',branches:['Routing','Permission','Record'],skills:[
- {id:'route',n:'Routing',t:0,c:0,r:1,g:'route',csf:'GV.OV',d:'Matches a request to one agent\'s job, or refuses it and says why.',ev:'Not yet in the path of scheduled runs.'},
- {id:'gate',n:'Permission gate',t:0,c:1,r:1,g:'gate',csf:'GV.PO',d:'No job touches a target without a signed, unexpired permission naming it.',ev:''},
+bridge:{name:'Bridge',side:'service',spot:'#F5B26B',fn:'Govern',job:'Sends each request to the right agent and records why.',branches:['Routing','Permission','Record'],skills:[
+ {id:'route',n:'Routing',t:0,c:0,r:1,g:'route',csf:'GV.OV',d:'Sends each request to the right agent or refuses it with a reason.',ev:'Not yet in the path of scheduled runs.'},
+ {id:'gate',n:'Permission gate',t:0,c:1,r:1,g:'gate',csf:'GV.PO',d:'No job runs without a signed permission naming the target.',ev:''},
  {id:'log',n:'Decision log',t:0,c:2,r:2,g:'log',csf:'GV.OV',d:'One line for every request and every run.',ev:'Every scheduled run writes a line.'},
  {id:'chat',n:'Request surface',t:1,c:0,r:0,g:'mail',csf:'GV.OV',d:'A place to ask the fleet for a check.',ev:'',req:['route']},
- {id:'audit',n:'Auditor',t:1,c:2,r:0,g:'secret',csf:'GV.OV',d:'A daily read of every log that flags anything off-scope, unapproved or failed.',ev:'',req:['log']},
+ {id:'audit',n:'Auditor',t:1,c:2,r:0,g:'secret',csf:'GV.OV',d:'Reads the logs daily and flags anything out of scope or failed.',ev:'',req:['log']},
  {id:'cost',n:'Cost on every line',t:1,c:2,r:0,g:'cve',csf:'GV.OV',d:'Each log line carries how long the run took and how many AI calls it made.',ev:'',req:['log']},
- {id:'brief',n:'Monthly brief',t:2,c:0,r:0,g:'brief',csf:'GV.OV',d:'One page a month: what ran, what was found, what was refused, what nobody looked at.',ev:'',req:['chat','audit']},
- {id:'token',n:'Permission per action',t:2,c:1,r:0,g:'dns',csf:'GV.PO',d:'A signed token every agent must show before each action, not once per job.',ev:'',req:['gate']},
- {id:'chain',n:'Tamper-evident log',t:2,c:2,r:0,g:'lock',csf:'GV.OV',d:'Each line is chained to the one before, so a changed or missing line shows.',ev:'',req:['audit']},
- {id:'auto',n:'Unattended dispatch',t:3,c:1,r:0,g:'kev',csf:'GV.OV',d:'Routes and sends on its own, inside signed limits, with the auditor watching.',ev:'',req:['token','chain']}
+ {id:'brief',n:'Monthly brief',t:2,c:0,r:0,g:'brief',csf:'GV.OV',d:'One page a month on what ran and what was found.',ev:'',req:['chat','audit']},
+ {id:'token',n:'Permission per action',t:2,c:1,r:0,g:'dns',csf:'GV.PO',d:'Every agent shows a signed token before each action.',ev:'',req:['gate']},
+ {id:'chain',n:'Tamper-evident log',t:2,c:2,r:0,g:'lock',csf:'GV.OV',d:'Chains each log line to the last so any change shows.',ev:'',req:['audit']},
+ {id:'auto',n:'Unattended dispatch',t:3,c:1,r:0,g:'kev',csf:'GV.OV',d:'Routes requests on its own within signed limits.',ev:'',req:['token','chain']}
 ]},
 haze:{name:'Haze',side:'service',spot:'#9FB3CF',fn:'Protect',job:'Masks names and numbers before text leaves the room.',branches:['Mask','Gate','Seal'],skills:[
- {id:'mask',n:'Masking',t:0,c:0,r:2,g:'cloak',csf:'PR.DS',d:'Replaces names, numbers and addresses with consistent stand-ins.',ev:'On one internal source.'},
- {id:'gate',n:'Leak gate',t:0,c:1,r:2,g:'gate',csf:'PR.DS',d:'A last check by fixed rules. A record that still carries something sensitive is dropped, not sent.',ev:'On one internal source.',req:['mask']},
+ {id:'mask',n:'Masking',t:0,c:0,r:2,g:'cloak',csf:'PR.DS',d:'Swaps names and numbers for consistent stand-ins.',ev:'On one internal source.'},
+ {id:'gate',n:'Leak gate',t:0,c:1,r:2,g:'gate',csf:'PR.DS',d:'Drops any record that still holds something sensitive.',ev:'On one internal source.',req:['mask']},
  {id:'seal',n:'Seal and shred',t:0,c:2,r:2,g:'shred',csf:'PR.DS',d:'Everything sent is locked to one key. Destroy the key and nothing sent can be read again.',ev:'On one internal source. The kill switch has been tested.',req:['gate']},
  {id:'measure',n:'Measured miss rate',t:1,c:0,r:0,g:'kev',csf:'PR.DS',d:'A real number for how often masking misses something.',ev:'',req:['mask']},
  {id:'adapter',n:'Second source',t:1,c:1,r:0,g:'docleak',csf:'PR.DS',d:'Masks a second kind of record.',ev:'',req:['gate']},
- {id:'reid',n:'Re-identification test',t:2,c:0,r:0,g:'secret',csf:'PR.DS',d:'Tries to work out who is who from masked text, and reports how often it succeeds.',ev:'',req:['measure']},
+ {id:'reid',n:'Re-identification test',t:2,c:0,r:0,g:'secret',csf:'PR.DS',d:'Measures how often masked text can be traced back to a person.',ev:'',req:['measure']},
  {id:'agents',n:'Outbound gate for agents',t:2,c:1,r:0,g:'route',csf:'PR.DS',d:'Everything any agent sends to an outside AI model passes through Haze first.',ev:'',req:['adapter']},
- {id:'policy',n:'Egress policy',t:3,c:1,r:0,g:'playbook',csf:'PR.DS',d:'Rules for what data may leave, how it is masked, and to whom.',ev:'',req:['agents','reid']}
+ {id:'policy',n:'Egress policy',t:3,c:1,r:0,g:'playbook',csf:'PR.DS',d:'Rules for what data may leave and to whom.',ev:'',req:['agents','reid']}
 ]}
 };
 
@@ -194,11 +194,11 @@ function overview(root,base){
       '<small><b>'+P[0]+' of '+P[1]+'</b> points · '+live+' of '+a.skills.length+' skills built · CSF '+a.fn+'</small></div></a>';}
   var tot=[0,0];ORDER.forEach(function(id){var P=pts(A[id]);tot[0]+=P[0];tot[1]+=P[1];});
   var crew=ORDER.filter(function(i){return A[i].side==='crew';}),serv=ORDER.filter(function(i){return A[i].side==='service';});
-  root.innerHTML='<div class="sk-head"><div><h1>Fleet skill trees</h1><p class="sk-job">Every capability in the fleet, by agent.</p></div>'+
+  root.innerHTML='<div class="sk-head"><div><h1>Fleet skill trees</h1></div>'+
     '<div class="sk-score"><b>'+tot[0]+'</b><span>of '+tot[1]+' skill points</span><div class="sk-bar"><i style="width:'+(tot[0]/tot[1]*100)+'%"></i></div><small>across eight agents</small></div></div>'+
     '<div class="sk-legend">'+RANK.map(function(r,i){return '<span>'+pips(i)+r+'</span>';}).join('')+'</div>'+
-    '<h2 class="sk-h2">The crew</h2><p class="sk-sub">Agents that check something of yours. One per job a security team does.</p><div class="sk-cards">'+crew.map(card).join('')+'</div>'+
-    '<h2 class="sk-h2">Fleet services</h2><p class="sk-sub">They support the crew. They do not check anything of yours.</p><div class="sk-cards">'+serv.map(card).join('')+'</div>';
+    '<h2 class="sk-h2">The crew</h2><p class="sk-sub">Each one checks something of yours.</p><div class="sk-cards">'+crew.map(card).join('')+'</div>'+
+    '<h2 class="sk-h2">Fleet services</h2><p class="sk-sub">They support the crew.</p><div class="sk-cards">'+serv.map(card).join('')+'</div>';
 }
 
 /* ---- generated blocks: every list of capabilities on the site is drawn from the data above ---- */
