@@ -219,6 +219,22 @@
   .voice a.vgo{color:var(--gold);font-weight:600;font-size:13.5px;white-space:nowrap}
   .three .c h4{font-family:'Fraunces',serif}
   .closer .ctas{margin-top:8px}
+
+  /* characters in the pads and the panel (light-studio renders in fleet/crew/) */
+  .pad{overflow:hidden}
+  .pad .flag{z-index:2;background:#fff;padding:2px 7px;border-radius:999px;border:1px solid var(--line-gold);top:auto !important;bottom:9px;right:9px}
+  .detail .srow{gap:14px}
+  .detail .fader{min-width:0;flex:1;max-width:220px}
+  .pad .who{position:absolute;left:0;right:0;top:4px;bottom:30px;background:center bottom/contain no-repeat;transition:transform .2s}
+  .pad:hover .who{transform:translateY(-2px) scale(1.03)}
+  .pad.off .who{filter:grayscale(1) brightness(.15);opacity:.22}
+  .pad .bank-i,.pad .pn{position:relative;z-index:1}
+  .pad .pn{font-size:12.5px;font-weight:600}
+  .detail{display:grid !important;grid-template-columns:minmax(0,1fr) 170px;gap:6px 18px;align-items:start}
+  .detail .dtext{display:flex;flex-direction:column;min-width:0}
+  .detail .dfig{grid-row:1;grid-column:2;height:300px;background:center bottom/contain no-repeat;align-self:stretch}
+  .detail .dfig.off{filter:grayscale(1) brightness(0);opacity:.14}
+  @media (max-width:560px){.detail{grid-template-columns:1fr}.detail .dfig{grid-column:1;grid-row:1;height:220px}}
 </style>
 </head>
 <body>
@@ -343,7 +359,8 @@
   var padGrid=document.getElementById('padGrid');
   LIST.forEach(function(a){
     var p=document.createElement('div'); p.className='pad'; p.dataset.id=a.id;
-    p.innerHTML='<span class="pdot '+(a.live?'live':'planned')+'"></span>'+(a.start?'<span class="flag">Start here</span>':'')+'<span class="bank-i">'+a.domain+'</span><span class="pn">'+a.name+'</span>';
+    p.className='pad'+(a.live?'':' off');
+    p.innerHTML='<span class="who" style="background-image:url(fleet/crew/'+a.id+'.png)"></span><span class="pdot '+(a.live?'live':'planned')+'"></span>'+(a.start?'<span class="flag">Start here</span>':'')+'<span class="pn">'+a.name+'</span>';
     p.addEventListener('click',function(){select(a.id,true);}); padGrid.appendChild(p);
   });
 
@@ -351,11 +368,12 @@
   function select(id,hit){
     var a=LIST.filter(function(x){return x.id===id;})[0];
     var acts=(a.start?'<a href="'+START+'">Get started →</a>':'')+'<a href="'+a.href+'">More about '+a.name+' →</a>';
-    detail.innerHTML='<div class="bank">'+a.domain+'</div><h3>'+a.name+' <span class="sd '+(a.live?'live':'planned')+'"></span></h3>'+
+    detail.innerHTML='<div class="dtext"><div class="bank">'+a.domain+'</div><h3>'+a.name+' <span class="sd '+(a.live?'live':'planned')+'"></span></h3>'+
       '<div class="what">'+a.what+'</div>'+
       '<ul class="skl">'+a.skills.filter(function(s){return s.t<=1;}).map(function(s){return '<li class="'+(s.r>0?'on':'')+'">'+s.n+'</li>';}).join('')+'</ul>'+
       (a.act!=null?'<div class="specs"><div class="srow"><span class="k">Autonomy</span><span class="fader"><span class="ends">Advise</span><span class="ftrack"><span class="fknob" style="left:'+a.act+'%"></span></span><span class="ends">Act</span></span></div></div>':'')+
-      '<div class="acts">'+acts+'</div>';
+      '<div class="acts">'+acts+'</div></div>'+
+      '<div class="dfig'+(a.live?'':' off')+'" role="img" aria-label="'+a.name+'" style="background-image:url(fleet/crew/'+a.id+'.png)"></div>';
     document.querySelectorAll('.pad').forEach(function(p){p.classList.toggle('active',p.dataset.id===id);});
     rows.forEach(function(r){r.classList.toggle('sel',r.dataset.id===id);});
     if(hit){var pad=document.querySelector('.pad[data-id="'+id+'"]');pad.classList.add('hit');setTimeout(function(){pad.classList.remove('hit');},140);}
