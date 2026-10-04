@@ -68,6 +68,11 @@
   @media (min-width:560px){.hero .ctas .btn{flex:0 0 auto}}
   .hero .small{color:var(--ink3);font-size:13px;margin-top:14px}
   @media (min-width:900px){.hero{padding:92px 0 84px}.hero .lead{font-size:19px}}
+  /* key art: full-width banner under the hero text, nothing on top of it */
+  .keyart{position:relative;margin:0;line-height:0;border-top:1px solid rgba(224,137,43,.18);border-bottom:1px solid rgba(224,137,43,.18);background:#040A16}
+  .keyart img{width:100%;height:auto;aspect-ratio:1664/928;object-fit:cover;object-position:55% 60%}
+  @media (max-width:640px){.keyart img{aspect-ratio:4/3}}
+  .keyart::before{content:"";position:absolute;inset:0 0 auto 0;height:22%;background:linear-gradient(180deg,#040A16,rgba(4,10,22,0));pointer-events:none}
 
   section{padding:48px 0}
   @media (min-width:900px){section{padding:72px 0}}
@@ -256,6 +261,10 @@
       <p class="small">Takes about two minutes.</p>
     </div>
   </section>
+
+  <figure class="keyart">
+    <img src="fleet/art/hero-banner.jpg" srcset="fleet/art/hero-banner-960.jpg 960w, fleet/art/hero-banner.jpg 1664w" sizes="100vw" width="1664" height="928" alt="The crew on a rain-lashed quay with their lights raised, facing a storm villain rising out of the sea">
+  </figure>
 
   <section id="crew" class="rule">
     <div class="wrap">
