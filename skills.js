@@ -103,10 +103,10 @@ haze:{name:'Haze',side:'service',spot:'#9FB3CF',fn:'Protect',job:'Masks names an
 /* what the site needs to draw an agent anywhere: cards, menu, sub-bar. Status lives here and nowhere else. */
 var META={
  squall:{role:'Checks sites and code',st:'live',label:'live',tl:[.58,.33],href:'squall/index.html',csfl:'NIST CSF 2.0: Identify. Assurance.',ph:['Your app and its code','AI and the internet edge','Accounts and cloud','Your defences']},
- anchor:{role:'Accounts and identity',st:'designed',label:'designed',tl:[.47,.44],href:'anchor/skills.html',csfl:'NIST CSF 2.0: Protect. Identity.'},
- fathom:{role:'Your data footprint',st:'planned',label:'planned',tl:[.58,.60],href:'fathom/skills.html',csfl:'NIST CSF 2.0: Identify. Footprint.'},
- lookout:{role:'Devices and home network',st:'planned',label:'planned',tl:[.56,.09],href:'lookout/skills.html',csfl:'NIST CSF 2.0: Detect.'},
- harbour:{role:'Respond and recover',st:'planned',label:'planned',tl:[.82,.60],href:'harbour/skills.html',csfl:'NIST CSF 2.0: Respond and Recover.'},
+ anchor:{role:'Accounts and identity',st:'designed',label:'designed',tl:[.47,.44],href:'anchor/index.html',csfl:'NIST CSF 2.0: Protect. Identity.'},
+ fathom:{role:'Your data footprint',st:'planned',label:'planned',tl:[.58,.60],href:'fathom/index.html',csfl:'NIST CSF 2.0: Identify. Footprint.'},
+ lookout:{role:'Devices and home network',st:'planned',label:'planned',tl:[.56,.09],href:'lookout/index.html',csfl:'NIST CSF 2.0: Detect.'},
+ harbour:{role:'Respond and recover',st:'planned',label:'planned',tl:[.82,.60],href:'harbour/index.html',csfl:'NIST CSF 2.0: Respond and Recover.'},
  glass:{role:'Threat intelligence',st:'live',label:'live',tl:[.47,.42],href:'glass/index.html',csfl:'NIST CSF 2.0: Identify. Threat intelligence.'},
  bridge:{role:'Routing and the decision log',st:'live',label:'live',tl:[.76,.22],href:'bridge/index.html',csfl:'NIST CSF 2.0: Govern.'},
  haze:{role:'Masks what leaves the wall',st:'built',label:'built',tl:[.57,.36],href:'haze/index.html',csfl:'NIST CSF 2.0: Protect. Data.'}

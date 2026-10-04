@@ -133,3 +133,4 @@ section{border-top:1px solid rgba(10,35,66,.1) !important}
 .tf-crew a.dim img{filter:grayscale(1) brightness(.2);opacity:.25}
 .sk-card img.crewimg{object-fit:contain;object-position:50% 100%;background:transparent}
 .sk-card img.crewimg.off{filter:grayscale(1) brightness(.2);opacity:.2}
+.crewfig img.off{filter:grayscale(1) brightness(.25);opacity:.3}

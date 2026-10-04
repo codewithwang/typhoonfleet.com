@@ -14,13 +14,13 @@
 
   /* the crew list comes from skills.js, which every page loads first */
   var T=window.TF_SKILLS, CREW=T.order.map(function(k){var a=T.agents[k];return {id:k,side:a.side,name:a.name,role:a.role,st:(a.st==='live'||a.st==='built')?a.st:'dim',label:a.label,href:a.href};});
-  /* tabs under an agent: every agent has Skills; live agents add an Overview; Squall adds Coverage and Method */
+  /* tabs under an agent: every agent has Overview and Skills; Squall adds Coverage and Method */
   function one(id){return [['overview','Overview',u(id+'/index.html')],['skills','Skills',u(id+'/skills.html')]];}
   function none(id){return [['skills','Skills',u(id+'/skills.html')]];}
   var TABS={
     squall:one('squall').concat([['coverage','Coverage',u('squall/coverage.html')],['method','Method',u('squall/method.html')]]),
     glass:one('glass'), bridge:one('bridge'), haze:one('haze'),
-    anchor:none('anchor'), fathom:none('fathom'), lookout:none('lookout'), harbour:none('harbour')
+    anchor:one('anchor'), fathom:one('fathom'), lookout:one('lookout'), harbour:one('harbour')
   };
 
   var WAVE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3v8M8 11h8"/></svg>';
