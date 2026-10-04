@@ -65,7 +65,7 @@
   }
   B.insertAdjacentHTML('afterbegin',header+sub);
 
-  function fl(c){return '<a href="'+u(c.href)+'">'+c.name+'<small>'+c.label+'</small></a>';}
+  function fl(c){return '<a href="'+u(c.href)+'">'+c.name+'</a>';}
   var footer='<footer class="tf-foot"><div class="tf-wrap"><div class="tf-fcols">'+
     '<div><h4>The crew</h4><div class="tf-fl">'+side('crew').map(fl).join('')+'</div><h4 style="margin-top:14px">Fleet services</h4><div class="tf-fl">'+side('service').map(fl).join('')+'</div></div>'+
     '<div><h4>The site</h4><div class="tf-fl"><a href="'+u('index.html')+'">Home</a><a href="'+u('fleet/skills.html')+'">Skill trees</a><a href="'+u('index.html#how')+'">How it works</a></div></div>'+

@@ -1,9 +1,9 @@
-/* Typhoon Fleet light theme (option D, 2026-10-04). Loaded LAST on every page.
-   Cream page, navy ink, Fraunces headings, Inter body, chunky navy borders with hard shadows.
+/* Typhoon Fleet light theme, the original music-machine look (2026-10-04, replaces the chunky option D style). Loaded LAST on every page.
+   White page, warm panels, navy ink, Fraunces headings, Inter body, hairline borders, rounded corners, soft shadows.
    Icons and unit art keep a dark navy tile so the agent colours still glow. Revert: drop this file's <link>. */
 :root,:root[data-theme="dark"],:root:not([data-theme="light"]){
-  --page:#FAF7F1;--card:#FFFDF8;--navy:#0A2342;--tileb:#0B1E3A;
-  --bg:#FAF7F1;--bg2:#F1ECE2;--panel:#FFFDF8;--panel2:#0B1E3A;
+  --page:#FFFFFF;--card:#FFFFFF;--navy:#0A2342;--tileb:#0B1E3A;
+  --bg:#FFFFFF;--bg2:#F7F5F1;--panel:#FFFFFF;--panel2:#0B1E3A;
   --ink:#0A2342;--ink2:#3F4A5C;--ink3:#5E6878;--line:rgba(10,35,66,.85);--line2:rgba(10,35,66,.14);
   --lit:#B5620F;--amber:#E0892B;
 }
@@ -16,70 +16,70 @@ p a,li a,.txt a{color:var(--lit);border-bottom-color:rgba(181,98,15,.4)}
 
 /* chrome: header, crew menu, sub-bar, footer */
 .tf-top,.tf-sub,.tf-foot,.tf-panel{font-family:Inter,system-ui,sans-serif}
-.tf-top{background:rgba(250,247,241,.92) !important;color:var(--ink) !important;border-bottom:3px solid var(--navy) !important}
+.tf-top{background:rgba(250,247,241,.92) !important;color:var(--ink) !important;border-bottom:1px solid rgba(10,35,66,.12) !important}
 .tf-brand{font-family:Fraunces,Georgia,serif !important;font-weight:600 !important;letter-spacing:0 !important}
 .tf-brand svg{color:var(--amber);filter:none}
 .tf-nav,.tf-login{color:var(--ink2) !important}
 .tf-nav a:hover,.tf-nav button:hover,.tf-nav .on,.tf-login:hover{color:var(--ink) !important}
 .tf-nav .on{background:rgba(10,35,66,.06) !important}
-.tf-start{background:var(--amber) !important;color:var(--navy) !important;border:2px solid var(--navy);border-radius:0 !important;box-shadow:3px 3px 0 var(--navy) !important}
-.tf-menu{color:var(--ink) !important;border:2px solid var(--navy) !important;border-radius:0 !important}
-.tf-panel{background:var(--card) !important;color:var(--ink) !important;border-top:2px solid var(--navy) !important}
+.tf-start{background:var(--navy) !important;color:#fff !important;border-radius:999px !important;box-shadow:none !important;border:0}
+.tf-menu{color:var(--ink) !important;border:1px solid rgba(10,35,66,.14) !important;border-radius:999px !important}
+.tf-panel{background:var(--card) !important;color:var(--ink) !important;border-top:1px solid rgba(10,35,66,.12) !important}
 .tf-ph,.tf-crew span,.tf-crew i{color:var(--ink3) !important}
 .tf-crew i.live{color:var(--lit) !important}
 .tf-crew b{font-family:Fraunces,Georgia,serif !important;font-weight:600 !important;letter-spacing:0 !important}
 .tf-crew a:hover,.tf-crew a.on,.tf-more a:hover{background:rgba(10,35,66,.06) !important}
 .tf-more a{color:var(--ink) !important}
 .tf-ph2,.tf-more{border-top-color:var(--line2) !important}
-.tf-sub{background:rgba(241,236,226,.95) !important;color:var(--ink2) !important;border-bottom:2px solid var(--navy) !important}
+.tf-sub{background:rgba(241,236,226,.95) !important;color:var(--ink2) !important;border-bottom:1px solid rgba(10,35,66,.12) !important}
 .tf-back{color:var(--ink2) !important}
 .tf-here{font-family:Fraunces,Georgia,serif !important;font-weight:600 !important;color:var(--ink) !important;letter-spacing:0 !important}
 .tf-tabs{border-left-color:var(--line2) !important}
 .tf-tabs a:hover,.tf-tabs a.on{color:var(--ink) !important}
 .tf-tabs a.on{border-bottom-color:var(--amber) !important}
-.tf-foot{background:var(--bg2) !important;color:var(--ink3) !important;border-top:3px solid var(--navy) !important}
+.tf-foot{background:var(--bg2) !important;color:var(--ink3) !important;border-top:1px solid rgba(10,35,66,.12) !important}
 .tf-foot h4,.tf-fl a{color:var(--ink2) !important}
 .tf-fl a:hover{color:var(--ink) !important}
 .tf-legal{border-top-color:var(--line2) !important}
 
 /* buttons become the chunky pixel buttons */
-.btn{border-radius:0 !important;border:3px solid var(--navy) !important;box-shadow:4px 4px 0 var(--navy) !important;color:var(--navy) !important;font-family:Inter,system-ui,sans-serif}
-.btn.gold,.btn.primary{background:var(--amber) !important}
-.btn.line,.btn.ghost{background:var(--card) !important}
-.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--navy) !important}
+.btn{border-radius:999px !important;border:1px solid var(--navy) !important;box-shadow:none !important;font-family:Inter,system-ui,sans-serif;font-weight:600}
+.btn.gold,.btn.primary{background:var(--navy) !important;color:#fff !important;box-shadow:0 10px 26px -12px rgba(10,35,66,.55) !important}
+.btn.line,.btn.ghost{background:#fff !important;color:var(--navy) !important}
+.btn:hover{transform:translateY(-1px)}
 
 /* sections, hero, facts */
-section{border-top:2px solid var(--navy) !important}
+section{border-top:1px solid rgba(10,35,66,.1) !important}
 .hero{background:var(--page)}
 .hero::before,.hero::after,.final::before{display:none !important}
 .lede,.slede,.sub{color:var(--ink2) !important}
 .lede b{color:var(--ink) !important}
-.facts{background:var(--bg2) !important;border-top:2px solid var(--navy) !important;border-bottom:2px solid var(--navy) !important;color:var(--ink2) !important}
+.facts{background:var(--bg2) !important;border-top:1px solid rgba(10,35,66,.12) !important;border-bottom:1px solid rgba(10,35,66,.12) !important;color:var(--ink2) !important}
 .facts b{color:var(--ink) !important}
 .facts + section{border-top:0 !important}
-.tile{box-shadow:6px 6px 0 var(--navy) !important;border:3px solid var(--navy)}
+.tile{box-shadow:0 1px 0 rgba(10,35,66,.04),0 18px 40px -28px rgba(10,35,66,.35) !important}
 .tile .bar b{font-family:Fraunces,Georgia,serif;font-weight:600;letter-spacing:0;text-shadow:none}
 .more a,.limits a{color:var(--lit) !important;border-bottom-color:rgba(181,98,15,.4) !important}
 
 /* cards: skill cards, flow boxes, rows, boxes */
-.kc,.fs,.st,.box,.cat,.rows,.ph,.cn,.sv{background:var(--card) !important;border:3px solid var(--navy) !important;border-radius:0 !important;box-shadow:5px 5px 0 var(--navy) !important;color:var(--ink)}
+.kc,.fs,.st,.box,.cat,.rows,.ph,.cn,.sv{background:var(--card) !important;border:1px solid rgba(10,35,66,.12) !important;border-radius:12px !important;box-shadow:0 1px 0 rgba(10,35,66,.04),0 18px 40px -28px rgba(10,35,66,.35) !important;color:var(--ink)}
 .kc.off,.box.no{border-style:dashed !important;box-shadow:none !important}
 .kc b,.fs b,.st h3,.box h3,.cat h3,.row b{color:var(--ink) !important}
 .kc .d,.kc p,.fs>span:not(.fi),.st p,.box li,.cat p,.row span{color:var(--ink2) !important}
 .row{border-top-color:var(--line2) !important}
 .kc .item,.fi,.ri{background:var(--tileb) !important;border-radius:12px !important}
 .fi.sym{background:var(--spot) !important;color:var(--navy) !important}
-.fs.run{box-shadow:6px 6px 0 var(--spot) !important}
+.fs.run{box-shadow:0 1px 0 rgba(10,35,66,.04),0 18px 40px -28px rgba(10,35,66,.35) !important}
 .rn{color:var(--ink) !important}
 .fa::before{background:var(--navy) !important}
 .fa::after{border-color:var(--navy) !important}
-.cat.me{background:#FFF3E2 !important;box-shadow:6px 6px 0 var(--amber) !important}
+.cat.me{background:#FFF3E2 !important;box-shadow:0 1px 0 rgba(10,35,66,.04),0 18px 40px -28px rgba(10,35,66,.35) !important}
 .cat dd{color:var(--ink) !important}
 .st::before{color:var(--lit) !important;text-shadow:none !important;font-family:Fraunces,Georgia,serif !important;font-weight:500 !important}
-.ba .box.me{box-shadow:6px 6px 0 var(--amber) !important}
+.ba .box.me{box-shadow:0 1px 0 rgba(10,35,66,.04),0 18px 40px -28px rgba(10,35,66,.35) !important}
 
 /* skill tree pages */
-.sk-score{background:var(--card) !important;border:3px solid var(--navy) !important;border-radius:0 !important;box-shadow:5px 5px 0 var(--navy)}
+.sk-score{background:var(--card) !important;border:1px solid rgba(10,35,66,.12) !important;border-radius:12px !important;box-shadow:0 1px 0 rgba(10,35,66,.04),0 18px 40px -28px rgba(10,35,66,.35)}
 .sk-score b{font-family:Fraunces,Georgia,serif !important;font-weight:500;text-shadow:none !important;color:var(--lit) !important}
 .sk-bar{background:rgba(10,35,66,.1) !important}
 .sk-bar i{box-shadow:none !important}
@@ -91,15 +91,15 @@ section{border-top:2px solid var(--navy) !important}
 .sk-ic{background:var(--tileb) !important;border-radius:12px !important;border-color:rgba(160,190,220,.35)}
 .sk-node .sk-n{color:var(--ink3) !important}
 .sk-node.r1 .sk-n,.sk-node.r2 .sk-n,.sk-node.r3 .sk-n{color:var(--ink) !important}
-.sk-node.sel .sk-ic{outline:3px solid var(--navy) !important}
-.sk-detail{background:var(--card) !important;border:3px solid var(--navy) !important;border-radius:0 !important;box-shadow:6px 6px 0 var(--navy);color:var(--ink)}
+.sk-node.sel .sk-ic{outline:2px solid var(--navy) !important}
+.sk-detail{background:var(--card) !important;border:1px solid rgba(10,35,66,.12) !important;border-radius:12px !important;box-shadow:0 1px 0 rgba(10,35,66,.04),0 18px 40px -28px rgba(10,35,66,.35);color:var(--ink)}
 .sk-detail h3{font-family:Fraunces,Georgia,serif !important}
 .sk-detail p{color:var(--ink) !important}
 .sk-detail dt{color:var(--ink3) !important}
 .sk-detail dd,.sk-rk{color:var(--ink2) !important}
 .sk-rk b{color:var(--ink) !important}
-.sk-links button,.sk-links a,.sk-x{background:var(--page) !important;color:var(--ink) !important;border:2px solid var(--navy) !important;border-radius:0 !important}
-.sk-card{background:var(--card) !important;border:3px solid var(--navy) !important;border-radius:0 !important;box-shadow:5px 5px 0 var(--navy) !important;color:var(--ink)}
+.sk-links button,.sk-links a,.sk-x{background:var(--page) !important;color:var(--ink) !important;border:1px solid rgba(10,35,66,.14) !important;border-radius:12px !important}
+.sk-card{background:var(--card) !important;border:1px solid rgba(10,35,66,.12) !important;border-radius:12px !important;box-shadow:0 1px 0 rgba(10,35,66,.04),0 18px 40px -28px rgba(10,35,66,.35) !important;color:var(--ink)}
 .sk-card p,.sk-card small{color:var(--ink2) !important}
 .sk-h2{font-family:Fraunces,Georgia,serif !important}
 .sk-sub a{color:var(--lit) !important}
@@ -108,16 +108,16 @@ section{border-top:2px solid var(--navy) !important}
 .fm-f h3{border-bottom:3px solid var(--spot,#E0892B) !important}
 .fm-f.none h3{color:var(--ink3) !important;border-color:var(--line2) !important}
 .fm-f h3 small{color:var(--ink2) !important}
-.fm-c{background:var(--card) !important;border:2px solid var(--navy) !important;border-radius:0 !important}
+.fm-c{background:var(--card) !important;border:1px solid rgba(10,35,66,.14) !important;border-radius:12px !important}
 .fm-c>b{color:var(--ink2) !important}
-.fm-c.none{background:transparent !important;border:2px dashed var(--line2) !important}
+.fm-c.none{background:transparent !important;border:1px dashed rgba(10,35,66,.18) !important}
 .fm-c.none>b{color:var(--ink3) !important}
 .fm-s a{color:var(--ink3) !important}
 .fm-s a.on{color:var(--ink) !important}
 .fm-s a span{background:var(--tileb);border-radius:8px !important}
 .fm-key{color:var(--ink2) !important}
 /* the testing map stays a solid dark panel so its labels read */
-.tmap{background:#0B1E3A !important;border:3px solid var(--navy) !important;border-radius:0 !important;box-shadow:6px 6px 0 var(--navy) !important}
+.tmap{background:#0B1E3A !important;border:1px solid rgba(10,35,66,.12) !important;border-radius:12px !important;box-shadow:0 1px 0 rgba(10,35,66,.04),0 18px 40px -28px rgba(10,35,66,.35) !important}
 .tmap .ch,.tmap .rh{color:#E6ECF4 !important}
 .tmap .ch small{color:#A9B7CB !important}
 .tkey{color:#C9D4E3 !important}

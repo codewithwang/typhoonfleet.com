@@ -19,62 +19,57 @@
   @media (min-width:720px){.wrap{padding:0 32px}}
   h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:500;letter-spacing:-.5px;line-height:1.08}
   em{font-style:italic;color:var(--amber)}
-
-  nav{position:sticky;top:0;z-index:20;background:rgba(250,247,241,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:3px solid var(--ink)}
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
   .word{font-family:Fraunces,serif;font-weight:600;font-size:20px}
   .word span{color:var(--amber)}
   .links{display:flex;align-items:center;gap:26px;font-size:14.5px;color:var(--muted)}
   .links a:hover{color:var(--ink)}
   @media (max-width:640px){.links .hide{display:none}.links{gap:14px}}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 22px;font-weight:700;font-size:16.5px;color:var(--ink);background:var(--amber-lit);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);transition:transform .08s,box-shadow .08s}
-  .btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
-  .btn .tri{width:0;height:0;border-left:10px solid var(--ink);border-top:7px solid transparent;border-bottom:7px solid transparent}
-  .btn.ghost{background:#FFFDF8}
-  .btn.sm{min-height:40px;padding:6px 14px;font-size:14.5px;box-shadow:3px 3px 0 var(--ink)}
-  .box{border:3px solid var(--ink);background:#FFFDF8;box-shadow:6px 6px 0 var(--ink);padding:4px 20px}
-  .word{display:flex;align-items:center;gap:10px}
-  .word svg{width:22px;height:22px;display:block;image-rendering:pixelated}
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 24px;border-radius:999px;font-weight:600;font-size:15.5px}
+  .btn.go{background:var(--ink);color:#fff}
+  .btn.go:hover{background:#13345F}
+  .btn.ghost{border:1px solid var(--line)}
+  .btn.ghost:hover{background:var(--panel)}
+  .btn.sm{min-height:38px;padding:8px 16px;font-size:14px}
 
   header{padding:100px 0 50px}
   header h1{font-size:clamp(44px,8vw,80px);letter-spacing:-1.5px}
-  section{padding:64px 0;border-top:3px solid var(--ink)}
+  section{padding:60px 0;border-top:1px solid var(--line)}
   h2{font-size:clamp(32px,5vw,46px);margin-bottom:26px}
-  .box .rules div,.box li{padding-left:0}
   .say{font-size:19px;color:var(--muted);margin-bottom:26px}
 
   ol.steps{list-style:none;counter-reset:s}
   ol.steps li{counter-increment:s;display:grid;grid-template-columns:56px 1fr;gap:4px 16px;padding:18px 0;border-top:1px solid var(--line)}
   ol.steps li:first-child{border-top:0}
-  ol.steps li::before{content:counter(s);grid-row:1/3;display:grid;place-items:center;width:44px;height:44px;font-family:Fraunces,serif;font-size:24px;font-weight:600;line-height:1;color:var(--ink);background:var(--amber-lit);border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
+  ol.steps li::before{content:counter(s);grid-row:1/3;font-family:Fraunces,serif;font-style:italic;font-size:40px;line-height:1;color:var(--amber)}
   ol.steps h3{font-size:24px}
   ol.steps p{font-size:17px;color:var(--muted)}
 
-  dl.rules{display:grid;grid-template-columns:1fr}
-  dl.rules div{padding:16px 0;border-bottom:2px solid var(--line);display:grid;gap:2px 24px}
-  dl.rules div:last-child{border-bottom:0}
+  dl.rules{display:grid;grid-template-columns:1fr;border-top:1px solid var(--line)}
+  dl.rules div{padding:16px 0;border-bottom:1px solid var(--line);display:grid;gap:2px 24px}
   @media (min-width:640px){dl.rules div{grid-template-columns:200px 1fr}}
   dl.rules dt{font-weight:600;font-size:17px}
   dl.rules dd{font-size:17px;color:var(--muted)}
 
   .sev{list-style:none;display:grid;gap:10px}
-  .sev li{display:grid;grid-template-columns:14px 120px 1fr;gap:14px;align-items:baseline;font-size:17px;padding:10px 0;border-bottom:2px solid var(--line)}
-  .sev li:last-child{border-bottom:0}
+  .sev li{display:grid;grid-template-columns:14px 120px 1fr;gap:14px;align-items:baseline;font-size:17px;padding:10px 0;border-bottom:1px solid var(--line)}
   @media (max-width:520px){.sev li{grid-template-columns:14px 1fr}.sev li span{grid-column:2}}
-  .sev i{width:14px;height:14px;background:var(--c);border:2px solid var(--ink);align-self:center}
+  .sev i{width:14px;height:14px;border-radius:3px;background:var(--c);align-self:center}
   .sev b{font-weight:600}
   .sev span{color:var(--muted)}
 
   .closer{text-align:center;padding:90px 0 100px}
   .closer h2{margin-bottom:28px}
   .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  footer a:hover{color:var(--ink)}
 </style>
-<link rel="stylesheet" href="../site.css?v=20261004e">
-<link rel="stylesheet" href="../light.css?v=20261004e">
+<link rel="stylesheet" href="../site.css?v=20261004f">
+<link rel="stylesheet" href="../light.css?v=20261004f">
 </head>
 <body data-page="method" data-hero="squall" style="--spot:#E0892B">
-<script src="../skills.js?v=20261004e"></script>
-<script src="../site.js?v=20261004e"></script>
+<script src="../skills.js?v=20261004f"></script>
+<script src="../site.js?v=20261004f"></script>
 
 <header><div class="col">
   <h1>How Squall reviews <em>an app</em></h1>
@@ -98,7 +93,7 @@
 
 <section><div class="col">
   <h2>Rules</h2>
-  <dl class="rules box">
+  <dl class="rules">
     <div><dt>Permission first</dt><dd>Nothing is touched without a signed permission naming it. Third-party services are only observed.</dd></div>
     <div><dt>Read-only</dt><dd>Squall changes nothing in your code, deployment or accounts.</dd></div>
     <div><dt>No disruption</dt><dd>One request at a time. No load testing or fuzzing.</dd></div>
@@ -112,7 +107,7 @@
 <section><div class="col">
   <h2>The report</h2>
   <p class="say">Each finding has its proof and its fix. The report also lists what passed and what was not covered.</p>
-  <ul class="sev box">
+  <ul class="sev">
     <li style="--c:#C8372D"><i></i><b>Critical</b><span>Confirmed and reachable. Data theft or full compromise.</span></li>
     <li style="--c:#E0702B"><i></i><b>High</b><span>Serious and exploitable with modest effort.</span></li>
     <li style="--c:#E0A82B"><i></i><b>Medium</b><span>A real weakness that needs conditions to exploit.</span></li>
@@ -125,7 +120,7 @@
 <section><div class="col">
   <h2>Tools</h2>
   <p class="say">Your code is never uploaded to a scanning service.</p>
-  <dl class="rules box">
+  <dl class="rules">
     <div><dt>Secrets</dt><dd>TruffleHog, Gitleaks</dd></div>
     <div><dt>Flawed packages</dt><dd>OSV-Scanner</dd></div>
     <div><dt>Code analysis</dt><dd>Semgrep Community Edition</dd></div>
@@ -138,8 +133,9 @@
 </div></section>
 
 <section class="closer"><div class="wrap">
+  <h2>Shipping soon?</h2>
   <div class="ctas">
-    <a class="btn" href="https://start.typhoonfleet.com/"><span class="tri"></span>Start with your domain</a>
+    <a class="btn go" href="https://start.typhoonfleet.com/">Start with your domain</a>
     <a class="btn ghost" href="mailto:squall@typhoonfleet.com?subject=Squall%20review%20request">Email about your code</a>
   </div>
 </div></section>
