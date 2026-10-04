@@ -104,18 +104,6 @@ section{border-top:1px solid rgba(10,35,66,.1) !important}
 .sk-h2{font-family:Fraunces,Georgia,serif !important}
 .sk-sub a{color:var(--lit) !important}
 
-/* framework map */
-.fm-f h3{border-bottom:3px solid var(--spot,#E0892B) !important}
-.fm-f.none h3{color:var(--ink3) !important;border-color:var(--line2) !important}
-.fm-f h3 small{color:var(--ink2) !important}
-.fm-c{background:var(--card) !important;border:1px solid rgba(10,35,66,.14) !important;border-radius:12px !important}
-.fm-c>b{color:var(--ink2) !important}
-.fm-c.none{background:transparent !important;border:1px dashed rgba(10,35,66,.18) !important}
-.fm-c.none>b{color:var(--ink3) !important}
-.fm-s a{color:var(--ink3) !important}
-.fm-s a.on{color:var(--ink) !important}
-.fm-s a span{background:var(--tileb);border-radius:8px !important}
-.fm-key{color:var(--ink2) !important}
 /* the testing map stays a solid dark panel so its labels read */
 .tmap{background:#0B1E3A !important;border:1px solid rgba(10,35,66,.12) !important;border-radius:12px !important;box-shadow:0 1px 0 rgba(10,35,66,.04),0 18px 40px -28px rgba(10,35,66,.35) !important}
 .tmap .ch,.tmap .rh{color:#E6ECF4 !important}

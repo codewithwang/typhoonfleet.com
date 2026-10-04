@@ -236,13 +236,15 @@
   .detail .dfig.off{filter:grayscale(1) brightness(0);opacity:.14}
   @media (max-width:560px){.detail{grid-template-columns:1fr}.detail .dfig{grid-column:1;grid-row:1;height:220px}}
 
-  /* onboarding flow: Squall first, then the crew to switch on; the services sit behind */
+  /* onboarding flow: Manifest and Squall together, then the crew to switch on; the services sit behind */
   .machine{padding:30px 26px 0}
-  .flowpads{display:grid;grid-template-columns:200px 60px 1fr;align-items:end;gap:0}
+  .flowpads{display:grid;grid-template-columns:432px 60px 1fr;align-items:end;gap:0}
   .startcol{position:relative}
   .startmark{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--gold);margin-bottom:10px}
   .startmark i{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(181,98,15,.15);animation:beacon 2s ease-in-out infinite}
   @keyframes beacon{50%{box-shadow:0 0 0 9px rgba(181,98,15,0)}}
+  #startPad{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .startnote{font-size:13px;color:var(--faint);margin:12px 0 0;line-height:1.45}
   #startPad .pad{aspect-ratio:auto;height:230px;border:2px solid var(--gold);box-shadow:0 0 0 5px rgba(181,98,15,.12),0 18px 34px -18px rgba(181,98,15,.55)}
   #startPad .pad .who{bottom:34px}
   .thenline{height:2px;margin-bottom:115px;background:repeating-linear-gradient(90deg,var(--gold) 0 8px,transparent 8px 14px);position:relative}
@@ -260,7 +262,9 @@
     .flowpads{grid-template-columns:1fr}
     .thenline{width:2px;height:34px;margin:10px auto;background:repeating-linear-gradient(180deg,var(--gold) 0 8px,transparent 8px 14px)}
     .thenline::after{right:auto;left:-5px;top:auto;bottom:-4px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid var(--gold);border-bottom:0}
-    #startPad .pad{height:220px;max-width:240px;margin:0 auto}
+    #startPad{max-width:480px;margin:0 auto}
+    #startPad .pad{height:220px}
+    .startnote{text-align:center}
     .startmark{justify-content:center}
     .crewpads{grid-template-columns:repeat(2,1fr)}
     .behind{flex-direction:column;align-items:flex-start}
@@ -361,7 +365,7 @@
 <section id="why" class="why">
   <div class="wrap">
     <h2>Security used to mean big budgets and big teams</h2>
-    <p class="whytext">Large enterprises invest in technology and teams to keep themselves secure. Startups and small organisations face the same attackers with none of that protection. Typhoon Fleet lowers the barrier to entry, so every organisation, large or small, has real security. That matters more as the storm gathers.</p>
+    <p class="whytext">Large enterprises invest in technology and teams to keep themselves secure. Startups and small organisations face the same attackers with none of that protection. Typhoon Fleet lowers the barrier to entry, so every organisation, large or small, has real security.</p>
   </div>
 </section>
 
@@ -370,8 +374,8 @@
     <h2>How it works</h2>
     <div class="steps4">
       <div class="s4"><div class="mock"><div class="mfield">yourshop.com</div><div class="mbtn">Check</div></div><b>1. Enter your domain</b><p>At start.typhoonfleet.com.</p></div>
-      <div class="s4"><div class="mock"><div class="mrec"><span>TXT</span>_squall-verify</div><div class="mwait"><i></i>Watching for it</div></div><b>2. Prove it's yours</b><p>Add one record where you manage your DNS.</p></div>
-      <div class="s4"><div class="mock"><div class="mrow ok">Site security settings</div><div class="mrow ok">Certificate</div><div class="mrow fix">Email protection</div></div><b>3. See your results</b><p>Each check passed or ranked, with the fix.</p></div>
+      <div class="s4"><div class="mock"><div class="mrec"><span>TXT</span>_squall-verify</div><div class="mwait"><i></i>Watching for it</div></div><b>2. Prove it's yours</b><p>Add one record where you manage your DNS. Manifest records it and Squall's checks begin.</p></div>
+      <div class="s4"><div class="mock"><div class="mrow ok">Site security settings</div><div class="mrow ok">Certificate</div><div class="mrow fix">Email protection</div></div><b>3. See your results</b><p>Each check passes or fails. Each failure has a fix.</p></div>
       <div class="s4"><div class="mock"><div class="mcal"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="now"></i></div></div><b>4. Squall keeps watch</b><p>Your site is checked again every day. More of the crew joins as each one is built.</p></div>
     </div>
     <p class="codeline">Have code to check as well? <a href="mailto:squall@typhoonfleet.com?subject=Squall%20code%20review">Email us your repository</a>.</p>
@@ -422,19 +426,19 @@
   </div>
 </footer>
 
-<script src="skills.js?v=20261004i"></script>
+<script src="skills.js?v=20261005a"></script>
 <script>
 (function(){
   var T=window.TF_SKILLS, A=T.agents;
   /* Bridge leads the machine: it routes every request. Then the crew, then the services behind it */
-  var ORDER=['bridge','squall','glass','haze','anchor','fathom','lookout','harbour'];
+  var ORDER=['bridge','manifest','squall','glass','haze','anchor','fathom','lookout','harbour'];
   var PAT={bridge:[1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1],squall:[1,0,0,1,0,0,1,0,1,0,0,1,1,0,1,0],glass:[1,0,0,0,1,0,0,0,1,0,0,0,1,0,1,0],
     haze:[0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,1],anchor:[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],fathom:[0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0],
-    lookout:[0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0],harbour:[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]};
+    lookout:[0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0],harbour:[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],manifest:[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]};
   var ACT={bridge:30,squall:20,glass:10,haze:65};
   var START='https://start.typhoonfleet.com/';
   function on(a){return a.skills.some(function(s){return s.r>0;});}
-  var LIST=ORDER.map(function(id){var a=A[id];return {id:id,name:a.name,domain:a.fn,what:a.job,href:a.href,live:on(a),skills:a.skills,pat:PAT[id],act:ACT[id],origin:id==='bridge',start:id==='squall'};});
+  var LIST=ORDER.map(function(id){var a=A[id];return {id:id,name:a.name,domain:a.fn,what:a.job,href:a.href,live:on(a),dim:!on(a),skills:a.skills,pat:PAT[id],act:ACT[id],origin:id==='bridge',start:id==='squall'||id==='manifest'};});
   
 
   var rows=[];
@@ -442,7 +446,7 @@
   LIST.forEach(function(a){
     var where=a.start?document.getElementById('startPad'):SVC[a.id]?document.getElementById('svcPads'):document.getElementById('crewPads');
     var p=document.createElement('div'); p.className='pad'; p.dataset.id=a.id;
-    p.className='pad'+(a.live?'':' off');
+    p.className='pad'+(a.dim?' off':'');
     p.innerHTML='<span class="who" style="background-image:url(fleet/crew/'+a.id+'.png)"></span><span class="pdot '+(a.live?'live':'planned')+'"></span>'+'<span class="pn">'+a.name+'</span>';
     p.addEventListener('click',function(){select(a.id,true);}); where.appendChild(p);
   });
@@ -452,21 +456,21 @@
     var a=LIST.filter(function(x){return x.id===id;})[0];
     var acts=(a.start?'<a href="'+START+'">Get started →</a>':'')+'<a href="'+a.href+'">More about '+a.name+' →</a>';
     detail.innerHTML='<div class="dtext"><h3>'+a.name+' <span class="sd '+(a.live?'live':'planned')+'"></span></h3>'+
-      '<div class="what">'+a.what+'</div>'+
+      '<div class="what">'+a.what+(a.live?'':' '+a.name+' is still being built.')+'</div>'+
       '<ul class="skl">'+a.skills.filter(function(s){return s.r>0;}).map(function(s){return '<li class="'+(s.r>0?'on':'')+'">'+s.n+'</li>';}).join('')+'</ul>'+
       (false?'<div class="specs"><div class="srow"><span class="k">Autonomy</span><span class="fader"><span class="ends">Advise</span><span class="ftrack"><span class="fknob" style="left:'+a.act+'%"></span></span><span class="ends">Act</span></span></div></div>':'')+
       '<div class="acts">'+acts+'</div></div>'+
-      '<div class="dfig'+(a.live?'':' off')+'" role="img" aria-label="'+a.name+'" style="background-image:url(fleet/crew/'+a.id+'.png)"></div>';
+      '<div class="dfig'+(a.dim?' off':'')+'" role="img" aria-label="'+a.name+'" style="background-image:url(fleet/crew/'+a.id+'.png)"></div>';
     document.querySelectorAll('.pad').forEach(function(p){p.classList.toggle('active',p.dataset.id===id);});
     rows.forEach(function(r){r.classList.toggle('sel',r.dataset.id===id);});
     if(hit){var pad=document.querySelector('.pad[data-id="'+id+'"]');pad.classList.add('hit');setTimeout(function(){pad.classList.remove('hit');},140);}
   }
   select('squall',false);
 
-  /* hero lineup: the whole crew, Squall in front; agents not built yet stand as silhouettes */
-  var LU=['anchor','fathom','glass','squall','bridge','haze','lookout','harbour'];
+  /* hero lineup: the whole crew, Squall in front with Manifest beside; agents not built yet stand as silhouettes */
+  var LU=['anchor','fathom','glass','manifest','squall','bridge','haze','lookout','harbour'];
   document.getElementById('lineup').innerHTML=LU.map(function(id){var a=LIST.filter(function(x){return x.id===id;})[0];
-    return '<button type="button" class="lu'+(id==='squall'?' lead':'')+(a.live?'':' off')+'" data-id="'+id+'" aria-label="'+a.name+'"><img src="fleet/crew/'+id+'.png" alt="" loading="eager"><span class="lun">'+a.name+'</span></button>';}).join('');
+    return '<button type="button" class="lu'+(id==='squall'?' lead':'')+(a.dim?' off':'')+'" data-id="'+id+'" aria-label="'+a.name+'"><img src="fleet/crew/'+id+'.png" alt="" loading="eager"><span class="lun">'+a.name+'</span></button>';}).join('');
   /* open centred on Squall once the images have their widths */
   var lu=document.getElementById('lineup');
   function centre(){var s=lu.querySelector('.lead');if(s)lu.scrollLeft=s.offsetLeft+s.offsetWidth/2-lu.clientWidth/2;mark();}

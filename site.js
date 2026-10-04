@@ -20,7 +20,7 @@
   var TABS={
     squall:one('squall').concat([['coverage','Coverage',u('squall/coverage.html')],['method','Method',u('squall/method.html')]]),
     glass:one('glass'), bridge:one('bridge'), haze:one('haze'),
-    anchor:one('anchor'), fathom:one('fathom'), lookout:one('lookout'), harbour:one('harbour')
+    manifest:one('manifest'), anchor:one('anchor'), fathom:one('fathom'), lookout:one('lookout'), harbour:one('harbour')
   };
 
   var WAVE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3v8M8 11h8"/></svg>';
