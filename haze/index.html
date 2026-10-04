@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Haze | The names stay in the room</title>
+<meta name="description" content="Haze is the fleet service that masks names and numbers before text leaves the machine that holds it, drops anything it cannot make safe, and can make everything it ever sent unreadable.">
+<meta name="theme-color" content="#040A16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../hero.css">
+</head>
+<body class="built" data-hero="haze" data-page="overview" style="--spot:#9FB3CF">
+<script src="../skills.js"></script>
+<script src="../site.js"></script>
+<noscript><p style="padding:12px 16px"><a href="../index.html">Typhoon Fleet home</a></p></noscript>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="g-cloak"><path d="M12 3c-3 0-5 2-5 5l-3 13h16l-3-13c0-3-2-5-5-5z"/><path d="M9 8c0-2 1.5-3 3-3s3 1 3 3M12 10v11"/></g>
+    <g id="g-gate"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1.2"/></g>
+    <g id="g-shred"><path d="M12 12L5 3M12 12l7-9M12 12l-2.5 3M12 12l2.5 3"/><circle cx="8" cy="18" r="3"/><circle cx="16" cy="18" r="3"/></g>
+  </defs>
+</svg>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="art">
+      <div class="tile">
+        <img src="../fleet/art/haze-tile.jpg" alt="Haze on the night harbour in a grey hooded cloak worn open, a padlocked satchel at the side" width="768" height="1024">
+        <div class="scuff"></div>
+        <div class="bar"><b>Haze</b><span>Data protection, fleet service</span><span class="pill built"><i></i>Built, internal</span></div>
+      </div>
+    </div>
+    <div>
+      <h1>The names stay in the room. <em>The text can leave.</em></h1>
+      <p class="lede">Haze replaces names and numbers with stand-ins before text leaves the machine that holds it, drops anything it cannot make safe, and can make everything it ever sent unreadable. It is a fleet service, not something you call: it sits at the wall and protects what goes out. <b>It is built and runs on one internal workload.</b></p>
+      <div class="ctas">
+        <a class="btn gold" href="#how">How it works</a>
+        <a class="btn line" href="#limits">Where it falls short</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="facts">
+  <span><b>The lookup table never leaves the source</b></span>
+  <span><b>A failed check drops the record</b></span>
+  <span><b>One key deletes everything sent</b></span>
+</div>
+
+<section id="kit">
+  <div class="wrap">
+    <h2 class="big">What Haze carries.</h2>
+    <p class="slede">Three pieces of kit, all built. In security terms this is the masking half of data loss prevention: it acts before the data leaves, instead of alerting after.</p>
+    <div class="kit" data-sk="kit" data-agent="haze"></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2 class="big">How it works.</h2>
+    <p class="slede">Everything up to the seal happens on the machine that holds the real data.</p>
+    <div class="steps">
+      <div class="st"><h3>Learn the names</h3><p>Haze builds a dictionary from the source itself. Each organisation gets a stand-in such as Client-A or Vendor-1, and it is the same stand-in every time, so a reader can still follow a thread. The table that maps them back stays on the source.</p></div>
+      <div class="st"><h3>Mask</h3><p>Fixed rules do most of the work: surnames go, first names stay with a role beside them, and amounts, phone numbers, email addresses, links, network addresses and reference codes are replaced. A small AI model, running on the same machine, is used only to find names the rules missed.</p></div>
+      <div class="st"><h3>Gate</h3><p>Every record is checked again by rules alone, with no model involved. If anything on the sensitive list is still there, the record is dropped.</p></div>
+      <div class="st"><h3>Seal</h3><p>What passes is encrypted to the recipient's public key (X25519 and ChaCha20-Poly1305) before it travels. Only the holder of the private key can open it.</p></div>
+    </div>
+    <p class="slede" style="margin:22px 0 0">The kill switch is one command: it deletes the private key, wipes the opened copies, and tells the source to wipe its dictionary and its outbox.</p>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="wrap">
+    <h2 class="big">What it does, and where it falls short.</h2>
+    <div class="two">
+      <div class="box">
+        <h3>It does</h3>
+        <ul>
+          <li>Keep stand-ins stable, so masked text still reads as a coherent thread.</li>
+          <li>Prefer dropping a record to sending a doubtful one. On its first real batch the gate dropped 51 records; after the rules were corrected it dropped 2.</li>
+          <li>Keep the real-name table on the source machine only.</li>
+          <li>Make every batch unreadable by deleting one key.</li>
+        </ul>
+      </div>
+      <div class="box no">
+        <h3>It does not</h3>
+        <ul>
+          <li>Anonymise. Masked text still carries what was asked, the tone, and the shape of the relationship. Someone who knows the context may still recognise it.</li>
+          <li>Have a measured miss rate. Spot checks have found misses, and each was fixed with a new rule. That is not a measurement.</li>
+          <li>Catch every company name. A name with no legal ending (Limited, Inc, Group) that the model also misses will get through.</li>
+          <li>Work on anything but its first source. There is one adapter.</li>
+          <li>Block or watch channels. It masks what is handed to it; it does not sit on the network looking for leaks.</li>
+          <li>Run for you. It is a service inside the fleet.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="next">
+  <div class="wrap">
+    <h2 class="big">What comes next.</h2>
+    <p class="slede">Phase by phase. None of these has a date. Each one is a square on the <a href="skills.html">skill tree</a>.</p>
+    <div class="phases" data-sk="phases" data-agent="haze" data-from="1"></div>
+  </div>
+</section>
+
+<section id="crew">
+  <div class="wrap">
+    <h2 class="big">Who Haze works with.</h2>
+    <div class="crewnav">
+      <a class="cn" href="../bridge/index.html"><img src="../fleet/art/bridge-tile.jpg" alt="" loading="lazy"><div><b>Bridge</b><span>Haze is docked as one of Bridge's four jobs.</span></div></a>
+      <a class="cn" href="../squall/index.html"><img src="../fleet/art/squall-tile.jpg" alt="" loading="lazy"><div><b>Squall</b><span>The agent you can use today.</span></div></a>
+      <a class="cn" href="skills.html"><img src="../fleet/art/haze-tile.jpg" alt="" loading="lazy"><div><b>Skill tree</b><span>Every capability, built and not, phase by phase.</span></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2 class="big">Haze works behind the wall.</h2>
+    <p>The part of the fleet you can use on your own domain today is Squall.</p>
+    <div class="ctas">
+      <a class="btn gold" href="https://start.typhoonfleet.com/">Start with your domain</a>
+      <a class="btn line" href="../index.html#crew">Back to the crew</a>
+    </div>
+  </div>
+</section>
+</body>
+</html>

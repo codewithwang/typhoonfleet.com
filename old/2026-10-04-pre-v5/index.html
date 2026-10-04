@@ -201,12 +201,8 @@
 
   @media (prefers-reduced-motion: reduce){.hero::after,.hero .lights i,.tile .light,.pad .cell{animation:none !important;transition:none}}
 </style>
-<link rel="stylesheet" href="site.css">
 </head>
-<body data-page="home">
-<script src="skills.js"></script>
-<script src="site.js"></script>
-<noscript><p style="padding:12px 16px"><a href="index.html">Typhoon Fleet home</a></p></noscript>
+<body>
 
 <!-- shared glyphs, copied from map-v4 so each kit item is the object the bible puts on the body -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -242,6 +238,22 @@
   </defs>
 </svg>
 
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Typhoon Fleet">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3v8M8 11h8"/></svg>
+      Typhoon Fleet
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#crew">The crew</a>
+      <a href="#map">The map</a>
+      <a href="#fleet">The fleet</a>
+      <a href="#how">How it works</a>
+    </nav>
+    <a class="btn primary" href="https://start.typhoonfleet.com">Start</a>
+  </div>
+</header>
+
 <main id="top">
 
   <section class="hero">
@@ -260,16 +272,36 @@
   <section id="crew" class="rule">
     <div class="wrap">
       <h2>The security crew</h2>
-      <p class="sub">Five agents, one job each. Each checks something of yours. Lit gear is a check that runs today. Locked gear is not built yet. Tap a card to read what that agent does.</p>
-      <div class="grid" data-sk="cards" data-side="crew"></div>
-      <h2 style="margin-top:44px">Fleet services</h2>
-      <p class="sub">Three agents that work behind the wall. They do not check your estate; they inform, govern and protect the crew that does.</p>
-      <div class="grid" data-sk="cards" data-side="service"></div>
-      <p class="sub" style="margin-top:22px"><a href="fleet/skills.html" style="color:#F5B26B;border-bottom:1px solid rgba(245,178,107,.4)">Fleet skill trees: every capability, how far along it is, and how it maps to NIST CSF 2.0</a></p>
+      <p class="sub">Eight agents, one job each. Lit gear is a check that runs today. Locked gear is a check that is not built yet. The crew shown only as a light are not sailing yet.</p>
+      <div class="grid" id="grid"></div>
       <div class="key" aria-label="Key">
         <span><span class="item on" style="--spot:#E0892B"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-tls"/></svg></span> runs today</span>
         <span><span class="item off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-brief"/></svg><span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#g-lock"/></svg></span></span> not built yet</span>
         <span>Small type under each name: the NIST CSF 2.0 function the agent serves.</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="map" class="rule">
+    <div class="wrap">
+      <h2>The map</h2>
+      <div class="teaser">
+        <a class="still" href="fleet/map.html" aria-label="Open the full map">
+          <img src="fleet/art/map-still.jpg" alt="Illustrative sea map at night: open sea and fog at the top, three channels running down to a lit harbour, lighthouses along the channels, the crew at their posts." loading="lazy">
+          <span class="tag">Illustrative</span>
+        </a>
+        <div class="text">
+          <p>The harbour is what you protect. Attacks arrive from the open sea along three routes: email and accounts, sites and code, devices and the home network. Lighthouses are controls. Fog is what nobody has checked.</p>
+          <p class="one">The threat is never drawn. It is a light in the fog.</p>
+          <p>The lighthouse states on this map are a story, not a reading of any estate. Hero and item status is real.</p>
+          <div class="legend">
+            <div><span class="sw" style="background:radial-gradient(circle at 50% 50%,#F2B347 0,#F2B347 3px,rgba(242,179,71,.3) 7px,#0B1E3A 11px)"></span><span><b>Lit</b>, control standing</span></div>
+            <div><span class="sw" style="background:radial-gradient(circle at 50% 50%,#7B8CA3 0,#7B8CA3 3px,#0B1E3A 8px)"></span><span><b>Dim</b>, control weak</span></div>
+            <div><span class="sw" style="background:linear-gradient(90deg,rgba(70,170,175,.15),rgba(70,170,175,.6))"></span><span><b>Fog</b>, nobody has looked</span></div>
+            <div><span class="sw" style="background:radial-gradient(circle at 50% 50%,#FFE2D6 0,#FF6A5A 2px,rgba(255,59,59,.3) 6px,#0B1E3A 10px)"></span><span><b>Red light</b>, a threat drifting in</span></div>
+          </div>
+          <a class="btn ghost" href="fleet/map.html">Open the full map</a>
+        </div>
       </div>
     </div>
   </section>
@@ -283,7 +315,7 @@
           <span class="dot" aria-hidden="true"></span>
           <span><b>Bridge</b> routing, decision log</span>
           <span class="r">
-            <span>Security agents <b>8</b></span>
+            <span>Security crew <b>8</b></span>
             <span>Other ships <b>5</b></span>
             <span>Slots <b>open</b></span>
           </span>
@@ -334,8 +366,50 @@
 
 </main>
 
+<footer>
+  <div class="wrap">
+    <span>Typhoon Fleet, Hong Kong. Original artwork, not affiliated with any game.</span>
+    <span>Typhoon Fleet, Hong Kong. Original artwork, not affiliated with any game.</span>
+  </div>
+</footer>
+
 <script>
-/* Crew cards are drawn by skills.js from the skill tree data. */
+/* Hero data kept in step with fleet/map.html: status (st, stl), spot colour, tile light position (tl) and kit lock states are the same. */
+const HEROES=[
+ {id:'squall',name:'Squall',job:'Checks sites and code for weak spots. Proves the domain is yours.',csf:'NIST CSF 2.0: Identify and Protect. Assurance.',st:'live',spot:'#E0892B',tl:[.58,.33],kit:[
+   {g:'tls',n:'Headers and TLS',on:true},{g:'secret',n:'Secret scan',on:true},{g:'deps',n:'Depen&shy;dencies',on:true},
+   {g:'code',n:'Code audit',on:true},{g:'mail',n:'Email records',on:true},{g:'dns',n:'Domain proof',on:true}]},
+ {id:'glass',name:'Glass',job:'Watches the lists of flaws attackers are using right now.',csf:'NIST CSF 2.0: Identify. Threat intelligence.',st:'live',spot:'#6FA2F0',tl:[.47,.42],kit:[
+   {g:'kev',n:'Exploited list',on:true},{g:'cve',n:'CVE digest',on:true},{g:'match',n:'Asset match',on:false}]},
+ {id:'haze',name:'Haze',job:'Masks names and numbers before text leaves the room.',csf:'NIST CSF 2.0: Protect. Data.',st:'built',stl:'built, work use only',spot:'#9FB3CF',tl:[.57,.36],kit:[
+   {g:'cloak',n:'Masking',on:false},{g:'gate',n:'Leak gate',on:false},{g:'shred',n:'Crypto-shred',on:false}]},
+ {id:'bridge',name:'Bridge',job:'Sends each finding to whoever owns it, and writes down why.',csf:'NIST CSF 2.0: Govern.',st:'live',stl:'live, v0',spot:'#F5B26B',tl:[.76,.22],kit:[
+   {g:'route',n:'Routing',on:true},{g:'log',n:'Decision log',on:true},{g:'brief',n:'Monthly brief',on:false}]},
+ {id:'anchor',name:'Anchor',job:'Counts your accounts, finds the forgotten ones, maps who can reset whom.',csf:'NIST CSF 2.0: Protect. Identity.',st:'designed',spot:'#E0B43B',tl:[.47,.44],kit:[
+   {g:'census',n:'Account census',on:false},{g:'dormant',n:'Dormant accounts',on:false},{g:'reset',n:'Reset paths',on:false}]},
+ {id:'fathom',name:'Fathom',job:'Looks for your data where it has no business being.',csf:'NIST CSF 2.0: Identify. Footprint.',st:'planned',spot:'#7DD3B0',tl:[.58,.60],kit:[
+   {g:'breach',n:'Breach lookup',on:false},{g:'broker',n:'Broker sweep',on:false},{g:'docleak',n:'Doc leaks',on:false}]},
+ {id:'lookout',name:'Lookout',job:'Keeps an eye on your devices and the home network.',csf:'NIST CSF 2.0: Detect.',st:'planned',spot:'#C9A7F0',tl:[.56,.09],kit:[
+   {g:'device',n:'Device watch',on:false},{g:'firewall',n:'Firewall check',on:false},{g:'login',n:'Login alerts',on:false}]},
+ {id:'harbour',name:'Harbour',job:'Gets you back on your feet after a bad night.',csf:'NIST CSF 2.0: Respond and Recover.',st:'planned',spot:'#F0A3B4',tl:[.82,.60],kit:[
+   {g:'playbook',n:'First hour',on:false},{g:'backup',n:'Backup check',on:false},{g:'drill',n:'Recovery drill',on:false}]}
+];
+const STATUS={live:'live',built:'built, work use only',designed:'designed',planned:'planned'};
+const ART='fleet/art/';
+const LOCK='<span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#g-lock"/></svg></span>';
+function glyph(k){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-'+k.g+'"/></svg>';}
+function item(k){return '<span class="item '+(k.on?'on':'off')+'">'+glyph(k)+LOCK+'</span>';}
+document.getElementById('grid').innerHTML=HEROES.map(h=>
+ '<a class="card '+h.st+'" href="fleet/map.html" style="--spot:'+h.spot+';--lx:'+(h.tl[0]*100)+'%;--ly:'+(h.tl[1]*100)+'%" aria-label="'+h.name+', '+(h.stl||STATUS[h.st])+'">'+
+  '<div class="tile"><img src="'+ART+h.id+'-tile.jpg" alt="" loading="lazy"><div class="fogx"></div><div class="light"></div><div class="point"></div><div class="scuff"></div>'+
+  '<div class="bar"><h3>'+h.name+'</h3></div></div>'+
+  '<div class="body">'+
+   '<div class="job">'+h.job+'</div>'+
+   '<div class="csf">'+h.csf+'</div>'+
+   '<span class="pill '+h.st+'"><i></i>'+(h.stl||STATUS[h.st])+'</span>'+
+   '<div class="kit">'+h.kit.map(k=>'<div class="kc '+(k.on?'on':'off')+'">'+item(k)+'<span>'+k.n+'</span></div>').join('')+'</div>'+
+  '</div></a>').join('');
+
 /* The rest of the fleet: the non-security ships from the live roster, same pad idiom, night palette. */
 const SHIPS=[
  {name:'LifeOS',dom:'Life',st:'live',origin:true,what:'Captures what you give it, routes it by meaning, keeps the six dimensions of your life in view. Every other ship runs through it.',pat:[1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1]},

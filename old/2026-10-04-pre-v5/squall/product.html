@@ -148,7 +148,7 @@
   .principle b{color:var(--lit);font-weight:700}
   /* building */
   .bld{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:start}
-  .house{position:sticky;top:116px;width:100%;height:auto;display:block;border-radius:6px;border:1px solid rgba(224,137,43,.28);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+  .house{position:sticky;top:90px;width:100%;height:auto;display:block;border-radius:6px;border:1px solid rgba(224,137,43,.28);box-shadow:0 24px 60px rgba(0,0,0,.5)}
   .pts{display:grid;gap:10px}
   .pt{display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:start;padding:12px 14px;border-radius:6px;background:var(--panel);border:1px solid var(--line2)}
   .pt .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:800;color:#0B1E3A}
@@ -271,12 +271,8 @@
     .mrow .c.me .lbl{color:var(--lit);font-weight:700}
   }
 </style>
-<link rel="stylesheet" href="../site.css">
 </head>
-<body data-page="product" data-hero="squall">
-<script src="../skills.js"></script>
-<script src="../site.js"></script>
-<noscript><p style="padding:12px 16px"><a href="../index.html">Typhoon Fleet home</a></p></noscript>
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <g id="g-tls"><path d="M9 7V5a3 3 0 0 1 6 0v2"/><rect x="6" y="7" width="12" height="12" rx="1.5"/><path d="M9 11h6M9 14h6M9 17h6M5 22h14"/></g>
@@ -295,6 +291,20 @@
   <symbol id="i-plan" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 5v3.2l2.2 1.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="i-no" viewBox="0 0 16 16"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 </svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Squall home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3v8M8 11h8"/></svg>Squall <small>Typhoon Fleet</small></a>
+    <nav class="links">
+      <a class="hide-sm" href="index.html">Overview</a>
+      <a class="hide-sm" href="attack-path.html">Attack path</a>
+      <a class="hide-sm" href="#compare">Compare</a>
+      <a class="hide-sm" href="#phases">Phases</a>
+      <a href="https://squall.typhoonfleet.com/squall/login">Log in</a>
+      <a class="btn gold sm" href="mailto:squall@typhoonfleet.com?subject=Squall%20review%20request">Request a review</a>
+    </nav>
+  </div>
+</header>
 
 <header class="hero">
   <div class="wrap">
@@ -328,8 +338,15 @@
 <section id="kit">
   <div class="wrap">
     <h2>What Squall carries today.</h2>
-    <p class="lede">Each check is a piece of kit. The line under each says how far along it is.</p>
-<div class="kit" data-sk="kit" data-agent="squall"></div>
+    <p class="lede">Six checks, each one a piece of kit. All six are in service at phase 0.</p>
+<div class="kit">
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-tls"/></svg></span><b>Header and TLS read</b><span>Reads a site's security headers and certificate.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-secret"/></svg></span><b>Secret scan</b><span>Looks for keys and passwords left in code.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-deps"/></svg></span><b>Dependency audit</b><span>Checks the packages a project depends on for known flaws.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-code"/></svg></span><b>Code vulnerability audit</b><span>Reads the code itself for common weaknesses.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-mail"/></svg></span><b>Email records check</b><span>Checks SPF and DMARC for a domain.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-dns"/></svg></span><b>DNS ownership proof</b><span>Proves you control a domain with a DNS record.</span></div>
+</div>
     <p class="note">Header and TLS read and the email records check run against your live domain once it is proven yours. Secret scan, dependency audit and code vulnerability audit run on a repository you give read access to.</p>
   </div>
 </section>
@@ -599,8 +616,28 @@
 <section id="phases">
   <div class="wrap">
     <h2>From phase 0 to phase 3.</h2>
-    <p class="lede">Each phase adds skills to <a href="skills.html" style="color:var(--lit)">the tree</a>. A capability joins Squall only after it has run on our own apps. No dates are promised.</p>
-    <div class="road road4" data-sk="phases" data-agent="squall" data-style="road"></div>
+    <p class="lede">Each phase lights up more of the map. A capability joins Squall only after it has run on our own apps. No dates are promised.</p>
+    <div class="road road4">
+      <div class="step now"><span class="dot"></span><h3>Phase 0</h3><p class="sub">Now</p><ul>
+        <li>Your app and its code<small>Weak spots, keys left in code, outside services, parts with known defects</small></li>
+        <li>A person reviews the findings</li>
+        <li>Ranked fixes with proof</li>
+        <li>Nightly re-checks, reports only on change</li>
+      </ul></div>
+      <div class="step"><span class="dot"></span><h3>Phase 1</h3><p class="sub">AI and the internet edge</p><ul>
+        <li>AI chatbots and features<small>Can it be tricked, can it leak</small></li>
+        <li>What your domain shows the internet</li>
+        <li>A one-page verdict and retest view</li>
+        <li>Newly exploited weaknesses matched to your app</li>
+      </ul></div>
+      <div class="step"><span class="dot"></span><h3>Phase 2</h3><p class="sub">Accounts and cloud</p><ul>
+        <li>Cloud and publishing account settings</li>
+        <li>Findings matched to regulations</li>
+      </ul></div>
+      <div class="step"><span class="dot"></span><h3>Phase 3</h3><p class="sub">Your defences</p><ul>
+        <li>Would your alarms fire<small>Testing your monitoring against known attacks</small></li>
+      </ul></div>
+    </div>
     <p class="note">Never part of Squall: testing your staff, break-ins, anything that could take your service down, regulator-required certification.</p>
   </div>
 </section>
@@ -613,9 +650,16 @@
       <a class="btn gold" href="mailto:squall@typhoonfleet.com?subject=Squall%20review%20request">Request a review</a>
       <a class="btn line" href="https://squall.typhoonfleet.com/squall/login">Log in</a>
     </div>
-    <p class="tech">See <a href="attack-path.html">how an attack unfolds</a>. Technical reader? See the <a href="technical.html">technical detail</a> and the <a href="../method/appsec-review.html">published method</a>.</p>
+    <p class="tech">See <a href="attack-path.html">how an attack unfolds</a>. Technical reader? See the <a href="technical.html">technical detail</a> and the <a href="https://typhoonfleet.com/method/appsec-review.html">published method</a>.</p>
   </div>
 </section>
+
+<footer>
+  <div class="wrap">
+    <span>Squall is a Typhoon Fleet service · © 2026 · MITRE ATT&amp;CK is a registered trademark of The MITRE Corporation.</span>
+    <span>squall@typhoonfleet.com</span>
+  </div>
+</footer>
 
 <script>
 (function(){

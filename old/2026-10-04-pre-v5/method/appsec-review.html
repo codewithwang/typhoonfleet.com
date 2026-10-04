@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Application security review — Typhoon Fleet method</title>
+<meta name="description" content="How the Security Squadron reviews a web application before it reaches anyone outside the fleet. Method only. No findings are published, ever.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--typhoon:#0A2342;--signal:#E63946;--gold:#B5620F;--base:#FFFFFF;--ink:#0A2342;--muted:#566072;--faint:#9AA3B2;--line:rgba(10,35,66,.12);--line-gold:rgba(181,98,15,.32);--panel:#F7F5F1;--green:#18A558}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--base);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px}
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);background:rgba(255,255,255,.72);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;max-width:1080px}
+  .word{font-family:'Fraunces',serif;font-weight:600;font-size:19px}
+  .word .a{color:var(--gold)}
+  .navlinks{display:flex;gap:34px;font-size:13.5px;color:var(--muted)}
+  .navlinks a:hover{color:var(--ink)}
+  .navtag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:1px}
+  header{padding:90px 0 40px}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(36px,6vw,58px);line-height:1.05;letter-spacing:-1px;margin-bottom:20px}
+  .sub{font-size:19px;color:var(--muted);max-width:620px}
+  section{padding:34px 0;border-top:1px solid var(--line)}
+  h2{font-family:'Fraunces',serif;font-weight:500;font-size:28px;margin-bottom:14px;letter-spacing:-.3px}
+  p{margin-bottom:14px;max-width:680px}
+  .steps{counter-reset:s;display:grid;gap:14px;margin:18px 0}
+  .step{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+  .step .n{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);padding-top:3px}
+  .step h4{font-weight:600;font-size:15.5px;margin-bottom:4px}
+  .step p{margin:0;color:var(--muted);font-size:14.5px;max-width:none}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:8px}
+  .card{padding:18px;border:1px solid var(--line);border-radius:14px}
+  .card .ci{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+  .card h4{font-weight:600;font-size:15px;margin-bottom:6px}
+  .card p{font-size:14px;color:var(--muted);margin:0}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--faint);font-weight:500}
+  code{font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--panel);padding:1px 6px;border-radius:5px}
+  .rule{border-left:3px solid var(--gold);padding:12px 18px;background:var(--panel);border-radius:0 12px 12px 0;margin:16px 0}
+  .rule p{margin:0}
+  footer{padding:50px 0 60px;border-top:1px solid var(--line);margin-top:30px}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;max-width:1080px}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--faint)}
+  .back{font-size:13.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <a class="word" href="../">Typhoon<span class="a">Fleet</span></a>
+    <div class="navlinks">
+      <a href="../#machine">The Machine</a>
+      <a href="../#agents">The Agents</a>
+      <a href="../#how">How It Works</a>
+    </div>
+    <div class="navtag">Method</div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="kicker">Security Squadron · method</div>
+    <h1>Application security review</h1>
+    <p class="sub">What the flagship ship checks before a web application reaches anyone outside the fleet. The code, and the thing actually deployed. This page describes the method. Results are never published.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <h2>The question it answers</h2>
+  <p>Is this code and its deployment safe to ship. Not "does the code look fine": a review that stops at the repository misses the hosting headers, the hosts the shipped bundle can talk to, what the app leaves in the browser, and the accounts that can publish a new build. The review covers both halves in one run, and writes down what it could not cover.</p>
+</section>
+
+<section>
+  <h2>How it runs</h2>
+  <p>Least invasive first. Every step writes its raw output next to the report so each finding can point at the line, header, host or field that proves it.</p>
+  <div class="steps">
+    <div class="step"><div class="n">01</div><div><h4>Authorization gate</h4><p>A signed authorization file names the repository and every hostname, and the action classes permitted. One target outside it and the run stops before any tool starts. The file is the audit trail; a chat message is not.</p></div></div>
+    <div class="step"><div class="n">02</div><div><h4>Secrets in history</h4><p>Two scanners over the full git history, not the working tree. Values are redacted before they reach evidence. A verified live credential is the one result that is High on its own.</p></div></div>
+    <div class="step"><div class="n">03</div><div><h4>Dependency CVEs</h4><p>Every vulnerable package with its identifiers, lockfile and fixed version. A scanner's severity is not a finding's severity: whether the vulnerable path is reachable from the shipped runtime is decided in step 11.</p></div></div>
+    <div class="step"><div class="n">04</div><div><h4>Static analysis</h4><p>Language and framework rulesets over the application's own source paths. A run that scans zero files is a failure, never "no findings".</p></div></div>
+    <div class="step"><div class="n">05</div><div><h4>Insecure defaults and HTML sinks</h4><p>A grep over tracked source for the patterns that turn user input into code: innerHTML, eval, permissive CORS, disabled TLS verification, shell execution, private keys. Built output is skipped; that is step 7's job.</p></div></div>
+    <div class="step"><div class="n">06</div><div><h4>Response headers</h4><p>Content Security Policy and what its script source allows, HSTS age, frame ancestors, content-type sniffing, referrer and permissions policies, caching of the HTML, version leaks. A missing policy on a page that holds a token is a defence-in-depth gap, rated as such.</p></div></div>
+    <div class="step"><div class="n">07</div><div><h4>Host literals in the bundle</h4><p>Every hostname inside the served JavaScript, minus an expected list where each entry carries a reason (an identity provider's endpoints, a framework's constants, a curated registry the app deep-links to). Anything left over is a host the app could talk to that nobody explained. The same pass counts OAuth scope strings, client ids and any client-secret literal.</p></div></div>
+    <div class="step"><div class="n">08</div><div><h4>Browser egress and storage</h4><p>A headless browser runs the app's real flow at human pace and records every host contacted, every policy violation, every page error, and what was left in local storage, session storage and cookies. A privacy claim is a host list; this step is the proof or the disproof.</p></div></div>
+    <div class="step"><div class="n">09</div><div><h4>Policy smoke on a preview</h4><p>The same flow against a preview deployment when a header change is proposed, so a policy that breaks the app is caught before it reaches the live edge.</p></div></div>
+    <div class="step"><div class="n">10</div><div><h4>Adversarial input and account posture</h4><p>Crafted inputs go through the application's own parsing path offline: lookalike and mixed-script domains, oversized and hostile subjects, malformed dates, relayed senders. Each case has a written expectation and a severity. Alongside, read-only checks on the accounts that can publish: deploy-token expiry, repository visibility, branch protection.</p></div></div>
+    <div class="step"><div class="n">11</div><div><h4>Judgement</h4><p>An operator reads every unverified item and decides: reachable, or cleared with a reason. Residuals that need a human's session (a live sign-in captured through a proxy, a console-only configuration diff, two-factor state) are listed as not covered, in the report, by name.</p></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Guardrails</h2>
+  <div class="grid">
+    <div class="card"><div class="ci">Rule zero</div><h4>Authorization before contact</h4><p>No target is touched without a signed file naming it. The gate also honours an exclusion list that wins over everything: a third party's infrastructure is observed as traffic, never probed.</p></div>
+    <div class="card"><div class="ci">The fader</div><h4>Advisory tier</h4><p>The ship runs read-only. It enriches and recommends; it changes nothing in the repository, the deployment or any account. Fixes are a separate, explicit act.</p></div>
+    <div class="card"><div class="ci">Pace</div><h4>Human speed</h4><p>One request per URL, one browser flow. No fuzzing of a live host. Dynamic scanning is deferred until there is a backend to scan.</p></div>
+    <div class="card"><div class="ci">The log</div><h4>Every run recorded</h4><p>One decision-log row per run: what was requested, which ship, under which authorization, the outcome, and where the report is. Reports stay on the operator's machine.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>What comes out</h2>
+  <p>One report in a fixed shape: the authorization line, the tools and versions, a severity-ranked table, then per-finding evidence, why it matters and the remediation. A finding without evidence is labelled unverified and says what proof is missing; it never masquerades as confirmed. The report ends with everything that passed, stated, and everything that was not covered, stated.</p>
+  <div class="rule"><p>A fingerprint of the ranked findings is kept between runs. On a schedule, a new report is written only when the fingerprint changes. The log row is written every time.</p></div>
+  <table>
+    <tr><th>Severity</th><th>Meaning</th></tr>
+    <tr><td>Critical</td><td>Direct compromise, data exfiltration or code execution, confirmed and reachable.</td></tr>
+    <tr><td>High</td><td>Serious exposure, exploitable with modest effort, or a confirmed sensitive leak.</td></tr>
+    <tr><td>Medium</td><td>A real weakness that needs conditions to exploit, or a defence-in-depth gap.</td></tr>
+    <tr><td>Low</td><td>A minor hardening gap with limited impact.</td></tr>
+    <tr><td>Info</td><td>An observation with no direct risk.</td></tr>
+    <tr><td>Unverified</td><td>Plausible but not proven. The missing proof is named.</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Tools</h2>
+  <p>Open-source, installed where the operator is, invoked as subprocesses. Nothing uploads code or targets to a service. No tool depends on a package manager the operator's managed devices block.</p>
+  <table>
+    <tr><th>Job</th><th>Tool</th><th>Install</th></tr>
+    <tr><td>Secrets in history</td><td>trufflehog, gitleaks</td><td>brew</td></tr>
+    <tr><td>Dependency CVEs</td><td>osv-scanner</td><td>brew</td></tr>
+    <tr><td>Static analysis</td><td>semgrep</td><td>brew</td></tr>
+    <tr><td>Headers, bundle</td><td>a plain HTTP client</td><td>native</td></tr>
+    <tr><td>Egress, storage, policy smoke</td><td>Playwright headless Chromium</td><td>bundled</td></tr>
+    <tr><td>Live-session egress proof</td><td>mitmproxy</td><td>brew</td></tr>
+    <tr><td>Account posture</td><td>the providers' own read-only APIs</td><td>native</td></tr>
+  </table>
+  <p>Models are optional and routed by task: none for the checks above, a small model to classify a request to a ship, a frontier model only for the judgement in step 11.</p>
+</section>
+
+<section>
+  <h2>What is never here</h2>
+  <p>No findings. No target names. No client. The public face of the fleet shows methods and the ships that run them. The results live with the operator, under the authorization that produced them.</p>
+  <p><a class="back" href="../#agents">← Back to the roster</a></p>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="word">Typhoon<span class="a">Fleet</span></div>
+    <div class="mono">typhoonfleet.com · method · application security review</div>
+    <div class="mono">© 2026</div>
+  </div>
+</footer>
+</body>
+</html>

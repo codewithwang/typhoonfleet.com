@@ -1,0 +1,77 @@
+/* Shared site chrome: one header, one crew menu, one sub-bar, one footer on every page.
+   Rendered by site.js. Classes are tf- prefixed so they never collide with a page's own styles. */
+.tf-top,.tf-sub,.tf-foot,.tf-panel{font-family:Manrope,system-ui,sans-serif;line-height:1.4;-webkit-font-smoothing:antialiased}
+.tf-top *,.tf-sub *,.tf-foot *{box-sizing:border-box;margin:0;padding:0}
+.tf-top a,.tf-sub a,.tf-foot a{color:inherit;text-decoration:none}
+.tf-wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+@media (min-width:720px){.tf-wrap{padding:0 24px}}
+
+.tf-top{padding:0;margin:0;position:sticky;top:0;z-index:80;background:rgba(4,10,22,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(224,137,43,.18);color:#E6ECF4}
+.tf-top > .tf-wrap{display:flex;align-items:center;gap:10px;min-height:56px}
+.tf-brand{font-family:"Big Shoulders Display",Manrope,sans-serif;font-weight:800;font-size:23px;letter-spacing:.4px;display:flex;align-items:center;gap:8px;white-space:nowrap;min-height:44px}
+.tf-brand svg{width:23px;height:23px;color:#E0892B;filter:drop-shadow(0 0 6px rgba(224,137,43,.6));flex:none}
+.tf-nav{display:none;align-items:center;gap:4px;margin-left:14px;font-size:14px;color:#A9B7CB}
+.tf-nav a,.tf-nav button{padding:8px 10px;border-radius:5px;min-height:36px;display:inline-flex;align-items:center;gap:5px}
+.tf-nav a:hover,.tf-nav button:hover,.tf-nav .on{color:#fff}
+.tf-nav .on{background:rgba(160,190,220,.08)}
+.tf-top button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tf-caret{width:10px;height:10px;transition:transform .15s}
+[aria-expanded="true"] .tf-caret{transform:rotate(180deg)}
+.tf-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.tf-login{display:none;font-size:14px;color:#A9B7CB;padding:8px 10px}
+.tf-login:hover{color:#fff}
+.tf-start{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:7px 15px;border-radius:6px;font-weight:700;font-size:13.5px;background:linear-gradient(180deg,#F09A3E,#D2761C);color:#1B0F02 !important;box-shadow:0 8px 24px -10px rgba(224,137,43,.7);white-space:nowrap}
+.tf-menu{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:8px 10px;font-size:14px;font-weight:600;color:#E6ECF4;border:1px solid rgba(160,190,220,.22) !important;border-radius:6px}
+.tf-menu svg{width:16px;height:16px}
+@media (min-width:860px){.tf-nav{display:flex}.tf-login{display:inline-flex}.tf-menu{display:none}}
+.tf-top a:focus-visible,.tf-top button:focus-visible,.tf-sub a:focus-visible,.tf-foot a:focus-visible{outline:2px solid #E0892B;outline-offset:2px}
+
+/* crew menu: the same panel is the desktop "Crew" dropdown and the phone menu */
+.tf-panel{display:none;border-top:1px solid rgba(160,190,220,.14);background:#061021;color:#E6ECF4;max-height:calc(100vh - 56px);overflow:auto}
+.tf-panel.open{display:block}
+.tf-panel .tf-wrap{padding-top:14px;padding-bottom:18px}
+.tf-ph{font-size:12.5px;color:#6E7F9A;margin-bottom:8px}
+.tf-ph2{margin-top:14px;padding-top:12px;border-top:1px solid rgba(160,190,220,.14)}
+.tf-crew{display:grid;grid-template-columns:1fr;gap:2px}
+@media (min-width:560px){.tf-crew{grid-template-columns:1fr 1fr}}
+@media (min-width:980px){.tf-crew{grid-template-columns:repeat(4,1fr);gap:4px 10px}}
+.tf-crew a{display:flex;align-items:center;gap:10px;padding:8px;border-radius:6px;min-height:52px}
+.tf-crew a:hover,.tf-crew a.on{background:rgba(160,190,220,.08)}
+.tf-crew img{width:36px;height:36px;border-radius:4px;object-fit:cover;object-position:50% 18%;flex:none;background:#0B1E3A}
+.tf-crew a.dim img{filter:grayscale(1) brightness(.5)}
+.tf-crew b{display:block;font-family:"Big Shoulders Display",Manrope,sans-serif;font-weight:800;font-size:19px;letter-spacing:.4px;line-height:1.1}
+.tf-crew span{display:block;font-size:12.5px;color:#A9B7CB}
+.tf-crew i{font-style:normal;color:#6E7F9A}
+.tf-crew i.live{color:#F7C27A}
+.tf-more{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(160,190,220,.14);font-size:14.5px}
+.tf-more a{padding:10px 12px;border-radius:6px;min-height:44px;display:inline-flex;align-items:center;color:#E6ECF4}
+.tf-more a:hover{background:rgba(160,190,220,.08)}
+@media (min-width:860px){.tf-more{display:none}}
+
+/* sub-bar: where you are inside one agent, and the way back */
+.tf-sub{position:sticky;top:56px;z-index:70;background:rgba(8,20,38,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(160,190,220,.14);color:#A9B7CB;font-size:13.5px}
+.tf-sub .tf-wrap{display:flex;align-items:center;gap:6px;min-height:44px;overflow-x:auto;scrollbar-width:none;white-space:nowrap}
+.tf-sub .tf-wrap::-webkit-scrollbar{display:none}
+.tf-back{display:inline-flex;align-items:center;gap:5px;min-height:44px;padding-right:4px;color:#A9B7CB}
+.tf-back:hover{color:#fff}
+.tf-back svg{width:13px;height:13px}
+.tf-here{font-family:"Big Shoulders Display",Manrope,sans-serif;font-weight:800;font-size:18px;letter-spacing:.4px;color:#E6ECF4;padding:0 10px 0 2px;display:inline-flex;align-items:center;min-height:44px}
+.tf-sep{color:#4A5C78}
+.tf-tabs{display:flex;align-items:center;gap:2px;padding-left:8px;border-left:1px solid rgba(160,190,220,.14)}
+.tf-tabs a{padding:0 10px;min-height:44px;display:inline-flex;align-items:center;border-bottom:2px solid transparent}
+.tf-tabs a:hover{color:#fff}
+.tf-tabs a.on{color:#fff;border-bottom-color:#E0892B}
+
+/* anchors land below the sticky bars */
+:target,[id]{scroll-margin-top:112px}
+
+/* footer */
+.tf-foot{margin:0;text-align:left;border-top:1px solid rgba(160,190,220,.14);padding:30px 0 44px;color:#6E7F9A;font-size:13.5px;background:#040A16}
+.tf-fcols{display:grid;gap:22px}
+@media (min-width:720px){.tf-fcols{grid-template-columns:2fr 1fr 1fr;gap:32px}}
+.tf-foot h4{font-family:Manrope,system-ui,sans-serif;font-size:13px;font-weight:700;color:#A9B7CB;margin-bottom:8px;letter-spacing:0}
+.tf-fl{display:flex;flex-wrap:wrap;gap:2px 16px}
+.tf-fl a{min-height:32px;display:inline-flex;align-items:center;color:#A9B7CB}
+.tf-fl a:hover{color:#fff}
+.tf-fl a small{color:#6E7F9A;font-size:12px;margin-left:5px}
+.tf-legal{margin-top:22px;padding-top:16px;border-top:1px solid rgba(160,190,220,.1);font-size:12.5px}

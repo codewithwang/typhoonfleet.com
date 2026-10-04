@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Glass | The flaws attackers are using, read every morning</title>
+<meta name="description" content="Glass reads the public vulnerability lists every day, rebuilds the details most new entries arrive without, and ranks what matters. It does not yet match anything to what you run.">
+<meta name="theme-color" content="#040A16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../hero.css">
+</head>
+<body data-hero="glass" data-page="overview" style="--spot:#6FA2F0">
+<script src="../skills.js"></script>
+<script src="../site.js"></script>
+<noscript><p style="padding:12px 16px"><a href="../index.html">Typhoon Fleet home</a></p></noscript>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="g-kev"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-5M12 3v2M21 12h-2M12 21v-2M3 12h2"/><circle cx="12" cy="12" r="1.2"/></g>
+    <g id="g-cve"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8 8c1.3-1 2.7-1 4 0s2.7 1 4 0M8 12c1.3-1 2.7-1 4 0s2.7 1 4 0M8 16h5"/></g>
+    <g id="g-match"><rect x="3" y="8" width="18" height="7" rx="3.5"/><path d="M7 8v7M17 8v7M12 15v3M9 21h6l-1-3h-4z"/></g>
+  </defs>
+</svg>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="art">
+      <div class="tile">
+        <img src="../fleet/art/glass-tile.jpg" alt="Glass on the night harbour, reading a glowing barometer dial with a weather log under one arm" width="768" height="1024">
+        <div class="scuff"></div>
+        <div class="bar"><b>Glass</b><span>Threat intelligence, fleet service</span><span class="pill"><i></i>Live, runs every morning</span></div>
+      </div>
+    </div>
+    <div>
+      <h1>The flaws attackers are using, <em>read every morning.</em></h1>
+      <p class="lede">Thousands of new software flaws are published every month, and most will never be used against anyone. Glass reads the public lists each day, rebuilds the details most entries now arrive without, and ranks the few that matter. <b>It does not yet match them to what you run.</b></p>
+      <div class="ctas">
+        <a class="btn gold" href="https://wangreport.com/cve/">See today's ranked list</a>
+        <a class="btn line" href="#how">How it works</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="facts">
+  <span><b>Public sources only</b></span>
+  <span><b>Every field says where it came from</b></span>
+  <span><b>No AI model in the run</b></span>
+</div>
+
+<section id="kit">
+  <div class="wrap">
+    <h2 class="big">What Glass carries.</h2>
+    <p class="slede">Three pieces of kit. Two work today. The third is the one that would make it personal, and it is not built.</p>
+    <div class="kit" data-sk="kit" data-agent="glass"></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2 class="big">How it works.</h2>
+    <p class="slede">One run each morning, Hong Kong time. Each source is read on its own, so one dead feed does not stop the rest.</p>
+    <div class="steps">
+      <div class="st"><h3>Gather</h3><p>Reads the CVE.org record list (the master list of published flaws), the CISA Known Exploited Vulnerabilities catalogue, the FIRST EPSS exploit-probability scores, and CISA's industrial control system advisories.</p></div>
+      <div class="st"><h3>Rebuild</h3><p>The US National Vulnerability Database no longer fills in severity and affected products for most new entries. Glass takes those details from the publisher's own record instead, and stamps each field with its source.</p></div>
+      <div class="st"><h3>Score</h3><p>Confirmed exploitation counts most. Then the probability of exploitation in the next 30 days, whether the vendor is on a watch list, whether industrial systems are affected, and how recent it is.</p></div>
+      <div class="st"><h3>Publish</h3><p>Writes the ranked list and a short digest: new exploited entries since the last run, and the count for the week. Each run leaves one line in the fleet's decision log.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="output">
+  <div class="wrap">
+    <h2 class="big">What comes out today.</h2>
+    <p class="slede">Glass does not have its own page for you yet. Its output is published through The Wang Report's cyber desk, a sister ship in the fleet.</p>
+    <div class="rows">
+      <div class="row"><b>Ranked list</b><span>The top 250 flaws by score, with severity, exploit probability, affected products and the reason for the rank. <a href="https://wangreport.com/cve/">wangreport.com/cve</a></span></div>
+      <div class="row"><b>Exposure ledger</b><span>A running record of exploited flaws that touch watched vendors. <a href="https://wangreport.com/cyber-exposure.html">wangreport.com/cyber-exposure</a></span></div>
+      <div class="row"><b>On file</b><span>About 47,000 flaws in the library at the start of October 2026. Most are stored and never ranked, because nothing suggests anyone is using them.</span></div>
+      <div class="row"><b>Sources read</b><span>CVE.org records, CISA KEV, FIRST EPSS, CISA ICS advisories. The National Vulnerability Database is used as a fallback for severity only.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="wrap">
+    <h2 class="big">What it does, and what it does not.</h2>
+    <div class="two">
+      <div class="box">
+        <h3>It does</h3>
+        <ul>
+          <li>Read four public sources every day and keep a record of each run.</li>
+          <li>Rebuild missing severity, weakness type and affected products from the publisher's record.</li>
+          <li>Show, field by field, where each detail came from.</li>
+          <li>Rank by confirmed and likely exploitation, not by severity alone.</li>
+        </ul>
+      </div>
+      <div class="box no">
+        <h3>It does not</h3>
+        <ul>
+          <li>Know what you run. Nothing on the list is matched to your domain or your code.</li>
+          <li>Send you alerts. You read the list; it does not come to you.</li>
+          <li>Run in real time. A flaw published at noon is read the next morning.</li>
+          <li>Score for your industry. The watch lists are tuned to Asia-Pacific financial services and industrial vendors, and are kept by hand, so a vendor name it does not recognise is a flaw it can miss.</li>
+          <li>Read GitHub advisories, OSV, the EU database or VulnCheck. Those four sources are planned, not connected.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="next">
+  <div class="wrap">
+    <h2 class="big">What comes next.</h2>
+    <p class="slede">Phase by phase. None of these has a date. Each one is a square on the <a href="skills.html">skill tree</a>.</p>
+    <div class="phases" data-sk="phases" data-agent="glass" data-from="1"></div>
+  </div>
+</section>
+
+<section id="crew">
+  <div class="wrap">
+    <h2 class="big">Who Glass works with.</h2>
+    <div class="crewnav">
+      <a class="cn" href="../squall/index.html"><img src="../fleet/art/squall-tile.jpg" alt="" loading="lazy"><div><b>Squall</b><span>Finds the flawed package in your code. Glass will say if it is under attack.</span></div></a>
+      <a class="cn" href="../bridge/index.html"><img src="../fleet/art/bridge-tile.jpg" alt="" loading="lazy"><div><b>Bridge</b><span>Keeps the log each Glass run writes to.</span></div></a>
+      <a class="cn" href="skills.html"><img src="../fleet/art/glass-tile.jpg" alt="" loading="lazy"><div><b>Skill tree</b><span>Every capability, built and not, phase by phase.</span></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2 class="big">Glass reads the lists. Squall checks what is yours.</h2>
+    <p>The part of the fleet you can use on your own domain today is Squall.</p>
+    <div class="ctas">
+      <a class="btn gold" href="https://start.typhoonfleet.com/">Start with your domain</a>
+      <a class="btn line" href="../index.html#crew">Back to the crew</a>
+    </div>
+  </div>
+</section>
+</body>
+</html>

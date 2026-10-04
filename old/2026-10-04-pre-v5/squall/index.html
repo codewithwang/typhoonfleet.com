@@ -65,9 +65,6 @@
   .kc .item svg{width:30px;height:30px;filter:drop-shadow(0 0 3px #E0892B)}
   .kc b{font-size:14.5px;font-weight:700;line-height:1.25;color:var(--ink)}
   .kc span{font-size:12.5px;line-height:1.4;color:var(--ink2)}
-  .kc .state{font-weight:700;color:#F7C27A}
-  .kc.off{border-style:dashed}.kc.off .item{color:var(--ink3);border-color:var(--line2);box-shadow:none}.kc.off .state{color:var(--ink3)}
-  @media (min-width:1040px){.kit{grid-template-columns:repeat(4,minmax(0,1fr)) !important}}
   .kitnote{font-size:13px;color:var(--ink3);margin-top:14px}
   /* hero */
   .hero{position:relative;padding:22px 0 54px;overflow:hidden;isolation:isolate}
@@ -148,12 +145,8 @@
   footer .fl{display:flex;gap:20px;flex-wrap:wrap}
   footer a:hover{color:#fff}
 </style>
-<link rel="stylesheet" href="../site.css">
 </head>
-<body data-page="overview" data-hero="squall">
-<script src="../skills.js"></script>
-<script src="../site.js"></script>
-<noscript><p style="padding:12px 16px"><a href="../index.html">Typhoon Fleet home</a></p></noscript>
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <g id="g-tls"><path d="M9 7V5a3 3 0 0 1 6 0v2"/><rect x="6" y="7" width="12" height="12" rx="1.5"/><path d="M9 11h6M9 14h6M9 17h6M5 22h14"/></g>
@@ -164,6 +157,21 @@
     <g id="g-dns"><path d="M12 2v5"/><path d="M8 7h8l2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="10.5" r="1.2"/><path d="M9 16h6"/></g>
   </defs>
 </svg>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Squall home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3v8M8 11h8"/></svg>
+      Squall <small>Typhoon Fleet</small>
+    </a>
+    <nav class="links">
+      <a class="hide-sm" href="attack-path.html">Attack path</a>
+      <a class="hide-sm" href="product.html">Details</a>
+      <a href="https://squall.typhoonfleet.com/squall/login">Log in</a>
+      <a class="btn gold sm" href="https://start.typhoonfleet.com/">Start</a>
+    </nav>
+  </div>
+</header>
+
 <header class="hero">
   <div class="wrap">
     <div class="art">
@@ -193,8 +201,15 @@
 <section id="kit">
   <div class="wrap">
     <h2 class="big">What Squall carries.</h2>
-    <p class="slede">Each check is a piece of kit. Each runs on our own apps before it runs on yours.</p>
-<div class="kit" data-sk="kit" data-agent="squall"></div>
+    <p class="slede">Six checks, each one a piece of kit. Each runs on our own apps before it runs on yours.</p>
+<div class="kit">
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-tls"/></svg></span><b>Header and TLS read</b><span>Reads a site's security headers and certificate.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-secret"/></svg></span><b>Secret scan</b><span>Looks for keys and passwords left in code.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-deps"/></svg></span><b>Dependency audit</b><span>Checks the packages a project depends on for known flaws.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-code"/></svg></span><b>Code vulnerability audit</b><span>Reads the code itself for common weaknesses.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-mail"/></svg></span><b>Email records check</b><span>Checks SPF and DMARC for a domain.</span></div>
+  <div class="kc"><span class="item" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-dns"/></svg></span><b>DNS ownership proof</b><span>Proves you control a domain with a DNS record.</span></div>
+</div>
     <p class="kitnote">Mapped to the NIST Cybersecurity Framework 2.0: Identify, and part of Protect. <a href="product.html#whole" style="color:var(--lit)">What that covers and what it leaves out</a></p>
   </div>
 </section>
@@ -220,8 +235,27 @@
   <div class="wrap">
     <h2 class="big">We are at phase 0.</h2>
     <p class="slede">Each phase lights up more of the map. Every capability runs on our own apps before it joins Squall.</p>
-    <div class="phases" data-sk="phases" data-agent="squall"></div>
-    <p class="limits"><a href="skills.html">The full skill tree, with what each one needs first →</a></p>
+    <div class="phases">
+      <div class="ph now"><span class="k"><i></i>Phase 0 (now)</span><h3>Your app and its code</h3><ul>
+        <li>Weak spots in your site and code</li>
+        <li>Passwords and keys left in code</li>
+        <li>Third-party parts with known defects</li>
+        <li>Where your app sends data</li>
+        <li>Nightly re-checks</li>
+      </ul></div>
+      <div class="ph"><span class="k"><i></i>Phase 1</span><h3>AI and the internet edge</h3><ul>
+        <li>AI chatbots and features</li>
+        <li>What your domain shows the internet</li>
+        <li>A one-page verdict and retest view</li>
+      </ul></div>
+      <div class="ph"><span class="k"><i></i>Phase 2</span><h3>Accounts and cloud</h3><ul>
+        <li>Cloud and publishing accounts</li>
+        <li>Findings matched to regulations</li>
+      </ul></div>
+      <div class="ph"><span class="k"><i></i>Phase 3</span><h3>Your defences</h3><ul>
+        <li>Would your alarms fire</li>
+      </ul></div>
+    </div>
     <p class="limits"><a href="attack-path.html">What Squall covers along an attack, and what it leaves to others →</a></p>
   </div>
 </section>
@@ -249,6 +283,13 @@
     </div>
   </div>
 </section>
+
+<footer>
+  <div class="wrap">
+    <span>Squall is a <a href="https://typhoonfleet.com/" style="color:var(--ink2)">Typhoon Fleet</a> service · squall@typhoonfleet.com</span>
+    <div class="fl"><a href="attack-path.html">Attack path</a><a href="product.html">Details</a><a href="technical.html">Technical</a><a href="https://squall.typhoonfleet.com/squall/login">Log in</a></div>
+  </div>
+</footer>
 
 <script>
 (function(){
