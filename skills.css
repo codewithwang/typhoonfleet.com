@@ -116,3 +116,10 @@
 .fm-key{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;font-size:13px;color:#A9B7CB}
 .fm-key span{display:inline-flex;align-items:center;gap:7px}
 .fm-key i{width:10px;height:10px;border-radius:3px;background:var(--spot)}
+
+/* maturity rows: the level name with its pips, and what the level means */
+.sk-tl b{display:inline-flex;align-items:center;gap:10px}
+.sk-tl span{max-width:60%;text-align:right}
+.sk-tier.r4 .sk-tl b{color:var(--spot)}
+.sk-none{grid-column:1/-1;font-size:13.5px;color:var(--ink3);padding:4px 0 6px}
+.sk-legend b{color:var(--ink);font-weight:600;margin-right:2px}

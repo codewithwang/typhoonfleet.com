@@ -2,12 +2,14 @@
    has or intends to have is one node here, owned by one agent, in one NIST CSF 2.0 category, with a rank
    that has to be earned by evidence. A capability that is not a node is not on the roadmap.
 
-   rank 0 not built · 1 built · 2 running · 3 live for customers
-   tier 0 now · 1 next · 2 later · 3 end game
+   rank (maturity) 0 not built · 1 built · 2 running · 3 live · 4 world class (measured and independently checked)
+   tier 0 now · 1 next · 2 later · 3 end game (sequencing only; pages group by rank)
    req  ids this node needs first; "agent:id" points at another agent's node */
 (function(){
 var G={"lock": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"10\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/>", "tls": "<path d=\"M9 7V5a3 3 0 0 1 6 0v2\"/><rect x=\"6\" y=\"7\" width=\"12\" height=\"12\" rx=\"1.5\"/><path d=\"M9 11h6M9 14h6M9 17h6M5 22h14\"/>", "secret": "<circle cx=\"10\" cy=\"10\" r=\"6\"/><circle cx=\"10\" cy=\"10\" r=\"2.2\"/><path d=\"M14.5 14.5L21 21\"/>", "deps": "<circle cx=\"9\" cy=\"9\" r=\"6\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"M14.5 12c3 1 5 3.5 5 7v3M9 15v6\"/>", "code": "<rect x=\"7\" y=\"3\" width=\"12\" height=\"18\" rx=\"1.5\"/><path d=\"M5 7h3M5 11h3M5 15h3M5 19h3M11 9h5M11 13h5\"/>", "mail": "<path d=\"M5 22V3M5 4h8l-2 3 2 3H5\"/><path d=\"M13 22V12M13 13h8l-2 3 2 3h-8\"/>", "dns": "<path d=\"M12 2v5\"/><path d=\"M8 7h8l2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9z\"/><circle cx=\"12\" cy=\"10.5\" r=\"1.2\"/><path d=\"M9 16h6\"/>", "kev": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 12l4-5M12 3v2M21 12h-2M12 21v-2M3 12h2\"/><circle cx=\"12\" cy=\"12\" r=\"1.2\"/>", "cve": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"1.5\"/><path d=\"M8 8c1.3-1 2.7-1 4 0s2.7 1 4 0M8 12c1.3-1 2.7-1 4 0s2.7 1 4 0M8 16h5\"/>", "match": "<rect x=\"3\" y=\"8\" width=\"18\" height=\"7\" rx=\"3.5\"/><path d=\"M7 8v7M17 8v7M12 15v3M9 21h6l-1-3h-4z\"/>", "cloak": "<path d=\"M12 3c-3 0-5 2-5 5l-3 13h16l-3-13c0-3-2-5-5-5z\"/><path d=\"M9 8c0-2 1.5-3 3-3s3 1 3 3M12 10v11\"/>", "gate": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"10\" rx=\"2\"/><path d=\"M8 11V7a4 4 0 0 1 8 0v4\"/><circle cx=\"12\" cy=\"16\" r=\"1.2\"/>", "shred": "<path d=\"M12 12L5 3M12 12l7-9M12 12l-2.5 3M12 12l2.5 3\"/><circle cx=\"8\" cy=\"18\" r=\"3\"/><circle cx=\"16\" cy=\"18\" r=\"3\"/>", "route": "<path d=\"M4 7l5-2 6 2 5-2v12l-5 2-6-2-5 2z\"/><path d=\"M9 5v12M15 7v12M7 11h4M13 13h4\"/>", "log": "<path d=\"M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z\"/><path d=\"M8 4v16M11 9h5M11 13h5\"/>", "brief": "<rect x=\"3\" y=\"6\" width=\"18\" height=\"13\" rx=\"2\"/><path d=\"M3 8l9 6 9-6\"/><circle cx=\"12\" cy=\"14\" r=\"2.2\"/>", "census": "<circle cx=\"9\" cy=\"15\" r=\"5\"/><path d=\"M12.5 11.5L21 3M18 6l2 2M15 9l2 2\"/>", "dormant": "<path d=\"M9 3h6M12 3v2\"/><rect x=\"7\" y=\"5\" width=\"10\" height=\"12\" rx=\"2\"/><path d=\"M12 8v6M6 21h12M9 17v4M15 17v4\"/>", "reset": "<rect x=\"8\" y=\"3\" width=\"8\" height=\"18\" rx=\"4\"/><path d=\"M8 8h8M8 16h8M4 12h4M16 12h4\"/>", "breach": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M9 8h6M9 12h3M14 13l-2 3h3l-2 3\"/>", "broker": "<path d=\"M5 21h11a3 3 0 0 0 3-3V3H8a3 3 0 0 0-3 3v15z\"/><path d=\"M5 21a3 3 0 0 1 0-6h11M11 8h5M11 12h5\"/>", "docleak": "<rect x=\"3\" y=\"8\" width=\"18\" height=\"13\" rx=\"2\"/><path d=\"M3 13h18M9 8V5h6v3M12 13v3\"/>", "device": "<path d=\"M3 4h7l7 7-7 7-7-7z\"/><circle cx=\"7\" cy=\"8\" r=\"1.2\"/><path d=\"M14 13l4 4-4 4\"/>", "firewall": "<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M8 21h8M12 16v5M12 2v3M20 12h-3M4 12h3M18 6l-2 2M6 6l2 2\"/>", "login": "<path d=\"M6 17V11a6 6 0 0 1 12 0v6l2 2H4z\"/><path d=\"M10 21h4\"/>", "playbook": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M12 8v6M9 11h6\"/>", "backup": "<rect x=\"3\" y=\"10\" width=\"18\" height=\"10\" rx=\"2\"/><path d=\"M5 10V8a7 3 0 0 1 14 0v2\"/><rect x=\"10.5\" y=\"12.5\" width=\"3\" height=\"3\"/>", "drill": "<path d=\"M3 11a4 4 0 0 1 4-4h8v8H7a4 4 0 0 1-4-4z\"/><path d=\"M15 9h6v4h-6\"/><circle cx=\"7\" cy=\"11\" r=\"1.2\"/>"};
-var RANK=['Not built','Built','Running','Live'];
+var RANK=['Not built','Built','Running','Live','World class'];
+var RANKD=['Not built yet.','Works when a person starts it.','Runs on its own, on a schedule.','You can switch it on yourself.','Accuracy measured against a test set and checked independently.'];
+var MAX=4;
 var TIER=['Now','Next','Later','End game'];
 var CSF={'ID.AM':'Identify: asset management','ID.RA':'Identify: risk assessment','ID.IM':'Identify: improvement','PR.AA':'Protect: identity and access','PR.DS':'Protect: data security','PR.PS':'Protect: platform security','GV.OV':'Govern: oversight','GV.OC':'Govern: organisational context','GV.PO':'Govern: policy','DE.CM':'Detect: continuous monitoring','DE.AE':'Detect: adverse event analysis','RS.MA':'Respond: incident management','RS.CO':'Respond: incident communication','RC.RP':'Recover: recovery plan execution'};
 var ORDER=['squall','anchor','fathom','lookout','harbour','glass','bridge','haze'];
@@ -118,26 +120,26 @@ var CSFALL=[['Govern',[['GV.OC','Organisational context'],['GV.RM','Risk managem
  ['Respond',[['RS.MA','Incident management'],['RS.AN','Incident analysis'],['RS.CO','Incident communication'],['RS.MI','Incident mitigation']]],
  ['Recover',[['RC.RP','Recovery plan'],['RC.CO','Recovery communication']]]];
 
-function pts(a){var p=0;a.skills.forEach(function(s){p+=s.r;});return [p,a.skills.length*3];}
+function pts(a){var p=0;a.skills.forEach(function(s){p+=s.r;});return [p,a.skills.length*MAX];}
 function svg(g){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(G[g]||G.kev)+'</svg>';}
-function pips(r){var h='';for(var i=1;i<=3;i++)h+='<i class="'+(i<=r?'on':'')+'"></i>';return '<span class="sk-pips" aria-hidden="true">'+h+'</span>';}
+function pips(r){var h='';for(var i=1;i<=MAX;i++)h+='<i class="'+(i<=r?'on':'')+'"></i>';return '<span class="sk-pips" aria-hidden="true">'+h+'</span>';}
 function find(aid,ref){var p=ref.split(':');var ag=p.length>1?p[0]:aid,id=p[p.length-1];var s=A[ag].skills.filter(function(x){return x.id===id;})[0];return {ag:ag,s:s};}
 
 function tree(root,aid,base){
-  var a=A[aid],P=pts(a),bt=[0,0,0,0],btm=[0,0,0,0];
-  a.skills.forEach(function(s){bt[s.t]+=s.r;btm[s.t]+=3;});
+  var a=A[aid],P=pts(a);
   var h='<div class="sk-head"><div><h1>'+a.name+' skill tree</h1><p class="sk-job">'+a.job+'</p></div>'+
     '<div class="sk-score"><b>'+P[0]+'</b><span>of '+P[1]+' skill points</span><div class="sk-bar"><i style="width:'+(P[0]/P[1]*100)+'%"></i></div><small>NIST CSF 2.0: '+a.fn+'</small></div></div>'+
-    '<div class="sk-legend">'+RANK.map(function(r,i){return '<span>'+pips(i)+r+'</span>';}).join('')+'</div>'+
     '<div class="sk-cols"><div class="sk-tree" id="sk-tree"><svg class="sk-lines" id="sk-lines" aria-hidden="true"></svg>'+
     '<div class="sk-branches">'+a.branches.map(function(b){return '<span>'+b+'</span>';}).join('')+'</div>';
-  for(var t=0;t<4;t++){
-    var used=[0,0,0];
-    h+='<div class="sk-tier"><div class="sk-tl"><b>'+TIER[t]+'</b><span>'+bt[t]+' of '+btm[t]+' points</span></div><div class="sk-grid">';
-    a.skills.filter(function(s){return s.t===t;}).forEach(function(s){
+  /* rows by maturity, most mature first. World class always shows: it is the target */
+  for(var t=MAX;t>=0;t--){
+    var used=[0,0,0], L=a.skills.filter(function(s){return s.r===t;});
+    if(!L.length&&t!==MAX)continue;
+    h+='<div class="sk-tier r'+t+'"><div class="sk-tl"><b>'+pips(t)+RANK[t]+'</b><span>'+RANKD[t]+'</span></div><div class="sk-grid">'+(L.length?'':'<p class="sk-none">No skill is here yet.</p>');
+    L.sort(function(x,y){return x.t-y.t;}).forEach(function(s){
       used[s.c]++;
       h+='<button type="button" class="sk-node r'+s.r+'" data-id="'+s.id+'" style="grid-column:'+(s.c+1)+';grid-row:'+used[s.c]+'" aria-label="'+s.n+', '+RANK[s.r]+'">'+
-        '<span class="sk-ic">'+svg(s.g)+'<em>'+s.r+'/3</em></span><span class="sk-n">'+s.n+'</span></button>';
+        '<span class="sk-ic">'+svg(s.g)+'<em>'+s.r+'/'+MAX+'</em></span><span class="sk-n">'+s.n+'</span></button>';
     });
     h+='</div></div>';
   }
@@ -147,10 +149,10 @@ function tree(root,aid,base){
   function show(id,open){
     var s=a.skills.filter(function(x){return x.id===id;})[0]; if(!s)return;
     root.querySelectorAll('.sk-node').forEach(function(n){n.classList.toggle('sel',n.getAttribute('data-id')===id);});
-    var needs=(s.req||[]).map(function(r){var f=find(aid,r);return f.ag===aid?'<button type="button" data-go="'+f.s.id+'">'+f.s.n+' '+f.s.r+'/3</button>':'<a href="'+base+f.ag+'/skills.html#'+f.s.id+'">'+A[f.ag].name+': '+f.s.n+' '+f.s.r+'/3</a>';});
+    var needs=(s.req||[]).map(function(r){var f=find(aid,r);return f.ag===aid?'<button type="button" data-go="'+f.s.id+'">'+f.s.n+' '+f.s.r+'/'+MAX+'</button>':'<a href="'+base+f.ag+'/skills.html#'+f.s.id+'">'+A[f.ag].name+': '+f.s.n+' '+f.s.r+'/'+MAX+'</a>';});
     var opens=a.skills.filter(function(x){return (x.req||[]).indexOf(s.id)>-1;}).map(function(x){return '<button type="button" data-go="'+x.id+'">'+x.n+'</button>';});
     det.innerHTML='<button type="button" class="sk-x" aria-label="Close">×</button>'+
-      '<div class="sk-dt"><span class="sk-ic r'+s.r+'">'+svg(s.g)+'</span><div><h3>'+s.n+'</h3><div class="sk-rk">'+pips(s.r)+'<b>'+s.r+' of 3.</b> '+RANK[s.r]+'</div></div></div>'+
+      '<div class="sk-dt"><span class="sk-ic r'+s.r+'">'+svg(s.g)+'</span><div><h3>'+s.n+'</h3><div class="sk-rk">'+pips(s.r)+'<b>'+RANK[s.r]+'.</b> '+RANKD[s.r]+'</div></div></div>'+
       '<p>'+s.d+'</p>'+
       '<dl>'+(s.ev?'<dt>Today</dt><dd>'+s.ev+'</dd>':'')+
       '<dt>Framework</dt><dd>NIST CSF 2.0 '+s.csf+'. '+CSF[s.csf]+'</dd>'+
@@ -176,6 +178,7 @@ function tree(root,aid,base){
       var x1=A1.left+A1.width/2-b.left,y1=A1.bottom-b.top,x2=B1.left+B1.width/2-b.left,y2=B1.top-b.top;
       var d;
       if(y2>y1+4){var m=y2-12;d='M'+x1+' '+y1+'V'+m+'H'+x2+'V'+y2;}
+      else if(B1.bottom<A1.top-4){var ya=A1.top-b.top,yb=B1.bottom-b.top,mm=yb+12;d='M'+x1+' '+ya+'V'+mm+'H'+x2+'V'+yb;}
       else{y1=A1.top+A1.height/2-b.top;y2=B1.top+B1.height/2-b.top;x1=x2>x1?A1.right-b.left:A1.left-b.left;x2=x2>x1?B1.left-b.left:B1.right-b.left;d='M'+x1+' '+y1+'H'+x2;}
       p+='<path d="'+d+'" class="'+(f.s.r>0&&s.r>0?'lit':(f.s.r>0?'half':''))+'"/>';
     });});
@@ -196,7 +199,7 @@ function overview(root,base){
   var crew=ORDER.filter(function(i){return A[i].side==='crew';}),serv=ORDER.filter(function(i){return A[i].side==='service';});
   root.innerHTML='<div class="sk-head"><div><h1>Fleet skill trees</h1></div>'+
     '<div class="sk-score"><b>'+tot[0]+'</b><span>of '+tot[1]+' skill points</span><div class="sk-bar"><i style="width:'+(tot[0]/tot[1]*100)+'%"></i></div><small>across eight agents</small></div></div>'+
-    '<div class="sk-legend">'+RANK.map(function(r,i){return '<span>'+pips(i)+r+'</span>';}).join('')+'</div>'+
+    '<div class="sk-legend">'+RANK.map(function(r,i){return '<span>'+pips(i)+'<b>'+r+'</b> '+RANKD[i]+'</span>';}).join('')+'</div>'+
     '<h2 class="sk-h2">The crew</h2><p class="sk-sub">Each one checks something of yours.</p><div class="sk-cards">'+crew.map(card).join('')+'</div>'+
     '<h2 class="sk-h2">Fleet services</h2><p class="sk-sub">They support the crew.</p><div class="sk-cards">'+serv.map(card).join('')+'</div>';
 }

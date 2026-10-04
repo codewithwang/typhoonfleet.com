@@ -235,6 +235,38 @@
   .detail .dfig{grid-row:1;grid-column:2;height:300px;background:center bottom/contain no-repeat;align-self:stretch}
   .detail .dfig.off{filter:grayscale(1) brightness(0);opacity:.14}
   @media (max-width:560px){.detail{grid-template-columns:1fr}.detail .dfig{grid-column:1;grid-row:1;height:220px}}
+
+  /* onboarding flow: Squall first, then the crew to switch on; the services sit behind */
+  .machine{padding:30px 26px 0}
+  .flowpads{display:grid;grid-template-columns:200px 60px 1fr;align-items:end;gap:0}
+  .startcol{position:relative}
+  .startmark{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--gold);margin-bottom:10px}
+  .startmark i{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(181,98,15,.15);animation:beacon 2s ease-in-out infinite}
+  @keyframes beacon{50%{box-shadow:0 0 0 9px rgba(181,98,15,0)}}
+  #startPad .pad{aspect-ratio:auto;height:230px;border:2px solid var(--gold);box-shadow:0 0 0 5px rgba(181,98,15,.12),0 18px 34px -18px rgba(181,98,15,.55)}
+  #startPad .pad .who{bottom:34px}
+  .thenline{height:2px;margin-bottom:115px;background:repeating-linear-gradient(90deg,var(--gold) 0 8px,transparent 8px 14px);position:relative}
+  .thenline::after{content:"";position:absolute;right:-2px;top:-5px;border-left:9px solid var(--gold);border-top:6px solid transparent;border-bottom:6px solid transparent}
+  .crewpads{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .crewpads .pad{aspect-ratio:auto;height:190px}
+  .behind{display:flex;align-items:center;gap:16px;margin:22px 0 0;padding:16px 0;border-top:1px solid var(--line)}
+  .behind .bl{font-size:13px;color:var(--faint);white-space:nowrap}
+  .svcpads{display:grid;grid-template-columns:repeat(3,minmax(0,150px));gap:10px}
+  .svcpads .pad{aspect-ratio:auto;height:96px;flex-direction:row;align-items:flex-end;justify-content:flex-start}
+  .svcpads .pad .who{left:auto;right:6px;width:58px;top:6px;bottom:6px}
+  .machine .detail{border-top:1px solid var(--line);margin:0 -26px;padding:28px 30px 26px;grid-template-columns:minmax(0,1fr) 220px !important}
+  .machine .detail .dfig{height:340px}
+  @media (max-width:820px){
+    .flowpads{grid-template-columns:1fr}
+    .thenline{width:2px;height:34px;margin:10px auto;background:repeating-linear-gradient(180deg,var(--gold) 0 8px,transparent 8px 14px)}
+    .thenline::after{right:auto;left:-5px;top:auto;bottom:-4px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid var(--gold);border-bottom:0}
+    #startPad .pad{height:220px;max-width:240px;margin:0 auto}
+    .startmark{justify-content:center}
+    .crewpads{grid-template-columns:repeat(2,1fr)}
+    .behind{flex-direction:column;align-items:flex-start}
+    .svcpads{grid-template-columns:repeat(3,1fr);width:100%}
+    .machine .detail{grid-template-columns:1fr !important}
+  }
 </style>
 </head>
 <body>
@@ -266,18 +298,16 @@
 <section id="machine" class="machine-sec">
   <div class="wrap">
     <div class="machine">
-      <div class="transport">
-        <span class="play"><span class="tri"></span> The crew</span>
-        <span class="lcd">Bridge sends each request to the right agent</span>
-        <span class="right"><span><b id="aboard">8</b> aboard</span></span>
-      </div>
-      <div class="machine-body">
-        <div class="seq"><div id="seqRows"></div></div>
-        <div class="lower">
-          <div class="pads"><div class="padgrid" id="padGrid"></div></div>
-          <div class="detail" id="detail"></div>
+      <div class="flowpads">
+        <div class="startcol">
+          <div class="startmark"><i></i>Start here</div>
+          <div id="startPad"></div>
         </div>
+        <div class="thenline" aria-hidden="true"></div>
+        <div class="crewpads" id="crewPads"></div>
       </div>
+      <div class="behind"><span class="bl">Behind the crew</span><div class="svcpads" id="svcPads"></div></div>
+      <div class="detail" id="detail"></div>
     </div>
   </div>
 </section>
@@ -325,7 +355,7 @@
   </div>
 </footer>
 
-<script src="skills.js?v=20261004f"></script>
+<script src="skills.js?v=20261004g"></script>
 <script>
 (function(){
   var T=window.TF_SKILLS, A=T.agents;
@@ -338,30 +368,16 @@
   var START='https://start.typhoonfleet.com/';
   function on(a){return a.skills.some(function(s){return s.r>0;});}
   var LIST=ORDER.map(function(id){var a=A[id];return {id:id,name:a.name,domain:a.fn,what:a.job,href:a.href,live:on(a),skills:a.skills,pat:PAT[id],act:ACT[id],origin:id==='bridge',start:id==='squall'};});
-  document.getElementById('aboard').textContent=LIST.length;
+  
 
-  var seqRows=document.getElementById('seqRows');
-  function row(a){
-    var r=document.createElement('div'); r.className='track'+(a.origin?' origin':'')+(a.live?'':' empty'); r.dataset.id=a.id;
-    var nm=document.createElement('div'); nm.className='name'; nm.textContent=a.name;
-    var st=document.createElement('div'); st.className='steps';
-    a.pat.forEach(function(x){var c=document.createElement('div'); c.className='cell'+(x&&a.live?' on':''); st.appendChild(c);});
-    r.appendChild(nm); r.appendChild(st); r.addEventListener('click',function(){select(a.id,true);}); r.style.cursor='pointer'; return r;
-  }
-  seqRows.appendChild(row(LIST[0]));
-  var rest=document.createElement('div'); rest.className='derived-tracks';
-  LIST.slice(1).forEach(function(a){rest.appendChild(row(a));}); seqRows.appendChild(rest);
-  var rows=[].slice.call(seqRows.querySelectorAll('.track'));
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches, step=0;
-  function tick(){rows.forEach(function(r){r.querySelectorAll('.cell').forEach(function(c,i){c.classList.toggle('now',i===step);});});step=(step+1)%16;}
-  tick(); if(!reduce) setInterval(tick,165);
-
-  var padGrid=document.getElementById('padGrid');
+  var rows=[];
+  var SVC={bridge:1,glass:1,haze:1};
   LIST.forEach(function(a){
+    var where=a.start?document.getElementById('startPad'):SVC[a.id]?document.getElementById('svcPads'):document.getElementById('crewPads');
     var p=document.createElement('div'); p.className='pad'; p.dataset.id=a.id;
     p.className='pad'+(a.live?'':' off');
-    p.innerHTML='<span class="who" style="background-image:url(fleet/crew/'+a.id+'.png)"></span><span class="pdot '+(a.live?'live':'planned')+'"></span>'+(a.start?'<span class="flag">Start here</span>':'')+'<span class="pn">'+a.name+'</span>';
-    p.addEventListener('click',function(){select(a.id,true);}); padGrid.appendChild(p);
+    p.innerHTML='<span class="who" style="background-image:url(fleet/crew/'+a.id+'.png)"></span><span class="pdot '+(a.live?'live':'planned')+'"></span>'+'<span class="pn">'+a.name+'</span>';
+    p.addEventListener('click',function(){select(a.id,true);}); where.appendChild(p);
   });
 
   var detail=document.getElementById('detail');
