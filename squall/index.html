@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Squall | Security checks without a security team</title>
-<meta name="description" content="Squall runs proven open-source security tools against your app, your code and the services it relies on. A person reviews what they find. You see the proof, the fixes, and what was out of reach.">
+<title>Squall | Security checks for your app and your code</title>
+<meta name="description" content="Squall runs proven open-source security tools against your app and your code. Every check runs on our own apps first.">
 <meta name="theme-color" content="#040A16">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,8 +65,7 @@
   .kc .item svg{width:30px;height:30px;filter:drop-shadow(0 0 3px #E0892B)}
   .kc b{font-size:14.5px;font-weight:700;line-height:1.25;color:var(--ink)}
   .kc span{font-size:12.5px;line-height:1.4;color:var(--ink2)}
-  .kc .state{font-weight:700;color:#F7C27A}
-  .kc.off{border-style:dashed}.kc.off .item{color:var(--ink3);border-color:var(--line2);box-shadow:none}.kc.off .state{color:var(--ink3)}
+  .kc.off{border-style:dashed}.kc.off .item{color:var(--ink3);border-color:var(--line2);box-shadow:none}
   @media (min-width:1040px){.kit{grid-template-columns:repeat(4,minmax(0,1fr)) !important}}
   .kitnote{font-size:13px;color:var(--ink3);margin-top:14px}
   /* hero */
@@ -113,6 +112,17 @@
   .key i.y{background:var(--amber)}.key i.p{background:repeating-linear-gradient(135deg,rgba(224,137,43,.8) 0 4px,rgba(224,137,43,.32) 4px 8px)}.key i.r{border:1.5px dashed var(--cyan)}.key i.o{background:rgba(160,190,220,.12)}
   .map .more{display:inline-block;margin-top:12px;font-size:13.5px;color:var(--lit)}
 
+  /* capabilities by framework category, working ones lit */
+  .csf{display:grid;gap:12px}
+  @media (min-width:720px){.csf{grid-template-columns:repeat(2,1fr)}}
+  @media (min-width:1040px){.csf{grid-template-columns:repeat(4,1fr)}}
+  .cg{padding:16px 16px 18px;background:var(--panel);border:1px solid var(--line2);border-radius:6px}
+  .cg h3{font-family:Manrope,sans-serif;font-size:13px;font-weight:600;color:var(--ink3);margin-bottom:12px;line-height:1.3}
+  .cg ul{list-style:none;display:grid;gap:8px}
+  .cg li{font-size:15px;padding-left:16px;position:relative;color:var(--ink3)}
+  .cg li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;border-radius:2px;border:1.5px dashed var(--slate)}
+  .cg li.on{color:var(--ink);font-weight:600}
+  .cg li.on::before{border:0;background:var(--amber);box-shadow:0 0 8px var(--amber)}
   /* phases */
   .phases{display:grid;gap:12px}
   @media (min-width:720px){.phases{grid-template-columns:1fr 1fr}}
@@ -170,12 +180,12 @@
       <div class="tile">
         <img src="../fleet/art/squall-tile.jpg" alt="Squall on the night harbour with a signal lamp raised, the beam reaching out over the water" width="768" height="1024">
         <div class="scuff"></div>
-        <div class="bar"><b>Squall</b><span>Assurance, sites and code</span><span class="pill"><i></i>In service, phase 0</span></div>
+        <div class="bar"><b>Squall</b><span>Assurance, sites and code</span><span class="pill"><i></i>In service</span></div>
       </div>
     </div>
     <div>
-      <h1>Serious security checks, <em>without a security team.</em></h1>
-      <p class="lede">Squall runs proven open-source security tools against your app, your code and the services it relies on. A person reviews what they find. <b>You get the proof and the fixes.</b></p>
+      <h1>Security checks for <em>your app and your code.</em></h1>
+      <p class="lede">Squall runs proven open-source security tools against your app and your code. <b>Every check runs on our own apps before it runs on yours.</b></p>
       <div class="ctas">
         <a class="btn gold" href="https://start.typhoonfleet.com/">Start with your domain</a>
         <a class="btn line" href="https://squall.typhoonfleet.com/squall/login">Log in</a>
@@ -187,15 +197,14 @@
 <div class="facts">
   <span><a href="product.html#toolbox"><b>Open-source tools</b></a></span>
   <span><b>Read-only</b></span>
-  <span><b>Runs on our own apps every night</b></span>
 </div>
 
 <section id="kit">
   <div class="wrap">
-    <h2 class="big">What Squall carries.</h2>
-    <p class="slede">Each check is a piece of kit. Each runs on our own apps before it runs on yours.</p>
+    <h2 class="big">What Squall can do.</h2>
+    <p class="slede">Each check is a skill.</p>
 <div class="kit" data-sk="kit" data-agent="squall"></div>
-    <p class="kitnote">Mapped to the NIST Cybersecurity Framework 2.0: Identify, and part of Protect. <a href="product.html#whole" style="color:var(--lit)">What that covers and what it leaves out</a></p>
+    <p class="kitnote">Mapped to the NIST Cybersecurity Framework 2.0.</p>
   </div>
 </section>
 
@@ -208,7 +217,7 @@
       <div class="key">
         <span><i class="y"></i>Squall today</span>
         <span><i class="p"></i>Partly</span>
-        <span><i class="r"></i>Next phases</span>
+        <span><i class="r"></i>Coming</span>
         <span><i class="o"></i>Other providers</span>
       </div>
       <a class="more" href="product.html#map">Where each cell comes from →</a>
@@ -218,18 +227,15 @@
 
 <section id="phases">
   <div class="wrap">
-    <h2 class="big">We are at phase 0.</h2>
-    <p class="slede">Each phase lights up more of the map. Every capability runs on our own apps before it joins Squall.</p>
-    <div class="phases" data-sk="phases" data-agent="squall"></div>
-    <p class="limits"><a href="skills.html">The full skill tree, with what each one needs first →</a></p>
-    <p class="limits"><a href="attack-path.html">What Squall covers along an attack, and what it leaves to others →</a></p>
+    <h2 class="big">Every capability, across the framework.</h2>
+    <div class="csf" data-sk="csf" data-agent="squall"></div>
+    <p class="limits"><a href="skills.html">The full skill tree →</a></p>
   </div>
 </section>
 
 <section id="start">
   <div class="wrap">
-    <h2 class="big">From first email to first findings.</h2>
-    <p class="slede">Ownership comes first. Squall checks only what you have shown is yours.</p>
+    <h2 class="big">How it works.</h2>
     <div class="steps">
       <div class="st"><div class="n">1</div><h3>Prove it's yours</h3><p>Add a DNS record to your domain or give read access to your repo. Then confirm a short scope.</p></div>
       <div class="st"><div class="n">2</div><h3>We run the checks</h3><p>Open-source tools run read-only. A person reviews the findings and clears false alarms.</p></div>

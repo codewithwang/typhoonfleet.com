@@ -15,11 +15,11 @@ var A={
 squall:{name:'Squall',side:'crew',spot:'#E0892B',fn:'Identify',job:'Checks sites and code for weak spots.',branches:['Code','Site and edge','Depth'],skills:[
  {id:'secret',n:'Secret scan',t:0,c:0,r:2,g:'secret',csf:'ID.RA',d:'Looks for keys and passwords left in code and its history.',ev:'Runs every night on our own repositories. You cannot point it at your own repository yet.'},
  {id:'deps',n:'Dependency audit',t:0,c:0,r:2,g:'deps',csf:'ID.RA',d:'Checks the packages a project depends on for known flaws.',ev:'Runs every night on our own repositories.'},
- {id:'code',n:'Code audit',t:0,c:0,r:2,g:'code',csf:'ID.RA',d:'Reads the code itself for common weaknesses.',ev:'Runs every night on our own repositories. A person reviews what it flags.'},
- {id:'dns',n:'Domain proof',t:0,c:1,r:3,g:'dns',csf:'ID.AM',d:'Proves you control a domain with one DNS record. Nothing is checked before this.',ev:'Self-serve at start.typhoonfleet.com.'},
+ {id:'code',n:'Code audit',t:0,c:0,r:2,g:'code',csf:'ID.RA',d:'Reads the code for common weaknesses.',ev:'Runs every night on our own repositories. A person reviews what it flags.'},
+ {id:'dns',n:'Domain proof',t:0,c:1,r:3,g:'dns',csf:'ID.AM',d:'Proves you own the domain. Fleet services are turned on only after this.',ev:'Self-serve at start.typhoonfleet.com.'},
  {id:'tls',n:'Headers and TLS',t:0,c:1,r:3,g:'tls',csf:'ID.RA',d:'Reads a site\'s security headers and certificate.',ev:'Self-serve once the domain is proved, then re-checked every day.',req:['dns']},
- {id:'mail',n:'Email records',t:0,c:1,r:3,g:'mail',csf:'ID.RA',d:'Checks the SPF and DMARC records that stop others sending mail as you.',ev:'Self-serve once the domain is proved.',req:['dns']},
- {id:'egress',n:'Data egress inventory',t:0,c:2,r:1,g:'route',csf:'ID.AM',d:'Records every host your running app talks to, and what it leaves in the browser.',ev:'Part of the full application review, which an operator runs by hand.'},
+ {id:'mail',n:'Email protection',t:0,c:1,r:3,g:'mail',csf:'ID.RA',d:'Checks that no one else can send email pretending to be you.',ev:'Self-serve once the domain is proved.',req:['dns']},
+ {id:'egress',n:'Where your data goes',t:0,c:2,r:1,g:'route',csf:'ID.AM',d:'Records every host connected to your app, and the data it saves in the browser.',ev:'Part of the full application review, which an operator runs by hand.'},
  {id:'repo',n:'Repository self-serve',t:1,c:0,r:0,g:'gate',csf:'ID.RA',d:'Connect a repository yourself and get the three code checks without emailing anyone.',ev:'Not built. Today code reviews start with an email.',req:['secret','deps','code']},
  {id:'recon',n:'Internet edge',t:1,c:1,r:0,g:'census',csf:'ID.AM',d:'What your domain shows the internet: forgotten subdomains, open services, exposed panels.',ev:'Designed. Bridge refuses it until the permission rules for active probing exist.',req:['tls']},
  {id:'verdict',n:'Verdict and retest',t:1,c:1,r:0,g:'brief',csf:'ID.RA',d:'One page that says where you stand, and a retest that closes each finding when it is fixed.',ev:'Not built.',req:['mail']},
@@ -216,7 +216,7 @@ function cards(root,base,sideName){
 }
 /* agent pages: the kit is the phase 0 skills */
 function kit(root,aid){
-  root.innerHTML=t0(A[aid]).map(function(s){return '<div class="kc'+(s.r>0?'':' off')+'"><span class="item" aria-hidden="true">'+svg(s.g)+'</span><b>'+s.n+'</b><span class="d">'+s.d+'</span><span class="state">'+RANK[s.r]+'</span></div>';}).join('');
+  root.innerHTML=t0(A[aid]).map(function(s){return '<div class="kc'+(s.r>0?'':' off')+'"><span class="item" aria-hidden="true">'+svg(s.g)+'</span><b>'+s.n+'</b><span class="d">'+s.d+'</span></div>';}).join('');
 }
 /* agent pages: the phases are the tiers. from=1 leaves phase 0 out (it is the kit) */
 function phases(root,aid,style,from){
@@ -227,6 +227,12 @@ function phases(root,aid,style,from){
     else h+='<div class="ph'+(now?' now':'')+'"><span class="k"><i></i>'+TIER[t]+'</span>'+(title?'<h3>'+title+'</h3>':'')+'<ul>'+L.map(function(s){return '<li>'+s.n+'</li>';}).join('')+'</ul></div>';
   }
   root.innerHTML=h;
+}
+/* agent pages: every skill grouped by NIST CSF category, the working ones lit. No phases, no ranks */
+function csflist(root,aid){
+  var a=A[aid],by={},keys=[];
+  a.skills.forEach(function(s){if(!by[s.csf]){by[s.csf]=[];keys.push(s.csf);}by[s.csf].push(s);});
+  root.innerHTML=keys.map(function(k){return '<div class="cg"><h3>'+CSF[k]+'</h3><ul>'+by[k].map(function(s){return '<li class="'+(s.r>0?'on':'off')+'">'+s.n+'</li>';}).join('')+'</ul></div>';}).join('');
 }
 /* the enterprise view: every NIST CSF 2.0 category, and which skills sit in it */
 function coverage(root,base){
@@ -245,7 +251,7 @@ function run(){
   document.querySelectorAll('[data-sk]').forEach(function(el){
     var k=el.getAttribute('data-sk'),ag=el.getAttribute('data-agent'),base=el.getAttribute('data-base')||'';
     if(k==='tree')tree(el,ag,base); else if(k==='overview')overview(el,base); else if(k==='coverage')coverage(el,base);
-    else if(k==='cards')cards(el,base,el.getAttribute('data-side')); else if(k==='kit')kit(el,ag);
+    else if(k==='cards')cards(el,base,el.getAttribute('data-side')); else if(k==='kit')kit(el,ag); else if(k==='csf')csflist(el,ag);
     else if(k==='phases')phases(el,ag,el.getAttribute('data-style'),+el.getAttribute('data-from')||0);
   });
 }
