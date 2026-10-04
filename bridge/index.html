@@ -4,25 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Bridge | One request, one agent, one written reason</title>
-<meta name="description" content="Bridge is the fleet's dispatcher. It sends each request to the one agent whose job it is, checks the rules for that job, and writes the decision down. It never runs a check itself.">
+<meta name="description" content="Bridge sends each request to the agent whose job it is, checks permission, and records the decision.">
 <meta name="theme-color" content="#040A16">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../site.css">
-<link rel="stylesheet" href="../hero.css">
+<link rel="stylesheet" href="../site.css?v=20261004c">
+<link rel="stylesheet" href="../hero.css?v=20261004c">
 </head>
 <body data-hero="bridge" data-page="overview" style="--spot:#F5B26B">
-<script src="../skills.js?v=20261004b"></script>
-<script src="../site.js"></script>
+<script src="../skills.js?v=20261004c"></script>
+<script src="../site.js?v=20261004c"></script>
 <noscript><p style="padding:12px 16px"><a href="../index.html">Typhoon Fleet home</a></p></noscript>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <g id="g-route"><path d="M4 7l5-2 6 2 5-2v12l-5 2-6-2-5 2z"/><path d="M9 5v12M15 7v12M7 11h4M13 13h4"/></g>
-    <g id="g-log"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M8 4v16M11 9h5M11 13h5"/></g>
-    <g id="g-brief"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 8l9 6 9-6"/><circle cx="12" cy="14" r="2.2"/></g>
-  </defs>
-</svg>
 
 <header class="hero" id="top">
   <div class="wrap">
@@ -30,114 +23,59 @@
       <div class="tile">
         <img src="../fleet/art/bridge-tile.jpg" alt="Bridge on the night harbour with a chart of light over one hand and a logbook on the hip" width="768" height="1024">
         <div class="scuff"></div>
-        <div class="bar"><b>Bridge</b><span>Governance, fleet service</span><span class="pill"><i></i>Live, version 0</span></div>
+        <div class="bar"><b>Bridge</b><span>Governance, fleet service</span><span class="pill"><i></i>Live</span></div>
       </div>
     </div>
     <div>
       <h1>One request, one agent, <em>one written reason.</em></h1>
-      <p class="lede">Bridge is the dispatcher. It reads a request, picks the one agent whose job it is, checks the rules for that job, and writes the decision down. <b>It never runs a check itself.</b> Today it is run by the operator, not by you.</p>
+      <p class="lede">Bridge sends each request to the one agent whose job it is, checks the permission, <b>and writes the decision down.</b></p>
       <div class="ctas">
-        <a class="btn gold" href="#how">How a request is routed</a>
-        <a class="btn line" href="#limits">What version 0 leaves out</a>
+        <a class="btn gold" href="#how">How it works</a>
+        <a class="btn line" href="skills.html">All of Bridge's skills</a>
       </div>
     </div>
   </div>
 </header>
 
-<div class="facts">
-  <span><b>Routes and records</b></span>
-  <span><b>Refuses what it may not send</b></span>
-  <span><b>A new agent is a new file, not new code</b></span>
-</div>
+<section id="how">
+  <div class="wrap">
+    <h2 class="big">How Bridge works.</h2>
+    <div class="flow n3">
+      <div class="fs">
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></span>
+        <b>A request comes in</b><span>From the operator or a schedule.</span>
+      </div>
+      <div class="fa" aria-hidden="true"></div>
+      <div class="fs run">
+        <span class="fi sym"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7l5-2 6 2 5-2v12l-5 2-6-2-5 2z"/><path d="M9 5v12M15 7v12M7 11h4M13 13h4"/></svg></span>
+        <b>Bridge runs its skills</b>
+        <div class="runs" data-sk="runs" data-agent="bridge"></div>
+      </div>
+      <div class="fa" aria-hidden="true"></div>
+      <div class="fs">
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M8 4v16M11 9h5M11 13h5"/></svg></span>
+        <b>The right agent runs it</b><span>Every decision is written down.</span>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="kit">
   <div class="wrap">
-    <h2 class="big">What Bridge carries.</h2>
-    <p class="slede">Three pieces of kit. Two work today.</p>
+    <h2 class="big">What Bridge can do.</h2>
+    <p class="slede">Each capability is a skill.</p>
     <div class="kit" data-sk="kit" data-agent="bridge"></div>
-  </div>
-</section>
-
-<section id="how">
-  <div class="wrap">
-    <h2 class="big">How a request is routed.</h2>
-    <p class="slede">Four steps. A request that fails a step stops there, and the refusal is logged like anything else.</p>
-    <div class="steps">
-      <div class="st"><h3>Match</h3><p>Every job in the fleet has a short description file: what it does, what it needs, and the words that call for it. Bridge matches the request against those. A small AI model is asked only when the match is unclear.</p></div>
-      <div class="st"><h3>Check the level</h3><p>Each job carries a level. Jobs that only read and report are sent straight away. Jobs that recommend an active step need a person to say yes at the keyboard. Anything above that is refused.</p></div>
-      <div class="st"><h3>Check permission</h3><p>A job that touches something you own needs a signed permission naming exactly that target, with an expiry date. No file, an expired file, or an unconfirmed owner means no run. The agent checks every target again itself.</p></div>
-      <div class="st"><h3>Send and record</h3><p>The job runs under its own agent. Bridge writes one line to the log with the outcome.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="docked">
-  <div class="wrap">
-    <h2 class="big">What is docked today.</h2>
-    <p class="slede">Four jobs across three agents. Adding a fifth means writing its description file. Nothing in Bridge changes.</p>
-    <div class="rows">
-      <div class="row"><b>Application security review<small>Squall</small></b><span>Is this code and its deployment safe to ship. Read-only. Needs signed permission naming the repository and every hostname.</span></div>
-      <div class="row"><b>Nightly code audit<small>Squall</small></b><span>Secrets in history, flawed dependencies and static analysis, on a repository. Needs signed permission naming the repository.</span></div>
-      <div class="row"><b>Vulnerability intelligence<small>Glass</small></b><span>The daily read of the public lists. Touches no target, so it needs no permission file.</span></div>
-      <div class="row"><b>Masking<small>Haze</small></b><span>Masks records the fleet already holds. Touches no outside target.</span></div>
-    </div>
-  </div>
-</section>
-
-<section id="limits">
-  <div class="wrap">
-    <h2 class="big">What it does, and what version 0 leaves out.</h2>
-    <div class="two">
-      <div class="box">
-        <h3>It does</h3>
-        <ul>
-          <li>Route a request to one job, with a confidence figure.</li>
-          <li>Refuse a job above its allowed level, or without valid permission, and log the refusal.</li>
-          <li>Keep one line per decision.</li>
-          <li>Take a new job without a code change.</li>
-        </ul>
-      </div>
-      <div class="box no">
-        <h3>It does not, yet</h3>
-        <ul>
-          <li>Take requests from you. There is no chat or web surface; the operator runs it from a command line.</li>
-          <li>Sit in the path of the nightly runs. Scheduled jobs start on their own timers and record their own lines. Bridge's routing was proved by hand in September 2026.</li>
-          <li>Send findings to named owners. With one operator there is one owner.</li>
-          <li>Write the monthly brief.</li>
-          <li>Protect the log from tampering. Chaining each line to the one before is planned.</li>
-          <li>Review itself. A daily audit of the logs for off-scope or failed runs is planned.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="next">
-  <div class="wrap">
-    <h2 class="big">What comes next.</h2>
-    <p class="slede">Phase by phase. None of these has a date. Each one is a square on the <a href="skills.html">skill tree</a>.</p>
-    <div class="phases" data-sk="phases" data-agent="bridge" data-from="1"></div>
-  </div>
-</section>
-
-<section id="crew">
-  <div class="wrap">
-    <h2 class="big">Who Bridge works with.</h2>
-    <div class="crewnav">
-      <a class="cn" href="../squall/index.html"><img src="../fleet/art/squall-tile.jpg" alt="" loading="lazy"><div><b>Squall</b><span>Two of the four docked jobs are Squall's.</span></div></a>
-      <a class="cn" href="../glass/index.html"><img src="../fleet/art/glass-tile.jpg" alt="" loading="lazy"><div><b>Glass</b><span>Writes a log line on every morning run.</span></div></a>
-      <a class="cn" href="../haze/index.html"><img src="../fleet/art/haze-tile.jpg" alt="" loading="lazy"><div><b>Haze</b><span>The newest job to dock.</span></div></a>
-    </div>
+    <p class="more"><a href="skills.html">All of Bridge's skills →</a></p>
   </div>
 </section>
 
 <section class="final">
   <div class="wrap">
-    <h2 class="big">Bridge keeps the record. Squall does the checking.</h2>
-    <p>The part of the fleet you can use on your own domain today is Squall.</p>
+    <h2 class="big">Start with Squall.</h2>
+    <p>The part of the fleet you can use on your own domain today.</p>
     <div class="ctas">
       <a class="btn gold" href="https://start.typhoonfleet.com/">Start with your domain</a>
-      <a class="btn line" href="../index.html#crew">Back to the crew</a>
+      <a class="btn line" href="../squall/index.html">About Squall</a>
     </div>
   </div>
 </section>

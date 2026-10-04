@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Where Squall fits | Typhoon Fleet</title>
+<meta name="description" content="What Squall covers in security testing, and who covers the rest.">
+<meta name="theme-color" content="#040A16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site.css?v=20261004c">
+<link rel="stylesheet" href="../hero.css?v=20261004c">
+<style>
+  .hero.lite{padding-bottom:30px}
+  .hero.lite .wrap{grid-template-columns:1fr}
+  /* the testing map */
+  .tmap{border:1px solid rgba(224,137,43,.28);border-radius:6px;background:linear-gradient(180deg,rgba(11,30,58,.7),rgba(6,14,28,.8));padding:14px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+  .tgrid{display:grid;grid-template-columns:minmax(0,1.1fr) repeat(4,minmax(0,1fr));gap:6px}
+  .tgrid .ch{font-size:13.5px;font-weight:700;text-align:center;padding:6px 4px 8px}
+  .tgrid .ch small{display:block;font-weight:500;color:var(--ink3);font-size:12px}
+  .tgrid .rh{font-size:14.5px;font-weight:700;display:flex;align-items:center;padding:0 6px}
+  .tc{border-radius:4px;padding:9px 10px;font-size:12.5px;line-height:1.35;min-height:54px;display:flex;flex-direction:column;justify-content:center}
+  .tc b{font-weight:700}
+  .tc.y{background:var(--amber);color:#1B0F02;box-shadow:0 0 16px -4px rgba(224,137,43,.7)}
+  .tc.p{background:repeating-linear-gradient(135deg,rgba(224,137,43,.42) 0 8px,rgba(224,137,43,.22) 8px 16px);color:#F7D9A8}
+  .tc.r{background:rgba(89,211,209,.10);border:1.5px dashed rgba(89,211,209,.7);color:var(--cyan)}
+  .tc.x{background:rgba(160,190,220,.08);color:var(--ink3)}
+  .tkey{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-size:13px;color:var(--ink2)}
+  .tkey span{display:inline-flex;align-items:center;gap:7px}
+  .tkey i{width:18px;height:12px;border-radius:3px;display:inline-block}
+  @media (max-width:719px){
+    .tgrid{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .tgrid .corner{display:none}
+    .tgrid .rh{grid-column:1/-1;padding:12px 2px 2px}
+    .tgrid .ch{font-size:12px;padding:4px 2px}
+    .tgrid .ch small{display:none}
+    .tc{min-height:0;padding:7px 6px;font-size:11.5px}
+  }
+  /* before and after */
+  .ba{display:grid;gap:14px}
+  @media (min-width:860px){.ba{grid-template-columns:1fr 1fr;gap:18px}}
+  .ba .box h3 small{display:block;font-family:Manrope,sans-serif;font-size:14px;font-weight:600;color:var(--ink2);margin-top:6px;letter-spacing:0}
+  .ba .box.me{border-color:rgba(224,137,43,.55);box-shadow:0 0 26px -8px rgba(224,137,43,.4)}
+  .ba .box.no{border-style:dashed}
+  .ba .box.no li::before{background:transparent;border:1.5px solid var(--ink3)}
+  /* other ways to test */
+  .cats{display:grid;gap:12px}
+  @media (min-width:720px){.cats{grid-template-columns:repeat(2,1fr)}}
+  @media (min-width:1040px){.cats{grid-template-columns:repeat(3,1fr)}}
+  .cat{border-radius:6px;padding:16px;border:1px solid var(--line2);background:var(--panel)}
+  .cat.me{border:1.5px solid var(--amber);box-shadow:0 0 26px -6px rgba(224,137,43,.45);background:linear-gradient(180deg,rgba(224,137,43,.12),rgba(11,30,58,.55))}
+  .cat h3{font-size:24px;margin-bottom:6px}
+  .cat p{font-size:14px;color:var(--ink2)}
+  .cat dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:13px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line2)}
+  .cat dt{color:var(--ink3)}
+  .cat dd{color:var(--ink)}
+</style>
+</head>
+<body data-hero="squall" data-page="coverage" style="--spot:#E0892B">
+<script src="../skills.js?v=20261004c"></script>
+<script src="../site.js?v=20261004c"></script>
+<noscript><p style="padding:12px 16px"><a href="../index.html">Typhoon Fleet home</a></p></noscript>
+
+<header class="hero lite">
+  <div class="wrap">
+    <div>
+      <h1>Where Squall <em>fits.</em></h1>
+      <p class="lede">What Squall covers in security testing, and who covers the rest.</p>
+    </div>
+  </div>
+</header>
+
+<section id="map">
+  <div class="wrap">
+    <h2 class="big">The testing map.</h2>
+    <div class="tmap"><div class="tgrid" id="tgrid"></div>
+      <div class="tkey">
+        <span><i style="background:var(--amber)"></i>Squall</span>
+        <span><i style="background:repeating-linear-gradient(135deg,rgba(224,137,43,.6) 0 4px,rgba(224,137,43,.25) 4px 8px)"></i>Squall, partly</span>
+        <span><i style="border:1.5px dashed var(--cyan);background:rgba(89,211,209,.10)"></i>Squall, coming</span>
+        <span><i style="background:rgba(160,190,220,.12)"></i>Other providers</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="attack">
+  <div class="wrap">
+    <h2 class="big">Before an attack, and after.</h2>
+    <div class="ba">
+      <div class="box me">
+        <h3>Before: Squall<small>Finds the ways in, so you can close them.</small></h3>
+        <ul>
+          <li>Passwords and keys left in code</li>
+          <li>Packages with known flaws</li>
+          <li>Weak spots in your code</li>
+          <li>Site security settings</li>
+          <li>Email others could fake</li>
+          <li>Where your data goes</li>
+        </ul>
+      </div>
+      <div class="box no">
+        <h3>After: other providers<small>What happens once someone is inside.</small></h3>
+        <ul>
+          <li>Breaking in and moving through: a red team</li>
+          <li>Noticing an attack: a monitoring service</li>
+          <li>Containing it: your incident response</li>
+          <li>Getting back up: backups and a recovery plan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="options">
+  <div class="wrap">
+    <h2 class="big">Other ways to test.</h2>
+    <div class="cats">
+      <div class="cat"><h3>Automated scanner</h3><p>Software that checks for known problems. Fast and cheap, with many false alarms.</p><dl><dt>Goes</dt><dd>Looks for openings</dd><dt>Runs</dt><dd>Any time</dd></dl></div>
+      <div class="cat me"><h3>Squall</h3><p>Automated checks, confirmed by a person, with proof and a fix list.</p><dl><dt>Goes</dt><dd>Looks, then proves</dd><dt>Runs</dt><dd>Every release, or nightly</dd></dl></div>
+      <div class="cat"><h3>Penetration test</h3><p>A skilled tester tries to break in over days or weeks.</p><dl><dt>Goes</dt><dd>Breaks in</dd><dt>Runs</dt><dd>Once or twice a year</dd></dl></div>
+      <div class="cat"><h3>Red team exercise</h3><p>A team plays a real criminal group, including your people and sometimes your buildings.</p><dl><dt>Goes</dt><dd>Acts like a criminal gang</dd><dt>Runs</dt><dd>Once a year or less</dd></dl></div>
+      <div class="cat"><h3>Exposure programme</h3><p>A company-wide programme to find, rank, prove and fix what is exposed.</p><dl><dt>Goes</dt><dd>Looks, proves, some testing</dd><dt>Runs</dt><dd>Continuously</dd></dl></div>
+      <div class="cat"><h3>Regulator-led red team</h3><p>Required for some banks and insurers, such as HKMA iCAST, CBEST or TIBER-EU. Accredited providers only.</p><dl><dt>Goes</dt><dd>Acts like a named threat group</dd><dt>Runs</dt><dd>On the regulator's cycle</dd></dl></div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2 class="big">Close the ways in before release.</h2>
+    <div class="ctas">
+      <a class="btn gold" href="https://start.typhoonfleet.com/">Start with your domain</a>
+      <a class="btn line" href="mailto:squall@typhoonfleet.com?subject=Squall%20review%20request">Email about your code</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var C=[['Find','scan for weak spots'],['Confirm','a person proves it'],['Attack','someone tries to break in'],['Watch','keeps checking']];
+  var R=[
+    ['Your code',[['y','Code and secret scans'],['y','Reviewed by a person'],['x','Pen tester'],['y','Nightly re-check']]],
+    ['Your website',[['y','Settings and data flows'],['y','Reviewed by a person'],['x','Pen tester'],['p','Each release']]],
+    ['Third-party parts',[['y','Known flaws'],['p','Whether it is reachable'],['x','Pen tester'],['y','Nightly']]],
+    ['Accounts and cloud',[['p','Publishing accounts'],['p','Partly'],['x','Red team'],['r','Coming']]],
+    ['Internet exposure',[['r','Coming'],['r','Coming'],['x','Pen tester'],['r','Coming']]],
+    ['AI features',[['r','Coming'],['r','Coming'],['r','Coming'],['x','AI monitoring']]],
+    ['Alarms and defences',[['x','Security operations'],['x','Purple team'],['r','Coming'],['x','Monitoring service']]],
+    ['People',[['x','Awareness training'],['x',''],['x','Red team'],['x','Training provider']]]
+  ];
+  var h='<div class="corner"></div>'+C.map(function(c){return '<div class="ch">'+c[0]+'<small>'+c[1]+'</small></div>';}).join('');
+  R.forEach(function(r){h+='<div class="rh">'+r[0]+'</div>';r[1].forEach(function(c){h+='<div class="tc '+c[0]+'"><b>'+(c[1]||'&nbsp;')+'</b></div>';});});
+  document.getElementById('tgrid').innerHTML=h;
+})();
+</script>
+</body>
+</html>

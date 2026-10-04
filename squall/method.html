@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>How Squall reviews an app | Typhoon Fleet</title>
+<meta name="description" content="The steps of a Squall review, the rules it runs under, the report, and the tools.">
+<meta name="theme-color" content="#040A16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site.css?v=20261004c">
+<link rel="stylesheet" href="../hero.css?v=20261004c">
+<style>
+  .hero.lite{padding-bottom:30px}
+  .hero.lite .wrap{grid-template-columns:1fr}
+  .sev{display:grid;gap:8px;margin-top:22px}
+  @media (min-width:720px){.sev{grid-template-columns:repeat(3,1fr)}}
+  .sv{padding:12px 14px;border-radius:6px;background:var(--panel);border:1px solid var(--line2);border-left:4px solid var(--c)}
+  .sv b{display:block;font-size:15px;color:var(--ink)}
+  .sv span{font-size:13.5px;color:var(--ink2)}
+</style>
+</head>
+<body data-hero="squall" data-page="method" style="--spot:#E0892B">
+<script src="../skills.js?v=20261004c"></script>
+<script src="../site.js?v=20261004c"></script>
+<noscript><p style="padding:12px 16px"><a href="../index.html">Typhoon Fleet home</a></p></noscript>
+
+<header class="hero lite">
+  <div class="wrap">
+    <div>
+      <h1>How Squall reviews <em>an app.</em></h1>
+      <p class="lede">The full review checks your code and your live app in one run.</p>
+    </div>
+  </div>
+</header>
+
+<section id="steps">
+  <div class="wrap">
+    <h2 class="big">The review, step by step.</h2>
+    <div class="steps">
+      <div class="st"><h3>Permission</h3><p>A signed permission names the repository and every hostname. Anything outside it stops the run.</p></div>
+      <div class="st"><h3>Secrets in history</h3><p>Two scanners read the full history of the code. A key proven to be live is rated High.</p></div>
+      <div class="st"><h3>Flawed packages</h3><p>Every package with a known flaw, and the version that fixes it.</p></div>
+      <div class="st"><h3>Code analysis</h3><p>Rules for your language and framework, plus a search for patterns that turn user input into code.</p></div>
+      <div class="st"><h3>Site settings</h3><p>The security headers your site sends, including the content security policy.</p></div>
+      <div class="st"><h3>Where your data goes</h3><p>Every host your app can reach, and what a real session sends and stores in the browser.</p></div>
+      <div class="st"><h3>Changes on a preview</h3><p>A proposed settings change runs on a preview first, so it cannot break the live app.</p></div>
+      <div class="st"><h3>Hostile input</h3><p>Crafted inputs run through the app's own parsing, offline.</p></div>
+      <div class="st"><h3>Account settings</h3><p>Read-only checks on the accounts that can publish your app.</p></div>
+      <div class="st"><h3>A person decides</h3><p>Every unproven item is confirmed or cleared with a reason.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap">
+    <h2 class="big">The rules.</h2>
+    <div class="rows">
+      <div class="row"><b>Permission first</b><span>Nothing is touched without a signed permission naming it. Third-party services are observed, never probed.</span></div>
+      <div class="row"><b>Read-only</b><span>Squall changes nothing in your code, deployment or accounts.</span></div>
+      <div class="row"><b>No disruption</b><span>One request at a time. No load testing, no fuzzing of live hosts.</span></div>
+      <div class="row"><b>No people</b><span>No phishing, no calls, no attempts on your staff.</span></div>
+      <div class="row"><b>Every run recorded</b><span>One line per run: what was asked, under which permission, and the outcome.</span></div>
+      <div class="row"><b>Private</b><span>Findings go only to you. Nothing is published.</span></div>
+      <div class="row"><b>Not certification</b><span>Not a replacement for testing a regulator requires, and not a certification.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="report">
+  <div class="wrap">
+    <h2 class="big">The report.</h2>
+    <p class="slede">Each finding comes with its proof, why it matters and the fix, ranked by severity. The report ends with what passed and what was not covered.</p>
+    <div class="sev">
+      <div class="sv" style="--c:#FF6A5A"><b>Critical</b><span>Confirmed and reachable: data theft or full compromise.</span></div>
+      <div class="sv" style="--c:#F2894A"><b>High</b><span>Serious and exploitable with modest effort.</span></div>
+      <div class="sv" style="--c:#F2B347"><b>Medium</b><span>A real weakness that needs conditions to exploit.</span></div>
+      <div class="sv" style="--c:#8FB8BF"><b>Low</b><span>A minor gap with limited impact.</span></div>
+      <div class="sv" style="--c:#6E7F9A"><b>Info</b><span>An observation with no direct risk.</span></div>
+      <div class="sv" style="--c:#59D3D1"><b>Unverified</b><span>Plausible but not proven. The missing proof is named.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="tools">
+  <div class="wrap">
+    <h2 class="big">The tools.</h2>
+    <p class="slede">Open source, run on our own machine. Your code is never uploaded to a scanning service.</p>
+    <div class="rows">
+      <div class="row"><b>Secrets</b><span>TruffleHog, Gitleaks</span></div>
+      <div class="row"><b>Flawed packages</b><span>OSV-Scanner</span></div>
+      <div class="row"><b>Code analysis</b><span>Semgrep Community Edition</span></div>
+      <div class="row"><b>Browser sessions</b><span>Playwright with Chromium</span></div>
+      <div class="row"><b>Traffic proof</b><span>mitmproxy</span></div>
+      <div class="row"><b>Built by us</b><span>The permission gate, the runner, the report and the run log.</span></div>
+      <div class="row"><b>Services we use</b><span>Anthropic Claude helps the reviewer read findings; the checks themselves use no AI. Okta for sign-in, Cloudflare for the connection and email, GitHub for hosting.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2 class="big">Shipping soon?</h2>
+    <div class="ctas">
+      <a class="btn gold" href="https://start.typhoonfleet.com/">Start with your domain</a>
+      <a class="btn line" href="mailto:squall@typhoonfleet.com?subject=Squall%20review%20request">Email about your code</a>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -110,7 +110,7 @@ var META={
  haze:{role:'Masks what leaves the wall',st:'built',label:'built',tl:[.57,.36],href:'haze/index.html',csfl:'NIST CSF 2.0: Protect. Data.'}
 };
 ORDER.forEach(function(k){for(var m in META[k])A[k][m]=META[k][m];A[k].id=k;});
-/* the 22 categories of NIST CSF 2.0, so the framework map can show the ones no skill touches */
+/* the 22 categories of NIST CSF 2.0, so the coverage table can show the ones no skill touches */
 var CSFALL=[['Govern',[['GV.OC','Organisational context'],['GV.RM','Risk management strategy'],['GV.RR','Roles and responsibilities'],['GV.PO','Policy'],['GV.OV','Oversight'],['GV.SC','Supply chain risk']]],
  ['Identify',[['ID.AM','Asset management'],['ID.RA','Risk assessment'],['ID.IM','Improvement']]],
  ['Protect',[['PR.AA','Identity and access'],['PR.AT','Awareness and training'],['PR.DS','Data security'],['PR.PS','Platform security'],['PR.IR','Infrastructure resilience']]],
@@ -194,11 +194,11 @@ function overview(root,base){
       '<small><b>'+P[0]+' of '+P[1]+'</b> points · '+live+' of '+a.skills.length+' skills built · CSF '+a.fn+'</small></div></a>';}
   var tot=[0,0];ORDER.forEach(function(id){var P=pts(A[id]);tot[0]+=P[0];tot[1]+=P[1];});
   var crew=ORDER.filter(function(i){return A[i].side==='crew';}),serv=ORDER.filter(function(i){return A[i].side==='service';});
-  root.innerHTML='<div class="sk-head"><div><h1>Fleet skill trees</h1><p class="sk-job">Every capability in the fleet, by agent.</p></div>'+
+  root.innerHTML='<div class="sk-head"><div><h1>Fleet skill trees</h1><p class="sk-job">Every capability the fleet has or intends to have is one square on one agent\'s tree.</p></div>'+
     '<div class="sk-score"><b>'+tot[0]+'</b><span>of '+tot[1]+' skill points</span><div class="sk-bar"><i style="width:'+(tot[0]/tot[1]*100)+'%"></i></div><small>across eight agents</small></div></div>'+
     '<div class="sk-legend">'+RANK.map(function(r,i){return '<span>'+pips(i)+r+'</span>';}).join('')+'</div>'+
     '<h2 class="sk-h2">The crew</h2><p class="sk-sub">Agents that check something of yours. One per job a security team does.</p><div class="sk-cards">'+crew.map(card).join('')+'</div>'+
-    '<h2 class="sk-h2">Fleet services</h2><p class="sk-sub">They support the crew. They do not check anything of yours.</p><div class="sk-cards">'+serv.map(card).join('')+'</div>';
+    '<h2 class="sk-h2">Fleet services</h2><p class="sk-sub">They work behind the wall. They do not check your estate; they inform, govern and protect the crew that does.</p><div class="sk-cards">'+serv.map(card).join('')+'</div>';
 }
 
 /* ---- generated blocks: every list of capabilities on the site is drawn from the data above ---- */
@@ -235,7 +235,7 @@ function fmap(root,aid,base){
   root.innerHTML='<div class="fm">'+CSFALL.map(function(f){
     var all=[];f[1].forEach(function(c){all=all.concat(by[c[0]]||[]);});
     var on=all.filter(function(x){return x.s.r>0;}).length;
-    return '<div class="fm-f'+(all.length?'':' none')+'"><h3>'+f[0]+'<small>'+(all.length?on+' of '+all.length+' working':'')+'</small></h3>'+
+    return '<div class="fm-f'+(all.length?'':' none')+'"><h3>'+f[0]+'<small>'+(all.length?on+' of '+all.length+' working':'None')+'</small></h3>'+
       f[1].map(function(c){var L=by[c[0]]||[];
         return '<div class="fm-c'+(L.length?'':' none')+'"><b>'+c[1]+'</b>'+(L.length?'<div class="fm-s">'+L.map(function(x){
           return '<a class="'+(x.s.r>0?'on':'off')+'" href="'+base+x.a+'/skills.html#'+x.s.id+'" style="--spot:'+A[x.a].spot+'" title="'+A[x.a].name+': '+x.s.n+'"><span>'+svg(x.s.g)+'</span>'+x.s.n+'</a>';}).join('')+'</div>':'')+'</div>';

@@ -1,6 +1,6 @@
 /* Shared site chrome for typhoonfleet.com. One place for the header, the crew menu, the per-agent
    sub-bar and the footer, so no page is a dead end. A page opts in with:
-     <body data-page="home|map|skills|skills-all|overview|coverage|method" data-hero="squall|glass|...">
+     <body data-page="home|map|skills|skills-all|overview|product|attack|technical|method" data-hero="squall|glass|...">
      <script src="{root}site.js"></script>   (first thing inside body)
    Agent names, roles and status come from skills.js, which must load before this file.
    side: 'crew' checks something of yours; 'service' works behind the wall for the crew. */
@@ -14,14 +14,15 @@
 
   /* the crew list comes from skills.js, which every page loads first */
   var T=window.TF_SKILLS, CREW=T.order.map(function(k){var a=T.agents[k];return {id:k,side:a.side,name:a.name,role:a.role,st:(a.st==='live'||a.st==='built')?a.st:'dim',label:a.label,href:a.href};});
-  /* tabs under an agent: every agent has Skills; live agents add an Overview; Squall adds Coverage and Method */
-  function one(id){return [['overview','Overview',u(id+'/index.html')],['skills','Skills',u(id+'/skills.html')]];}
-  function none(id){return [['skills','Skills',u(id+'/skills.html')]];}
+  /* tabs under an agent: pages for Squall, sections for the single-page agents, the tree for all */
+  function one(id){var b=u(id+'/index.html');return [['overview','Overview',b],['kit','What it carries',b+'#kit'],['how','How it works',b+'#how'],['limits','Limits',b+'#limits'],['skills','Skill tree',u(id+'/skills.html')]];}
+  function none(id){return [['skills','Skill tree',u(id+'/skills.html')]];}
   var TABS={
-    squall:one('squall').concat([['coverage','Coverage',u('squall/coverage.html')],['method','Method',u('squall/method.html')]]),
+    squall:[['overview','Overview',u('squall/index.html')],['skills','Skill tree',u('squall/skills.html')],['product','What it checks',u('squall/product.html')],['attack','Attack path',u('squall/attack-path.html')],['technical','Technical',u('squall/technical.html')],['method','Method',u('method/appsec-review.html')]],
     glass:one('glass'), bridge:one('bridge'), haze:one('haze'),
     anchor:none('anchor'), fathom:none('fathom'), lookout:none('lookout'), harbour:none('harbour')
   };
+  var SPY={glass:1,bridge:1,haze:1};
 
   var WAVE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3v8M8 11h8"/></svg>';
   var CARET='<svg class="tf-caret" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>';
@@ -72,7 +73,7 @@
     '<div><h4>The site</h4><div class="tf-fl"><a href="'+u('index.html')+'">Home</a><a href="'+u('fleet/skills.html')+'">Skill trees</a><a href="'+u('index.html#fleet')+'">The fleet</a><a href="'+u('index.html#how')+'">How it works</a></div></div>'+
     '<div><h4>Your account</h4><div class="tf-fl"><a href="'+START+'">Start with your domain</a><a href="'+LOGIN+'">Log in</a><a href="mailto:squall@typhoonfleet.com">squall@typhoonfleet.com</a></div></div>'+
     '</div><div class="tf-legal">Typhoon Fleet, Hong Kong. Original artwork, not affiliated with any game.'+
-    ''+'</div></div></footer>';
+    (HERO==='squall'?' MITRE ATT&amp;CK is a registered trademark of The MITRE Corporation.':'')+'</div></div></footer>';
   function foot(){B.insertAdjacentHTML('beforeend',footer);}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',foot);else foot();
 
@@ -87,4 +88,14 @@
   /* keep the current tab in view on a narrow sub-bar */
   var cur=document.querySelector('.tf-tabs a.on'); if(cur){var w=document.querySelector('.tf-sub .tf-wrap');w.scrollLeft=Math.max(0,cur.offsetLeft-90);}
 
+  /* single-page agents: light the tab for the section in view */
+  if(hero&&SPY[HERO]&&PAGE==='overview'&&'IntersectionObserver' in window){
+    document.addEventListener('DOMContentLoaded',function(){
+      var links={};document.querySelectorAll('.tf-tabs a').forEach(function(a){links[a.getAttribute('data-tab')]=a;});
+      var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){
+        ['overview','kit','how','limits'].forEach(function(k){links[k].classList.remove('on');});
+        var id=en.target.id==='top'?'overview':en.target.id; if(links[id])links[id].classList.add('on');}});},{rootMargin:'-120px 0px -60% 0px'});
+      ['top','kit','how','limits'].forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el);});
+    });
+  }
 })();
