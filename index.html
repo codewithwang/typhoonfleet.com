@@ -376,7 +376,7 @@
       <div class="s4"><div class="mock"><div class="mfield">yourshop.com</div><div class="mbtn">Check</div></div><b>1. Enter your domain</b><p>At start.typhoonfleet.com.</p></div>
       <div class="s4"><div class="mock"><div class="mrec"><span>TXT</span>_squall-verify</div><div class="mwait"><i></i>Watching for it</div></div><b>2. Prove it's yours</b><p>Add one record where you manage your DNS. Manifest records it and Squall's checks begin.</p></div>
       <div class="s4"><div class="mock"><div class="mrow ok">Site security settings</div><div class="mrow ok">Certificate</div><div class="mrow fix">Email protection</div></div><b>3. See your results</b><p>Each check passes or fails. Each failure has a fix.</p></div>
-      <div class="s4"><div class="mock"><div class="mcal"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="now"></i></div></div><b>4. Squall keeps watch</b><p>Your site is checked again every day. More of the crew joins as each one is built.</p></div>
+      <div class="s4"><div class="mock"><div class="mcal"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="now"></i></div></div><b>4. Squall keeps watch</b><p>Your site is checked again every day. More of the crew joins soon.</p></div>
     </div>
     <p class="codeline">Have code to check as well? <a href="mailto:squall@typhoonfleet.com?subject=Squall%20code%20review">Email us your repository</a>.</p>
   </div>
@@ -456,7 +456,7 @@
     var a=LIST.filter(function(x){return x.id===id;})[0];
     var acts=(a.start?'<a href="'+START+'">Get started →</a>':'')+'<a href="'+a.href+'">More about '+a.name+' →</a>';
     detail.innerHTML='<div class="dtext"><h3>'+a.name+' <span class="sd '+(a.live?'live':'planned')+'"></span></h3>'+
-      '<div class="what">'+a.what+(a.live?'':' '+a.name+' is still being built.')+'</div>'+
+      '<div class="what">'+a.what+(a.live?'':' '+a.name+' joins the crew soon.')+'</div>'+
       '<ul class="skl">'+a.skills.filter(function(s){return s.r>0;}).map(function(s){return '<li class="'+(s.r>0?'on':'')+'">'+s.n+'</li>';}).join('')+'</ul>'+
       (false?'<div class="specs"><div class="srow"><span class="k">Autonomy</span><span class="fader"><span class="ends">Advise</span><span class="ftrack"><span class="fknob" style="left:'+a.act+'%"></span></span><span class="ends">Act</span></span></div></div>':'')+
       '<div class="acts">'+acts+'</div></div>'+
