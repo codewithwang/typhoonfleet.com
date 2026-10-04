@@ -274,7 +274,7 @@
 <link rel="stylesheet" href="../site.css">
 </head>
 <body data-page="product" data-hero="squall">
-<script src="../skills.js"></script>
+<script src="../skills.js?v=20261004b"></script>
 <script src="../site.js"></script>
 <noscript><p style="padding:12px 16px"><a href="../index.html">Typhoon Fleet home</a></p></noscript>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -302,12 +302,12 @@
       <div class="tile">
         <img src="../fleet/art/squall-tile.jpg" alt="Squall on the night harbour with a signal lamp raised" width="768" height="1024">
         <div class="scuff"></div>
-        <div class="bar"><b>Squall</b><span>Assurance, sites and code</span><span class="pill"><i></i>In service, phase 0</span></div>
+        <div class="bar"><b>Squall</b><span>Assurance, sites and code</span><span class="pill"><i></i>In service</span></div>
       </div>
     </div>
     <div>
     <h1>The map of security testing, <em>and where Squall stands on it.</em></h1>
-    <p>Squall is at phase 0. Here is what it covers today, how it compares with every other way of testing, what it runs on, and what each phase adds.</p>
+    <p>What Squall covers, how it compares with other ways of testing, and what it runs on.</p>
     <div class="jump">
       <a href="#kit">The kit</a>
       <a href="#map">The map</a>
@@ -319,7 +319,6 @@
       <a href="#attack">The attacker's playbook</a>
       <a href="#ctem">Exposure programmes</a>
       <a href="#toolbox">What is inside</a>
-      <a href="#phases">Phases</a>
     </div>
     </div>
   </div>
@@ -327,7 +326,7 @@
 
 <section id="kit">
   <div class="wrap">
-    <h2>What Squall carries today.</h2>
+    <h2>What Squall can do.</h2>
     <p class="lede">Each check is a piece of kit. The line under each says how far along it is.</p>
 <div class="kit" data-sk="kit" data-agent="squall"></div>
     <p class="note">Header and TLS read and the email records check run against your live domain once it is proven yours. Secret scan, dependency audit and code vulnerability audit run on a repository you give read access to.</p>
@@ -337,9 +336,9 @@
 <section id="map">
   <div class="wrap">
     <h2>Eight things to test, four ways to test them.</h2>
-    <p class="lede">Every security service on the market fills some of these cells. Amber is Squall today. Dashed is a later Squall phase. Grey names who else does that work.</p>
+    <p class="lede">Every security service on the market fills some of these cells. Amber is Squall today. Dashed is coming. Grey names who else does that work.</p>
     <div class="fmap"><div class="fgrid" id="fgrid"></div>
-      <div class="fkey"><span><i style="background:var(--amber)"></i>Squall today</span><span><i style="background:repeating-linear-gradient(135deg,rgba(224,137,43,.6) 0 4px,rgba(224,137,43,.25) 4px 8px)"></i>Squall, partly</span><span><i style="border:1.5px dashed var(--cyan);background:var(--plan-bg)"></i>Later Squall phase</span><span><i style="background:var(--no-bg)"></i>Other providers</span></div>
+      <div class="fkey"><span><i style="background:var(--amber)"></i>Squall today</span><span><i style="background:repeating-linear-gradient(135deg,rgba(224,137,43,.6) 0 4px,rgba(224,137,43,.25) 4px 8px)"></i>Squall, partly</span><span><i style="border:1.5px dashed var(--cyan);background:var(--plan-bg)"></i>Coming</span><span><i style="background:var(--no-bg)"></i>Other providers</span></div>
     </div>
     <p class="note">Industry terms in small type, for readers who want to map each cell to the products they know.</p>
   </div>
@@ -596,15 +595,6 @@
   </div>
 </section>
 
-<section id="phases">
-  <div class="wrap">
-    <h2>From phase 0 to phase 3.</h2>
-    <p class="lede">Each phase adds skills to <a href="skills.html" style="color:var(--lit)">the tree</a>. A capability joins Squall only after it has run on our own apps. No dates are promised.</p>
-    <div class="road road4" data-sk="phases" data-agent="squall" data-style="road"></div>
-    <p class="note">Never part of Squall: testing your staff, break-ins, anything that could take your service down, regulator-required certification.</p>
-  </div>
-</section>
-
 <section class="final">
   <div class="wrap">
     <h2>Want to see it on your app?</h2>
@@ -624,10 +614,10 @@
     ['Your code',[['y','Code and secret scanning','SAST · secrets'],['y','Reviewed by a person',''],['x','Pen tester','white-box test'],['y','Nightly re-check','']]],
     ['Your website',[['y','Settings, browser, data flows','headers · egress'],['y','Reviewed by a person',''],['x','Pen tester','DAST · pen test'],['p','Each release, not nightly','']]],
     ['Third-party parts',[['y','Known defects','SCA'],['p','Is it reachable','reachability'],['x','Pen tester',''],['y','Nightly, plus daily feed','CVE · KEV']]],
-    ['Accounts and cloud',[['p','Publishing keys, code access','posture'],['p','Partly',''],['x','Red team',''],['r','Phase 2','CSPM']]],
-    ['Internet edge',[['r','Phase 1','EASM'],['r','Phase 1',''],['x','Pen tester','external test'],['r','Phase 1','ASM']]],
-    ['AI features',[['r','Phase 1',''],['r','Phase 1',''],['r','Phase 1','LLM red team'],['x','AI monitoring','']]],
-    ['Alarms and defences',[['x','Security operations','SOC review'],['x','Purple team',''],['r','Phase 3','BAS'],['x','Monitoring service','SOC · MDR']]],
+    ['Accounts and cloud',[['p','Publishing keys, code access','posture'],['p','Partly',''],['x','Red team',''],['r','Coming','CSPM']]],
+    ['Internet edge',[['r','Coming','EASM'],['r','Coming',''],['x','Pen tester','external test'],['r','Coming','ASM']]],
+    ['AI features',[['r','Coming',''],['r','Coming',''],['r','Coming','LLM red team'],['x','AI monitoring','']]],
+    ['Alarms and defences',[['x','Security operations','SOC review'],['x','Purple team',''],['r','Coming','BAS'],['x','Monitoring service','SOC · MDR']]],
     ['People',[['x','Awareness provider',''],['x','',''],['x','Red team, phishing tests','never Squall'],['x','Training provider','']]]
   ];
   var fh='<div class="corner"></div>'+FC.map(function(c){return '<div class="ch">'+c[0]+'<small>'+c[1]+'</small></div>'}).join('');

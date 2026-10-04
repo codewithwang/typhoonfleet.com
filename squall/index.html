@@ -89,6 +89,29 @@
   h2.big{font-size:clamp(38px,9vw,60px);margin-bottom:12px;max-width:760px}
   .slede{font-size:16.5px;color:var(--ink2);max-width:640px;margin-bottom:30px}
 
+  /* how it works: process boxes */
+  .flow{display:grid;gap:0;align-items:stretch;margin-top:26px}
+  .fs{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:22px 16px;background:var(--panel);border:1px solid var(--line2);border-radius:6px}
+  .fs b{font-size:17px;font-weight:700;color:var(--ink)}
+  .fs>span:not(.fi){font-size:14px;color:var(--ink2)}
+  .fi{width:56px;height:56px;border-radius:10px;display:grid;place-items:center;color:var(--amber);background:rgba(4,10,22,.7);border:1px solid rgba(224,137,43,.55);box-shadow:0 0 14px rgba(224,137,43,.28)}
+  .fi svg{width:30px;height:30px}
+  .fs.run{border-color:rgba(224,137,43,.55);box-shadow:0 0 28px -8px rgba(224,137,43,.45)}
+  .fi.lamp{width:64px;height:64px;color:#1B0F02;background:linear-gradient(180deg,#F2B347,#E0892B);box-shadow:0 0 26px rgba(224,137,43,.7)}
+  .fi.lamp svg{width:36px;height:36px}
+  .runs{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-top:6px;width:100%;text-align:left}
+  .rn{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);line-height:1.25}
+  .ri{flex:none;width:28px;height:28px;border-radius:6px;display:grid;place-items:center;color:var(--amber);border:1px solid rgba(224,137,43,.45);background:rgba(4,10,22,.6)}
+  .ri svg{width:16px;height:16px}
+  .fa{height:28px;position:relative}
+  .fa::before{content:"";position:absolute;left:50%;top:4px;bottom:4px;width:2px;background:rgba(224,137,43,.55);transform:translateX(-50%)}
+  .fa::after{content:"";position:absolute;left:50%;bottom:2px;width:8px;height:8px;border-right:2px solid var(--amber);border-bottom:2px solid var(--amber);transform:translateX(-50%) rotate(45deg)}
+  @media (min-width:980px){
+    .flow{grid-template-columns:1fr 34px 1fr 34px 1.9fr 34px 1fr}
+    .fa{height:auto}
+    .fa::before{left:4px;right:6px;top:50%;bottom:auto;width:auto;height:2px;transform:translateY(-50%)}
+    .fa::after{left:auto;right:4px;top:50%;bottom:auto;transform:translateY(-50%) rotate(-45deg)}
+  }
   /* the map */
   .map{border:1px solid rgba(224,137,43,.28);border-radius:6px;background:linear-gradient(180deg,rgba(11,30,58,.7),rgba(6,14,28,.8));padding:16px 12px 14px;box-shadow:0 0 0 1px rgba(0,0,0,.6),0 24px 60px rgba(0,0,0,.5)}
   @media (min-width:640px){.map{padding:22px 22px 18px}}
@@ -158,10 +181,10 @@
   footer .fl{display:flex;gap:20px;flex-wrap:wrap}
   footer a:hover{color:#fff}
 </style>
-<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../site.css?v=20261004b">
 </head>
 <body data-page="overview" data-hero="squall">
-<script src="../skills.js"></script>
+<script src="../skills.js?v=20261004b"></script>
 <script src="../site.js"></script>
 <noscript><p style="padding:12px 16px"><a href="../index.html">Typhoon Fleet home</a></p></noscript>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -171,6 +194,9 @@
     <g id="g-deps"><circle cx="9" cy="9" r="6"/><circle cx="9" cy="9" r="2"/><path d="M14.5 12c3 1 5 3.5 5 7v3M9 15v6"/></g>
     <g id="g-code"><rect x="7" y="3" width="12" height="18" rx="1.5"/><path d="M5 7h3M5 11h3M5 15h3M5 19h3M11 9h5M11 13h5"/></g>
     <g id="g-mail"><path d="M5 22V3M5 4h8l-2 3 2 3H5"/><path d="M13 22V12M13 13h8l-2 3 2 3h-8"/></g>
+    <g id="g-perm"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></g>
+    <g id="g-lamp"><path d="M9 3h6M12 3v2"/><path d="M8 7h8l-1 2v8l1 2H8l1-2V9z"/><path d="M12 11v4"/><path d="M7 21h10"/></g>
+    <g id="g-report"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 15h7M9 18h4"/></g>
     <g id="g-dns"><path d="M12 2v5"/><path d="M8 7h8l2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="10.5" r="1.2"/><path d="M9 16h6"/></g>
   </defs>
 </svg>
@@ -199,48 +225,40 @@
   <span><b>Read-only</b></span>
 </div>
 
+<section id="how">
+  <div class="wrap">
+    <h2 class="big">How Squall works.</h2>
+    <div class="flow">
+      <div class="fs">
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-dns"/></svg></span>
+        <b>Enrol your domain</b><span>Add one DNS record.</span>
+      </div>
+      <div class="fa" aria-hidden="true"></div>
+      <div class="fs">
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-perm"/></svg></span>
+        <b>Give Squall permission</b><span>Confirm what it may check.</span>
+      </div>
+      <div class="fa" aria-hidden="true"></div>
+      <div class="fs run">
+        <span class="fi lamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-lamp"/></svg></span>
+        <b>Squall runs its skills</b>
+        <div class="runs" data-sk="runs" data-agent="squall"></div>
+      </div>
+      <div class="fa" aria-hidden="true"></div>
+      <div class="fs">
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#g-report"/></svg></span>
+        <b>You get a report</b><span>What was found, ranked by what to fix first.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="kit">
   <div class="wrap">
     <h2 class="big">What Squall can do.</h2>
     <p class="slede">Each check is a skill.</p>
-<div class="kit" data-sk="kit" data-agent="squall"></div>
-    <p class="kitnote">Mapped to the NIST Cybersecurity Framework 2.0.</p>
-  </div>
-</section>
-
-<section id="map">
-  <div class="wrap">
-    <div class="map" role="img" aria-label="Map of security testing: what gets tested against how deep, with Squall's coverage shaded">
-      <h3>The security testing map</h3>
-      <p class="sub">What security testing covers, and the part Squall covers today.</p>
-      <div class="grid" id="grid"></div>
-      <div class="key">
-        <span><i class="y"></i>Squall today</span>
-        <span><i class="p"></i>Partly</span>
-        <span><i class="r"></i>Coming</span>
-        <span><i class="o"></i>Other providers</span>
-      </div>
-      <a class="more" href="product.html#map">Where each cell comes from →</a>
-    </div>
-  </div>
-</section>
-
-<section id="phases">
-  <div class="wrap">
-    <h2 class="big">Every capability, across the framework.</h2>
-    <div class="csf" data-sk="csf" data-agent="squall"></div>
-    <p class="limits"><a href="skills.html">The full skill tree →</a></p>
-  </div>
-</section>
-
-<section id="start">
-  <div class="wrap">
-    <h2 class="big">How it works.</h2>
-    <div class="steps">
-      <div class="st"><div class="n">1</div><h3>Prove it's yours</h3><p>Add a DNS record to your domain or give read access to your repo. Then confirm a short scope.</p></div>
-      <div class="st"><div class="n">2</div><h3>We run the checks</h3><p>Open-source tools run read-only. A person reviews the findings and clears false alarms.</p></div>
-      <div class="st"><div class="n">3</div><h3>You decide what to fix</h3><p>Findings come ranked with their proof. Nightly re-checks report only when something changes.</p></div>
-    </div>
+    <div class="kit" data-sk="kit" data-agent="squall"></div>
+    <p class="limits"><a href="skills.html">All of Squall's skills →</a></p>
   </div>
 </section>
 
@@ -256,23 +274,5 @@
   </div>
 </section>
 
-<script>
-(function(){
-  var COLS=[['Find','scan'],['Confirm','a person'],['Attack','break-in'],['Watch','over time']];
-  var ROWS=[
-    ['Your code','y','y','x','y'],
-    ['Your website','y','y','x','p'],
-    ['Third-party parts','y','p','x','y'],
-    ['Accounts and cloud','p','p','x','r'],
-    ['Internet edge','r','r','x','r'],
-    ['AI features','r','r','r','x'],
-    ['Alarms and defences','x','x','r','x'],
-    ['People','x','x','x','x']
-  ];
-  var h='<div></div>'+COLS.map(function(c){return '<div class="ch">'+c[0]+'<small>'+c[1]+'</small></div>'}).join('');
-  ROWS.forEach(function(r){h+='<div class="rh">'+r[0]+'</div>';for(var i=1;i<5;i++)h+='<div class="cell '+r[i]+'"></div>'});
-  document.getElementById('grid').innerHTML=h;
-})();
-</script>
 </body>
 </html>

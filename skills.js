@@ -2,13 +2,13 @@
    has or intends to have is one node here, owned by one agent, in one NIST CSF 2.0 category, with a rank
    that has to be earned by evidence. A capability that is not a node is not on the roadmap.
 
-   rank 0 not built · 1 built, run by hand · 2 runs unattended on our own estate · 3 in service for you
-   tier 0 phase 0 (now) · 1 phase 1 · 2 phase 2 · 3 end game
+   rank 0 not built · 1 built · 2 running · 3 live for customers
+   tier 0 now · 1 next · 2 later · 3 end game
    req  ids this node needs first; "agent:id" points at another agent's node */
 (function(){
 var G={"lock": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"10\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/>", "tls": "<path d=\"M9 7V5a3 3 0 0 1 6 0v2\"/><rect x=\"6\" y=\"7\" width=\"12\" height=\"12\" rx=\"1.5\"/><path d=\"M9 11h6M9 14h6M9 17h6M5 22h14\"/>", "secret": "<circle cx=\"10\" cy=\"10\" r=\"6\"/><circle cx=\"10\" cy=\"10\" r=\"2.2\"/><path d=\"M14.5 14.5L21 21\"/>", "deps": "<circle cx=\"9\" cy=\"9\" r=\"6\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"M14.5 12c3 1 5 3.5 5 7v3M9 15v6\"/>", "code": "<rect x=\"7\" y=\"3\" width=\"12\" height=\"18\" rx=\"1.5\"/><path d=\"M5 7h3M5 11h3M5 15h3M5 19h3M11 9h5M11 13h5\"/>", "mail": "<path d=\"M5 22V3M5 4h8l-2 3 2 3H5\"/><path d=\"M13 22V12M13 13h8l-2 3 2 3h-8\"/>", "dns": "<path d=\"M12 2v5\"/><path d=\"M8 7h8l2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9z\"/><circle cx=\"12\" cy=\"10.5\" r=\"1.2\"/><path d=\"M9 16h6\"/>", "kev": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 12l4-5M12 3v2M21 12h-2M12 21v-2M3 12h2\"/><circle cx=\"12\" cy=\"12\" r=\"1.2\"/>", "cve": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"1.5\"/><path d=\"M8 8c1.3-1 2.7-1 4 0s2.7 1 4 0M8 12c1.3-1 2.7-1 4 0s2.7 1 4 0M8 16h5\"/>", "match": "<rect x=\"3\" y=\"8\" width=\"18\" height=\"7\" rx=\"3.5\"/><path d=\"M7 8v7M17 8v7M12 15v3M9 21h6l-1-3h-4z\"/>", "cloak": "<path d=\"M12 3c-3 0-5 2-5 5l-3 13h16l-3-13c0-3-2-5-5-5z\"/><path d=\"M9 8c0-2 1.5-3 3-3s3 1 3 3M12 10v11\"/>", "gate": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"10\" rx=\"2\"/><path d=\"M8 11V7a4 4 0 0 1 8 0v4\"/><circle cx=\"12\" cy=\"16\" r=\"1.2\"/>", "shred": "<path d=\"M12 12L5 3M12 12l7-9M12 12l-2.5 3M12 12l2.5 3\"/><circle cx=\"8\" cy=\"18\" r=\"3\"/><circle cx=\"16\" cy=\"18\" r=\"3\"/>", "route": "<path d=\"M4 7l5-2 6 2 5-2v12l-5 2-6-2-5 2z\"/><path d=\"M9 5v12M15 7v12M7 11h4M13 13h4\"/>", "log": "<path d=\"M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z\"/><path d=\"M8 4v16M11 9h5M11 13h5\"/>", "brief": "<rect x=\"3\" y=\"6\" width=\"18\" height=\"13\" rx=\"2\"/><path d=\"M3 8l9 6 9-6\"/><circle cx=\"12\" cy=\"14\" r=\"2.2\"/>", "census": "<circle cx=\"9\" cy=\"15\" r=\"5\"/><path d=\"M12.5 11.5L21 3M18 6l2 2M15 9l2 2\"/>", "dormant": "<path d=\"M9 3h6M12 3v2\"/><rect x=\"7\" y=\"5\" width=\"10\" height=\"12\" rx=\"2\"/><path d=\"M12 8v6M6 21h12M9 17v4M15 17v4\"/>", "reset": "<rect x=\"8\" y=\"3\" width=\"8\" height=\"18\" rx=\"4\"/><path d=\"M8 8h8M8 16h8M4 12h4M16 12h4\"/>", "breach": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M9 8h6M9 12h3M14 13l-2 3h3l-2 3\"/>", "broker": "<path d=\"M5 21h11a3 3 0 0 0 3-3V3H8a3 3 0 0 0-3 3v15z\"/><path d=\"M5 21a3 3 0 0 1 0-6h11M11 8h5M11 12h5\"/>", "docleak": "<rect x=\"3\" y=\"8\" width=\"18\" height=\"13\" rx=\"2\"/><path d=\"M3 13h18M9 8V5h6v3M12 13v3\"/>", "device": "<path d=\"M3 4h7l7 7-7 7-7-7z\"/><circle cx=\"7\" cy=\"8\" r=\"1.2\"/><path d=\"M14 13l4 4-4 4\"/>", "firewall": "<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M8 21h8M12 16v5M12 2v3M20 12h-3M4 12h3M18 6l-2 2M6 6l2 2\"/>", "login": "<path d=\"M6 17V11a6 6 0 0 1 12 0v6l2 2H4z\"/><path d=\"M10 21h4\"/>", "playbook": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M12 8v6M9 11h6\"/>", "backup": "<rect x=\"3\" y=\"10\" width=\"18\" height=\"10\" rx=\"2\"/><path d=\"M5 10V8a7 3 0 0 1 14 0v2\"/><rect x=\"10.5\" y=\"12.5\" width=\"3\" height=\"3\"/>", "drill": "<path d=\"M3 11a4 4 0 0 1 4-4h8v8H7a4 4 0 0 1-4-4z\"/><path d=\"M15 9h6v4h-6\"/><circle cx=\"7\" cy=\"11\" r=\"1.2\"/>"};
-var RANK=['Not built','Built, run by hand','Runs unattended on our own estate','In service for you'];
-var TIER=['Phase 0, now','Phase 1','Phase 2','End game'];
+var RANK=['Not built','Built','Running','Live'];
+var TIER=['Now','Next','Later','End game'];
 var CSF={'ID.AM':'Identify: asset management','ID.RA':'Identify: risk assessment','ID.IM':'Identify: improvement','PR.AA':'Protect: identity and access','PR.DS':'Protect: data security','PR.PS':'Protect: platform security','GV.OV':'Govern: oversight','GV.OC':'Govern: organisational context','GV.PO':'Govern: policy','DE.CM':'Detect: continuous monitoring','DE.AE':'Detect: adverse event analysis','RS.MA':'Respond: incident management','RS.CO':'Respond: incident communication','RC.RP':'Recover: recovery plan execution'};
 var ORDER=['squall','anchor','fathom','lookout','harbour','glass','bridge','haze'];
 var A={
@@ -87,9 +87,9 @@ bridge:{name:'Bridge',side:'service',spot:'#F5B26B',fn:'Govern',job:'Sends each 
  {id:'auto',n:'Unattended dispatch',t:3,c:1,r:0,g:'kev',csf:'GV.OV',d:'Routes and sends on its own, inside signed limits, with the auditor watching.',ev:'Not built.',req:['token','chain']}
 ]},
 haze:{name:'Haze',side:'service',spot:'#9FB3CF',fn:'Protect',job:'Masks names and numbers before text leaves the room.',branches:['Mask','Gate','Seal'],skills:[
- {id:'mask',n:'Masking',t:0,c:0,r:2,g:'cloak',csf:'PR.DS',d:'Organisations become stable stand-ins, people keep a first name and a role, numbers and addresses are replaced.',ev:'Runs unattended on one internal workload.'},
- {id:'gate',n:'Leak gate',t:0,c:1,r:2,g:'gate',csf:'PR.DS',d:'A last check by fixed rules. A record that still carries something sensitive is dropped, not sent.',ev:'Runs unattended on one internal workload.',req:['mask']},
- {id:'seal',n:'Seal and shred',t:0,c:2,r:2,g:'shred',csf:'PR.DS',d:'Everything sent is locked to one key. Destroy the key and nothing sent can be read again.',ev:'Runs unattended on one internal workload. The kill switch was tested.',req:['gate']},
+ {id:'mask',n:'Masking',t:0,c:0,r:2,g:'cloak',csf:'PR.DS',d:'Organisations become stable stand-ins, people keep a first name and a role, numbers and addresses are replaced.',ev:'Runs on one internal workload.'},
+ {id:'gate',n:'Leak gate',t:0,c:1,r:2,g:'gate',csf:'PR.DS',d:'A last check by fixed rules. A record that still carries something sensitive is dropped, not sent.',ev:'Runs on one internal workload.',req:['mask']},
+ {id:'seal',n:'Seal and shred',t:0,c:2,r:2,g:'shred',csf:'PR.DS',d:'Everything sent is locked to one key. Destroy the key and nothing sent can be read again.',ev:'Runs on one internal workload. The kill switch was tested.',req:['gate']},
  {id:'measure',n:'Measured miss rate',t:1,c:0,r:0,g:'kev',csf:'PR.DS',d:'A labelled test set and a real number for how often masking misses.',ev:'Not built. Today misses are found by spot check.',req:['mask']},
  {id:'adapter',n:'Second source',t:1,c:1,r:0,g:'docleak',csf:'PR.DS',d:'A second kind of record, at which point Haze becomes its own package.',ev:'Not built.',req:['gate']},
  {id:'reid',n:'Re-identification test',t:2,c:0,r:0,g:'secret',csf:'PR.DS',d:'Tries to work out who is who from masked text, and reports how often it succeeds.',ev:'Not built.',req:['measure']},
@@ -126,7 +126,7 @@ function find(aid,ref){var p=ref.split(':');var ag=p.length>1?p[0]:aid,id=p[p.le
 function tree(root,aid,base){
   var a=A[aid],P=pts(a),bt=[0,0,0,0],btm=[0,0,0,0];
   a.skills.forEach(function(s){bt[s.t]+=s.r;btm[s.t]+=3;});
-  var h='<div class="sk-head"><div><h1>'+a.name+' skill tree</h1><p class="sk-job">'+a.job+' One square is one capability. Points are earned by evidence.</p></div>'+
+  var h='<div class="sk-head"><div><h1>'+a.name+' skill tree</h1><p class="sk-job">'+a.job+'</p></div>'+
     '<div class="sk-score"><b>'+P[0]+'</b><span>of '+P[1]+' skill points</span><div class="sk-bar"><i style="width:'+(P[0]/P[1]*100)+'%"></i></div><small>NIST CSF 2.0: '+a.fn+'</small></div></div>'+
     '<div class="sk-legend">'+RANK.map(function(r,i){return '<span>'+pips(i)+r+'</span>';}).join('')+'</div>'+
     '<div class="sk-cols"><div class="sk-tree" id="sk-tree"><svg class="sk-lines" id="sk-lines" aria-hidden="true"></svg>'+
@@ -152,8 +152,7 @@ function tree(root,aid,base){
     det.innerHTML='<button type="button" class="sk-x" aria-label="Close">×</button>'+
       '<div class="sk-dt"><span class="sk-ic r'+s.r+'">'+svg(s.g)+'</span><div><h3>'+s.n+'</h3><div class="sk-rk">'+pips(s.r)+'<b>'+s.r+' of 3.</b> '+RANK[s.r]+'</div></div></div>'+
       '<p>'+s.d+'</p>'+
-      '<dl><dt>Why this rank</dt><dd>'+s.ev+'</dd>'+
-      '<dt>Phase</dt><dd>'+TIER[s.t]+'</dd>'+
+      '<dl><dt>Status</dt><dd>'+s.ev+'</dd>'+
       '<dt>Framework</dt><dd>NIST CSF 2.0 '+s.csf+'. '+CSF[s.csf]+'</dd>'+
       (needs.length?'<dt>Needs first</dt><dd class="sk-links">'+needs.join('')+'</dd>':'')+
       (opens.length?'<dt>Opens the way to</dt><dd class="sk-links">'+opens.join('')+'</dd>':'')+'</dl>';
@@ -195,7 +194,7 @@ function overview(root,base){
       '<small><b>'+P[0]+' of '+P[1]+'</b> points · '+live+' of '+a.skills.length+' skills built · CSF '+a.fn+'</small></div></a>';}
   var tot=[0,0];ORDER.forEach(function(id){var P=pts(A[id]);tot[0]+=P[0];tot[1]+=P[1];});
   var crew=ORDER.filter(function(i){return A[i].side==='crew';}),serv=ORDER.filter(function(i){return A[i].side==='service';});
-  root.innerHTML='<div class="sk-head"><div><h1>Fleet skill trees</h1><p class="sk-job">Every capability the fleet has or intends to have is one square on one agent\'s tree. Points are earned by evidence: built, running unattended, in service for you.</p></div>'+
+  root.innerHTML='<div class="sk-head"><div><h1>Fleet skill trees</h1><p class="sk-job">Every capability the fleet has or intends to have is one square on one agent\'s tree.</p></div>'+
     '<div class="sk-score"><b>'+tot[0]+'</b><span>of '+tot[1]+' skill points</span><div class="sk-bar"><i style="width:'+(tot[0]/tot[1]*100)+'%"></i></div><small>across eight agents</small></div></div>'+
     '<div class="sk-legend">'+RANK.map(function(r,i){return '<span>'+pips(i)+r+'</span>';}).join('')+'</div>'+
     '<h2 class="sk-h2">The crew</h2><p class="sk-sub">Agents that check something of yours. One per job a security team does.</p><div class="sk-cards">'+crew.map(card).join('')+'</div>'+
@@ -214,11 +213,11 @@ function cards(root,base,sideName){
      '<div class="kit">'+t0(a).map(function(s){var o=s.r>0;return '<div class="kc '+(o?'on':'off')+'"><span class="item '+(o?'on':'off')+'">'+svg(s.g)+LOCK+'</span><span>'+s.n+'</span></div>';}).join('')+'</div>'+
      '</div></a>';}).join('');
 }
-/* agent pages: the kit is the phase 0 skills */
+/* agent pages: the kit is the tier 0 skills */
 function kit(root,aid){
   root.innerHTML=t0(A[aid]).map(function(s){return '<div class="kc'+(s.r>0?'':' off')+'"><span class="item" aria-hidden="true">'+svg(s.g)+'</span><b>'+s.n+'</b><span class="d">'+s.d+'</span></div>';}).join('');
 }
-/* agent pages: the phases are the tiers. from=1 leaves phase 0 out (it is the kit) */
+/* agent pages: the phases are the tiers. from=1 leaves tier 0 out (it is the kit) */
 function phases(root,aid,style,from){
   var a=A[aid],h='';
   for(var t=from||0;t<4;t++){var L=a.skills.filter(function(s){return s.t===t;}); if(!L.length)continue;
@@ -233,6 +232,10 @@ function csflist(root,aid){
   var a=A[aid],by={},keys=[];
   a.skills.forEach(function(s){if(!by[s.csf]){by[s.csf]=[];keys.push(s.csf);}by[s.csf].push(s);});
   root.innerHTML=keys.map(function(k){return '<div class="cg"><h3>'+CSF[k]+'</h3><ul>'+by[k].map(function(s){return '<li class="'+(s.r>0?'on':'off')+'">'+s.n+'</li>';}).join('')+'</ul></div>';}).join('');
+}
+/* overview flow: icons and names of the skills that work today (domain proof is the enrol step, not listed here) */
+function runs(root,aid){
+  root.innerHTML=A[aid].skills.filter(function(s){return s.r>0&&s.id!=='dns';}).map(function(s){return '<span class="rn"><span class="ri">'+svg(s.g)+'</span>'+s.n+'</span>';}).join('');
 }
 /* the enterprise view: every NIST CSF 2.0 category, and which skills sit in it */
 function coverage(root,base){
@@ -251,7 +254,7 @@ function run(){
   document.querySelectorAll('[data-sk]').forEach(function(el){
     var k=el.getAttribute('data-sk'),ag=el.getAttribute('data-agent'),base=el.getAttribute('data-base')||'';
     if(k==='tree')tree(el,ag,base); else if(k==='overview')overview(el,base); else if(k==='coverage')coverage(el,base);
-    else if(k==='cards')cards(el,base,el.getAttribute('data-side')); else if(k==='kit')kit(el,ag); else if(k==='csf')csflist(el,ag);
+    else if(k==='cards')cards(el,base,el.getAttribute('data-side')); else if(k==='kit')kit(el,ag); else if(k==='csf')csflist(el,ag); else if(k==='runs')runs(el,ag);
     else if(k==='phases')phases(el,ag,el.getAttribute('data-style'),+el.getAttribute('data-from')||0);
   });
 }
