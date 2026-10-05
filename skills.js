@@ -8,13 +8,15 @@
 (function(){
 /* The public name of the record-keeping agent lives here and nowhere else; the generator reads this line. */
 var MANIFEST_NAME='Manifest';
+/* The public name of the compliance agent lives here and nowhere else; the generator reads this line. */
+var CHARTER_NAME='Charter';
 var G={"lock": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"10\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/>", "tls": "<path d=\"M9 7V5a3 3 0 0 1 6 0v2\"/><rect x=\"6\" y=\"7\" width=\"12\" height=\"12\" rx=\"1.5\"/><path d=\"M9 11h6M9 14h6M9 17h6M5 22h14\"/>", "secret": "<circle cx=\"10\" cy=\"10\" r=\"6\"/><circle cx=\"10\" cy=\"10\" r=\"2.2\"/><path d=\"M14.5 14.5L21 21\"/>", "deps": "<circle cx=\"9\" cy=\"9\" r=\"6\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"M14.5 12c3 1 5 3.5 5 7v3M9 15v6\"/>", "code": "<rect x=\"7\" y=\"3\" width=\"12\" height=\"18\" rx=\"1.5\"/><path d=\"M5 7h3M5 11h3M5 15h3M5 19h3M11 9h5M11 13h5\"/>", "mail": "<path d=\"M5 22V3M5 4h8l-2 3 2 3H5\"/><path d=\"M13 22V12M13 13h8l-2 3 2 3h-8\"/>", "dns": "<path d=\"M12 2v5\"/><path d=\"M8 7h8l2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9z\"/><circle cx=\"12\" cy=\"10.5\" r=\"1.2\"/><path d=\"M9 16h6\"/>", "kev": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 12l4-5M12 3v2M21 12h-2M12 21v-2M3 12h2\"/><circle cx=\"12\" cy=\"12\" r=\"1.2\"/>", "cve": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"1.5\"/><path d=\"M8 8c1.3-1 2.7-1 4 0s2.7 1 4 0M8 12c1.3-1 2.7-1 4 0s2.7 1 4 0M8 16h5\"/>", "match": "<rect x=\"3\" y=\"8\" width=\"18\" height=\"7\" rx=\"3.5\"/><path d=\"M7 8v7M17 8v7M12 15v3M9 21h6l-1-3h-4z\"/>", "cloak": "<path d=\"M12 3c-3 0-5 2-5 5l-3 13h16l-3-13c0-3-2-5-5-5z\"/><path d=\"M9 8c0-2 1.5-3 3-3s3 1 3 3M12 10v11\"/>", "gate": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"10\" rx=\"2\"/><path d=\"M8 11V7a4 4 0 0 1 8 0v4\"/><circle cx=\"12\" cy=\"16\" r=\"1.2\"/>", "shred": "<path d=\"M12 12L5 3M12 12l7-9M12 12l-2.5 3M12 12l2.5 3\"/><circle cx=\"8\" cy=\"18\" r=\"3\"/><circle cx=\"16\" cy=\"18\" r=\"3\"/>", "route": "<path d=\"M4 7l5-2 6 2 5-2v12l-5 2-6-2-5 2z\"/><path d=\"M9 5v12M15 7v12M7 11h4M13 13h4\"/>", "log": "<path d=\"M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z\"/><path d=\"M8 4v16M11 9h5M11 13h5\"/>", "brief": "<rect x=\"3\" y=\"6\" width=\"18\" height=\"13\" rx=\"2\"/><path d=\"M3 8l9 6 9-6\"/><circle cx=\"12\" cy=\"14\" r=\"2.2\"/>", "census": "<circle cx=\"9\" cy=\"15\" r=\"5\"/><path d=\"M12.5 11.5L21 3M18 6l2 2M15 9l2 2\"/>", "dormant": "<path d=\"M9 3h6M12 3v2\"/><rect x=\"7\" y=\"5\" width=\"10\" height=\"12\" rx=\"2\"/><path d=\"M12 8v6M6 21h12M9 17v4M15 17v4\"/>", "reset": "<rect x=\"8\" y=\"3\" width=\"8\" height=\"18\" rx=\"4\"/><path d=\"M8 8h8M8 16h8M4 12h4M16 12h4\"/>", "breach": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M9 8h6M9 12h3M14 13l-2 3h3l-2 3\"/>", "broker": "<path d=\"M5 21h11a3 3 0 0 0 3-3V3H8a3 3 0 0 0-3 3v15z\"/><path d=\"M5 21a3 3 0 0 1 0-6h11M11 8h5M11 12h5\"/>", "docleak": "<rect x=\"3\" y=\"8\" width=\"18\" height=\"13\" rx=\"2\"/><path d=\"M3 13h18M9 8V5h6v3M12 13v3\"/>", "device": "<path d=\"M3 4h7l7 7-7 7-7-7z\"/><circle cx=\"7\" cy=\"8\" r=\"1.2\"/><path d=\"M14 13l4 4-4 4\"/>", "firewall": "<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M8 21h8M12 16v5M12 2v3M20 12h-3M4 12h3M18 6l-2 2M6 6l2 2\"/>", "login": "<path d=\"M6 17V11a6 6 0 0 1 12 0v6l2 2H4z\"/><path d=\"M10 21h4\"/>", "playbook": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M12 8v6M9 11h6\"/>", "backup": "<rect x=\"3\" y=\"10\" width=\"18\" height=\"10\" rx=\"2\"/><path d=\"M5 10V8a7 3 0 0 1 14 0v2\"/><rect x=\"10.5\" y=\"12.5\" width=\"3\" height=\"3\"/>", "drill": "<path d=\"M3 11a4 4 0 0 1 4-4h8v8H7a4 4 0 0 1-4-4z\"/><path d=\"M15 9h6v4h-6\"/><circle cx=\"7\" cy=\"11\" r=\"1.2\"/>"};
 var RANK=['Not built','Built','Running','Live','World class'];
 var RANKD=['','Works when a person starts it.','Runs on its own, on a schedule.','You can switch it on yourself.','Accuracy measured against a test set and checked independently.'];
 var MAX=4;
 var TIER=['Now','Next','Later','End game'];
 var CSF={'ID.AM':'Identify: asset management','ID.RA':'Identify: risk assessment','ID.IM':'Identify: improvement','PR.AA':'Protect: identity and access','PR.DS':'Protect: data security','PR.PS':'Protect: platform security','GV.OV':'Govern: oversight','GV.OC':'Govern: organisational context','GV.PO':'Govern: policy','DE.CM':'Detect: continuous monitoring','DE.AE':'Detect: adverse event analysis','RS.MA':'Respond: incident management','RS.CO':'Respond: incident communication','RC.RP':'Recover: recovery plan execution','GV.RM':'Govern: risk management strategy','GV.RR':'Govern: roles and responsibilities','GV.SC':'Govern: supply chain risk','PR.AT':'Protect: awareness and training','PR.IR':'Protect: infrastructure resilience','RS.AN':'Respond: incident analysis','RS.MI':'Respond: incident mitigation','RC.CO':'Recover: recovery communication'};
-var ORDER=['manifest','squall','anchor','fathom','lookout','harbour','glass','bridge','haze'];
+var ORDER=['manifest','squall','anchor','fathom','lookout','harbour','charter','glass','bridge','haze'];
 var A={
 manifest:{name:MANIFEST_NAME,side:'crew',spot:'#A67C52',fn:'Identify',job:'Keeps the record of what you own.',branches:['Register','Know','Keep'],skills:[
  {id:'dns',n:'Domain proof',t:0,c:0,r:3,g:'dns',csf:'ID.AM',d:'Proves you own the domain. The crew looks only after this.',ev:'Self-serve at start.typhoonfleet.com.',enrol:true},
@@ -33,11 +35,15 @@ manifest:{name:MANIFEST_NAME,side:'crew',spot:'#A67C52',fn:'Identify',job:'Keeps
  {id:'supply',n:'Suppliers',t:2,c:1,r:0,g:'route',csf:'GV.SC',d:'Lists the outside services your assets depend on.',ev:'',req:['stack','squall:egress']},
  {id:'map',n:'Your estate',t:3,c:2,r:0,g:'brief',csf:'ID.AM',d:'One picture of everything you own and who is watching it.',ev:'',req:['registry','consent']},
  {id:'census',n:'Complete record',t:3,c:0,r:0,g:'dormant',csf:'ID.AM',d:'Finds what you own that you did not tell us about and asks whether to add it.',ev:'',req:['shadow','map']},
- {id:'sbom',n:'Software bill of materials',t:1,c:1,r:0,g:'code',csf:'ID.AM',d:'Lists every package inside your code and containers and keeps the list current.',ev:'',req:['repo','stack']},
+ {id:'sbom',n:'Software bill of materials',t:1,c:1,r:0,g:'code',csf:'ID.AM',d:'Lists every package inside your code and containers in a standard format with its licence, and keeps the list current.',ev:'',req:['repo','stack']},
  {id:'aibom',n:'AI bill of materials',t:1,c:1,r:0,g:'match',csf:'ID.AM',d:'Lists each model and dataset and AI service behind your product and where it came from.',ev:'',req:['sbom']},
  {id:'aireg',n:'AI use register',t:1,c:1,r:0,g:'log',csf:'GV.OC',d:'One record of every place AI makes a decision for you and what it is allowed to do.',ev:'',req:['aibom','owners']},
  {id:'prov',n:'Provenance and signing',t:2,c:2,r:0,g:'lock',csf:'GV.SC',d:'Signs your bills of materials and checks the signature of every model and package before use.',ev:'',req:['sbom','aibom']},
- {id:'aigov',n:'AI governance flow',t:2,c:2,r:0,g:'playbook',csf:'GV.RM',d:'Walks each AI use from register entry to impact note to approval to review and keeps the record.',ev:'',req:['aireg','bridge:log']}
+ {id:'aigov',n:'AI governance flow',t:2,c:2,r:0,g:'playbook',csf:'GV.RM',d:'Walks each AI use from register entry to impact note to approval to review and keeps the record.',ev:'',req:['aireg','bridge:log']},
+ {id:'renew',n:'Renewal dates',t:1,c:2,r:0,g:'dormant',csf:'ID.AM',d:'Tracks when your domains, certificates and licences expire and warns you in good time.',ev:'',req:['registry']},
+ {id:'keys',n:'Agents and keys',t:2,c:0,r:0,g:'secret',csf:'ID.AM',d:'Lists every bot, AI agent, API key and app permission with what it can reach and who owns it. Never the key itself.',ev:'',req:['registry','owners']},
+ {id:'datamap',n:'Data map',t:2,c:1,r:0,g:'route',csf:'ID.AM',d:'Lists the personal data you hold, where it sits and how long you keep it.',ev:'',req:['registry','squall:egress']},
+ {id:'retire',n:'Retirement',t:2,c:2,r:0,g:'shred',csf:'ID.AM',d:'Takes an asset off the record properly. Its keys are revoked, its DNS removed and its data deleted.',ev:'',req:['registry','owners']}
 ]},
 squall:{name:'Squall',side:'crew',spot:'#E0892B',fn:'Identify',job:'Checks sites and code for weak spots.',branches:['Code','Site and edge','Depth'],skills:[
  {id:'secret',n:'Secret scan',t:0,c:0,r:2,g:'secret',csf:'ID.RA',d:'Looks for keys and passwords left in code and its history.',ev:'Email us to run it on your repository.',req:['bridge:gate']},
@@ -50,7 +56,6 @@ squall:{name:'Squall',side:'crew',spot:'#E0892B',fn:'Identify',job:'Checks sites
  {id:'verdict',n:'Verdict and retest',t:1,c:1,r:0,g:'brief',csf:'ID.RA',d:'A one-page verdict and a retest that closes each fixed finding.',ev:'',req:['tls','mail','code']},
  {id:'ai',n:'AI feature testing',t:1,c:2,r:0,g:'match',csf:'ID.RA',d:'Tests your chatbots and AI features for tricks that make them leak data or misbehave.',ev:'',req:['egress']},
  {id:'cloud',n:'Cloud and publishing accounts',t:2,c:1,r:0,g:'backup',csf:'ID.RA',d:'Reads the settings of the accounts that host and publish your app.',ev:'',req:['manifest:cloudacct','bridge:token']},
- {id:'regs',n:'Regulation mapping',t:2,c:2,r:0,g:'playbook',csf:'GV.OC',d:'Matches each finding to the rules that apply to you.',ev:'',req:['verdict']},
  {id:'cont',n:'Continuous assurance',t:3,c:0,r:0,g:'kev',csf:'ID.IM',d:'Runs every check on a schedule and retests every fix.',ev:'',req:['manifest:repo','verdict']},
  {id:'alarm',n:'Alarm test',t:3,c:2,r:0,g:'firewall',csf:'ID.IM',d:'Safe staged attack steps that show whether your alarms go off.',ev:'',req:['lookout:detect','bridge:token']}
 ]},
@@ -90,6 +95,16 @@ harbour:{name:'Harbour',side:'crew',spot:'#F0A3B4',fn:'Respond, Recover',job:'Ge
  {id:'whathappened',n:'What happened',t:2,c:0,r:0,g:'log',csf:'RS.AN',d:'Works out what happened and how far it went.',ev:'',req:['play']},
  {id:'allclear',n:'All clear',t:2,c:1,r:0,g:'mail',csf:'RC.CO',d:'Tells the people you warned that it is over.',ev:'',req:['tell']},
  {id:'guided',n:'Guided response',t:3,c:1,r:0,g:'route',csf:'RS.MA',d:'Walks you through a live incident step by step and keeps the record.',ev:'',req:['play','drill']}
+]},
+charter:{name:CHARTER_NAME,side:'crew',spot:'#7FB069',fn:'Govern',job:'Shows which rules apply to you and gathers the proof.',branches:['Map','Prove','Answer'],skills:[
+ {id:'regs',n:'Rules that apply',t:0,c:0,r:0,g:'playbook',csf:'GV.OC',d:'Matches each finding to the rules and standards that apply to you.',ev:'',req:['squall:verdict']},
+ {id:'cross',n:'Control crosswalk',t:1,c:0,r:0,g:'match',csf:'GV.PO',d:'Lines up the standards you follow so one control answers many.',ev:'',req:['regs']},
+ {id:'evidence',n:'Evidence pack',t:1,c:1,r:0,g:'log',csf:'GV.OV',d:'Collects the proof for each control from the asset record and the decision log.',ev:'',req:['manifest:registry','bridge:chain']},
+ {id:'clocks',n:'Reporting deadlines',t:1,c:2,r:0,g:'dormant',csf:'RS.CO',d:'Starts the clock when an incident must be reported and says who to tell by when.',ev:'',req:['regs']},
+ {id:'gaps',n:'Audit readiness',t:2,c:1,r:0,g:'census',csf:'GV.OV',d:'One list of what is still missing before an audit.',ev:'',req:['cross','evidence']},
+ {id:'quest',n:'Security questionnaires',t:2,c:2,r:0,g:'mail',csf:'GV.SC',d:'Drafts answers to the security questionnaires your clients send. You check and send them.',ev:'',req:['evidence']},
+ {id:'changes',n:'Rule changes',t:3,c:0,r:0,g:'kev',csf:'GV.OC',d:'Watches for new and changed rules and tells you what they mean for you.',ev:'',req:['regs']},
+ {id:'ready',n:'Always ready',t:3,c:1,r:0,g:'gate',csf:'GV.OV',d:'Keeps every piece of evidence current against the standards you follow.',ev:'',req:['gaps','manifest:map']}
 ]},
 glass:{name:'Glass',side:'service',spot:'#6FA2F0',fn:'Identify',job:'Watches the lists of flaws attackers are using right now.',branches:['Sources','Judgement','Reach'],skills:[
  {id:'kev',n:'Exploited flaws watch',t:0,c:0,r:2,g:'kev',csf:'ID.RA',d:'Follows the list of flaws confirmed as used in real attacks.',ev:'Every morning.'},
@@ -134,6 +149,7 @@ var META={
  fathom:{role:'Your data footprint',st:'planned',label:'planned',tl:[.58,.60],href:'fathom/index.html',csfl:'NIST CSF 2.0: Identify. Footprint.'},
  lookout:{role:'Devices and home network',st:'planned',label:'planned',tl:[.56,.09],href:'lookout/index.html',csfl:'NIST CSF 2.0: Detect.'},
  harbour:{role:'Respond and recover',st:'planned',label:'planned',tl:[.82,.60],href:'harbour/index.html',csfl:'NIST CSF 2.0: Respond and Recover.'},
+ charter:{role:'Rules and proof',st:'planned',label:'planned',tl:[.70,.50],href:'charter/index.html',csfl:'NIST CSF 2.0: Govern. Compliance.'},
  glass:{role:'Threat intelligence',st:'live',label:'live',tl:[.47,.42],href:'glass/index.html',csfl:'NIST CSF 2.0: Identify. Threat intelligence.'},
  bridge:{role:'Routing and the decision log',st:'live',label:'live',tl:[.76,.22],href:'bridge/index.html',csfl:'NIST CSF 2.0: Govern.'},
  haze:{role:'Masks what leaves the wall',st:'built',label:'built',tl:[.57,.36],href:'haze/index.html',csfl:'NIST CSF 2.0: Protect. Data.'}

@@ -249,7 +249,7 @@
   #startPad .pad .who{bottom:34px}
   .thenline{height:2px;margin-bottom:115px;background:repeating-linear-gradient(90deg,var(--gold) 0 8px,transparent 8px 14px);position:relative}
   .thenline::after{content:"";position:absolute;right:-2px;top:-5px;border-left:9px solid var(--gold);border-top:6px solid transparent;border-bottom:6px solid transparent}
-  .crewpads{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .crewpads{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
   .crewpads .pad{aspect-ratio:auto;height:190px}
   .behind{display:flex;align-items:center;gap:16px;margin:22px 0 0;padding:16px 0;border-top:1px solid var(--line)}
   .behind .bl{font-size:13px;color:var(--faint);white-space:nowrap}
@@ -421,20 +421,20 @@
 <footer>
   <div class="wrap">
     <div class="word">Typhoon<span class="a">Fleet</span></div>
-    <div class="mono"><a href="fleet/skills.html">Skill trees</a> · <a href="squall/method.html">Method</a> · <a href="mailto:squall@typhoonfleet.com">squall@typhoonfleet.com</a></div>
+    <div class="mono"><a href="fleet/skills.html">Skill trees</a> · <a href="fleet/standard.html">How we build our agents</a> · <a href="squall/method.html">Method</a> · <a href="mailto:squall@typhoonfleet.com">squall@typhoonfleet.com</a></div>
     <div class="mono">Hong Kong</div>
   </div>
 </footer>
 
-<script src="skills.js?v=20261005b"></script>
+<script src="skills.js?v=20261005c"></script>
 <script>
 (function(){
   var T=window.TF_SKILLS, A=T.agents;
   /* Bridge leads the machine: it routes every request. Then the crew, then the services behind it */
-  var ORDER=['bridge','manifest','squall','glass','haze','anchor','fathom','lookout','harbour'];
+  var ORDER=['bridge','manifest','squall','glass','haze','anchor','fathom','lookout','harbour','charter'];
   var PAT={bridge:[1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1],squall:[1,0,0,1,0,0,1,0,1,0,0,1,1,0,1,0],glass:[1,0,0,0,1,0,0,0,1,0,0,0,1,0,1,0],
     haze:[0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,1],anchor:[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],fathom:[0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0],
-    lookout:[0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0],harbour:[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],manifest:[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]};
+    lookout:[0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0],harbour:[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],charter:[0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0],manifest:[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]};
   var ACT={bridge:30,squall:20,glass:10,haze:65};
   var START='https://start.typhoonfleet.com/';
   function on(a){return a.skills.some(function(s){return s.r>0;});}
@@ -468,7 +468,7 @@
   select('squall',false);
 
   /* hero lineup: the whole crew, Squall in front with Manifest beside; agents not built yet stand as silhouettes */
-  var LU=['anchor','fathom','glass','manifest','squall','bridge','haze','lookout','harbour'];
+  var LU=['anchor','fathom','glass','manifest','squall','bridge','haze','lookout','harbour','charter'];
   document.getElementById('lineup').innerHTML=LU.map(function(id){var a=LIST.filter(function(x){return x.id===id;})[0];
     return '<button type="button" class="lu'+(id==='squall'?' lead':'')+(a.dim?' off':'')+'" data-id="'+id+'" aria-label="'+a.name+'"><img src="fleet/crew/'+id+'.png" alt="" loading="eager"><span class="lun">'+a.name+'</span></button>';}).join('');
   /* open centred on Squall once the images have their widths */

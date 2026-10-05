@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>How we build our agents | Typhoon Fleet</title>
+<meta name="description" content="The twelve points every Typhoon Fleet agent is built to, and the standards the crew follows.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--page:#FAF7F1;--panel:#F3EFE6;--ink:#0A2342;--muted:#566072;--faint:#9AA3B2;--line:rgba(10,35,66,.12);--amber:#B5620F;--amber-lit:#E0892B}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--page);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  .col{max-width:720px;margin:0 auto;padding:0 20px}
+  @media (min-width:720px){.wrap{padding:0 32px}}
+  h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:500;letter-spacing:-.5px;line-height:1.08}
+  em{font-style:italic;color:var(--amber)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
+  .word{font-family:Fraunces,serif;font-weight:600;font-size:20px}
+  .word span{color:var(--amber)}
+  .links{display:flex;align-items:center;gap:26px;font-size:14.5px;color:var(--muted)}
+  .links a:hover{color:var(--ink)}
+  @media (max-width:640px){.links .hide{display:none}.links{gap:14px}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 24px;border-radius:999px;font-weight:600;font-size:15.5px}
+  .btn.go{background:var(--ink);color:#fff}
+  .btn.go:hover{background:#13345F}
+  .btn.ghost{border:1px solid var(--line)}
+  .btn.ghost:hover{background:var(--panel)}
+  .btn.sm{min-height:38px;padding:8px 16px;font-size:14px}
+
+  header{padding:100px 0 50px}
+  header h1{font-size:clamp(44px,8vw,80px);letter-spacing:-1.5px}
+  section{padding:60px 0;border-top:1px solid var(--line)}
+  h2{font-size:clamp(32px,5vw,46px);margin-bottom:26px}
+  .say{font-size:19px;color:var(--muted);margin-bottom:26px}
+
+  ol.steps{list-style:none;counter-reset:s}
+  ol.steps li{counter-increment:s;display:grid;grid-template-columns:56px 1fr;gap:4px 16px;padding:18px 0;border-top:1px solid var(--line)}
+  ol.steps li:first-child{border-top:0}
+  ol.steps li::before{content:counter(s);grid-row:1/3;font-family:Fraunces,serif;font-style:italic;font-size:40px;line-height:1;color:var(--amber)}
+  ol.steps h3{font-size:24px}
+  ol.steps p{font-size:17px;color:var(--muted)}
+
+  dl.rules{display:grid;grid-template-columns:1fr;border-top:1px solid var(--line)}
+  dl.rules div{padding:16px 0;border-bottom:1px solid var(--line);display:grid;gap:2px 24px}
+  @media (min-width:640px){dl.rules div{grid-template-columns:200px 1fr}}
+  dl.rules dt{font-weight:600;font-size:17px}
+  dl.rules dd{font-size:17px;color:var(--muted)}
+
+  .sev{list-style:none;display:grid;gap:10px}
+  .sev li{display:grid;grid-template-columns:14px 120px 1fr;gap:14px;align-items:baseline;font-size:17px;padding:10px 0;border-bottom:1px solid var(--line)}
+  @media (max-width:520px){.sev li{grid-template-columns:14px 1fr}.sev li span{grid-column:2}}
+  .sev i{width:14px;height:14px;border-radius:3px;background:var(--c);align-self:center}
+  .sev b{font-weight:600}
+  .sev span{color:var(--muted)}
+
+  .closer{text-align:center;padding:90px 0 100px}
+  .closer h2{margin-bottom:28px}
+  .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  footer a:hover{color:var(--ink)}
+</style>
+<link rel="stylesheet" href="../site.css?v=20261005c">
+<link rel="stylesheet" href="../light.css?v=20261005c">
+</head>
+<body data-page="standard" style="--spot:#E0892B">
+<script src="../skills.js?v=20261005c"></script>
+<script src="../site.js?v=20261005c"></script>
+
+<header><div class="col">
+  <h1>How we build <em>our agents</em></h1>
+</div></header>
+
+<section><div class="col">
+  <h2>The twelve points</h2>
+  <p class="say">An agent joins the crew only when these hold at the level of freedom it has.</p>
+  <ol class="steps">
+    <li><h3>A gate outside the model</h3><p>Before any tool touches a target, code checks that you own it and have allowed it. No AI output can change that answer.</p></li>
+    <li><h3>Defined tools</h3><p>Every tool an agent can call has a fixed shape for what goes in and what comes out. A call that does not fit is refused, not repaired.</p></li>
+    <li><h3>Outside text is data</h3><p>Anything read from a site, a scanner or a mailbox is information and never an instruction. The agent cannot act on the outside world while it reads.</p></li>
+    <li><h3>Measured accuracy</h3><p>Every AI decision is tested against labelled examples. We measure how often it is right before the agent gets more freedom, and again after every change.</p></li>
+    <li><h3>Earned freedom</h3><p>Each agent has a declared level of freedom. It may only read, only propose, or act after a person approves. It moves up one step at a time after a measured test.</p></li>
+    <li><h3>Tight access</h3><p>Tools run with only the access the job needs. Each has a time limit and a short list of places it may reach.</p></li>
+    <li><h3>Budgets</h3><p>Every run has a cap on time, cost and AI use. The run stops when it reaches the cap.</p></li>
+    <li><h3>A log that cannot be quietly changed</h3><p>Every run and every AI decision is written down. Each entry is tied to the one before it, so a changed or missing entry shows.</p></li>
+    <li><h3>A person decides what matters</h3><p>Decisions that matter wait for a person. If nobody answers, nothing runs.</p></li>
+    <li><h3>Traces</h3><p>Every run keeps a record of each tool it called and each AI call it made, with time and cost. It links back to the log.</p></li>
+    <li><h3>A parts list</h3><p>Each agent has one record of the AI models, data, software packages and outside services it uses. The lists are generated from the code and a change is written to the log.</p></li>
+    <li><h3>Impact, incidents and retirement</h3><p>Before an agent gets more freedom we write down who could be harmed and how. Each agent has an owner for incidents. When an agent is retired its keys are revoked and its data is deleted.</p></li>
+  </ol>
+</div></section>
+
+<section><div class="col">
+  <h2>Standards we follow</h2>
+  <p class="say">The crew is built to these and maps to them. None of them is a certification.</p>
+  <dl class="rules">
+    <div><dt>NIST CSF 2.0</dt><dd>The six functions every skill is mapped to, from Govern to Recover.</dd></div>
+    <div><dt>AIUC-1</dt><dd>A security, safety and accountability standard for AI agents.</dd></div>
+    <div><dt>ISO/IEC 42001</dt><dd>A management system for the responsible use of AI.</dd></div>
+    <div><dt>ISO/IEC 42005</dt><dd>How to assess the impact of an AI system on people.</dd></div>
+    <div><dt>NIST AI RMF and its generative AI profile</dt><dd>US guidance on mapping, measuring and managing AI risk.</dd></div>
+    <div><dt>OWASP Top 10 for LLM and agentic applications</dt><dd>The most common ways AI apps and agents are attacked or misused.</dd></div>
+    <div><dt>EU AI Act</dt><dd>European law on how AI systems are built and used. It covers logging, human oversight and telling people when AI is involved.</dd></div>
+    <div><dt>ISO/IEC 27001</dt><dd>The standard clients ask for to show that information security is managed.</dd></div>
+    <div><dt>CIS Controls v8.1</dt><dd>A practical list of safeguards sized for small organisations.</dd></div>
+    <div><dt>SLSA and Sigstore</dt><dd>How software is built and signed so it can be traced to its source.</dd></div>
+    <div><dt>MITRE ATLAS</dt><dd>A catalogue of attacks on AI systems. It guides how we test AI features.</dd></div>
+    <div><dt>Singapore IMDA framework for agentic AI</dt><dd>Singapore's guidance on governing AI agents.</dd></div>
+    <div><dt>Hong Kong Cap. 653</dt><dd>Hong Kong law on the security of critical infrastructure computer systems.</dd></div>
+    <div><dt>EU Cyber Resilience Act</dt><dd>European law on the security of digital products. It covers reporting exploited flaws and listing software parts.</dd></div>
+  </dl>
+</div></section>
+
+<section class="closer"><div class="wrap">
+  <div class="ctas">
+    <a class="btn go" href="https://start.typhoonfleet.com/">Get started</a>
+    <a class="btn ghost" href="skills.html">Skill trees</a>
+  </div>
+</div></section>
+</body>
+</html>

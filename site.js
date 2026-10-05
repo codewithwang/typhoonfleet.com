@@ -20,7 +20,7 @@
   var TABS={
     squall:one('squall').concat([['coverage','Coverage',u('squall/coverage.html')],['method','Method',u('squall/method.html')]]),
     glass:one('glass'), bridge:one('bridge'), haze:one('haze'),
-    manifest:one('manifest'), anchor:one('anchor'), fathom:one('fathom'), lookout:one('lookout'), harbour:one('harbour')
+    manifest:one('manifest'), anchor:one('anchor'), fathom:one('fathom'), lookout:one('lookout'), harbour:one('harbour'), charter:one('charter')
   };
 
   var WAVE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3v8M8 11h8"/></svg>';
@@ -50,7 +50,7 @@
       '<div class="tf-crew">'+side('crew').map(row).join('')+'</div>'+
       '<div class="tf-ph tf-ph2">Fleet services. They work behind the wall, for the crew.</div>'+
       '<div class="tf-crew">'+side('service').map(row).join('')+'</div>'+
-      '<div class="tf-more"><a href="'+u('index.html')+'">Home</a><a href="'+u('fleet/skills.html')+'">Skill trees</a><a href="'+u('index.html#how')+'">How it works</a><a href="'+LOGIN+'">Log in</a></div>'+
+      '<div class="tf-more"><a href="'+u('index.html')+'">Home</a><a href="'+u('fleet/skills.html')+'">Skill trees</a><a href="'+u('index.html#how')+'">How it works</a><a href="'+u('fleet/standard.html')+'">How we build our agents</a><a href="'+LOGIN+'">Log in</a></div>'+
     '</div></div></header>';
 
   var sub='';
@@ -68,7 +68,7 @@
   function fl(c){return '<a href="'+u(c.href)+'">'+c.name+'</a>';}
   var footer='<footer class="tf-foot"><div class="tf-wrap"><div class="tf-fcols">'+
     '<div><h4>The crew</h4><div class="tf-fl">'+side('crew').map(fl).join('')+'</div><h4 style="margin-top:14px">Fleet services</h4><div class="tf-fl">'+side('service').map(fl).join('')+'</div></div>'+
-    '<div><h4>The site</h4><div class="tf-fl"><a href="'+u('index.html')+'">Home</a><a href="'+u('fleet/skills.html')+'">Skill trees</a><a href="'+u('index.html#how')+'">How it works</a></div></div>'+
+    '<div><h4>The site</h4><div class="tf-fl"><a href="'+u('index.html')+'">Home</a><a href="'+u('fleet/skills.html')+'">Skill trees</a><a href="'+u('index.html#how')+'">How it works</a><a href="'+u('fleet/standard.html')+'">How we build our agents</a></div></div>'+
     '<div><h4>Your account</h4><div class="tf-fl"><a href="'+START+'">Get started</a><a href="'+LOGIN+'">Log in</a><a href="mailto:squall@typhoonfleet.com">squall@typhoonfleet.com</a></div></div>'+
     '</div><div class="tf-legal">Typhoon Fleet, Hong Kong. Original artwork, not affiliated with any game.'+
     ''+'</div></div></footer>';
