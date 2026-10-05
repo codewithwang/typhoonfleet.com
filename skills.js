@@ -32,7 +32,12 @@ manifest:{name:MANIFEST_NAME,side:'crew',spot:'#A67C52',fn:'Identify',job:'Keeps
  {id:'config',n:'Configuration baseline',t:2,c:1,r:0,g:'tls',csf:'PR.PS',d:'Records how each asset is set up and tells you when it changes.',ev:'',req:['stack']},
  {id:'supply',n:'Suppliers',t:2,c:1,r:0,g:'route',csf:'GV.SC',d:'Lists the outside services your assets depend on.',ev:'',req:['stack','squall:egress']},
  {id:'map',n:'Your estate',t:3,c:2,r:0,g:'brief',csf:'ID.AM',d:'One picture of everything you own and who is watching it.',ev:'',req:['registry','consent']},
- {id:'census',n:'Complete record',t:3,c:0,r:0,g:'dormant',csf:'ID.AM',d:'Finds what you own that you did not tell us about and asks whether to add it.',ev:'',req:['shadow','map']}
+ {id:'census',n:'Complete record',t:3,c:0,r:0,g:'dormant',csf:'ID.AM',d:'Finds what you own that you did not tell us about and asks whether to add it.',ev:'',req:['shadow','map']},
+ {id:'sbom',n:'Software bill of materials',t:1,c:1,r:0,g:'code',csf:'ID.AM',d:'Lists every package inside your code and containers and keeps the list current.',ev:'',req:['repo','stack']},
+ {id:'aibom',n:'AI bill of materials',t:1,c:1,r:0,g:'match',csf:'ID.AM',d:'Lists each model and dataset and AI service behind your product and where it came from.',ev:'',req:['sbom']},
+ {id:'aireg',n:'AI use register',t:1,c:1,r:0,g:'log',csf:'GV.OC',d:'One record of every place AI makes a decision for you and what it is allowed to do.',ev:'',req:['aibom','owners']},
+ {id:'prov',n:'Provenance and signing',t:2,c:2,r:0,g:'lock',csf:'GV.SC',d:'Signs your bills of materials and checks the signature of every model and package before use.',ev:'',req:['sbom','aibom']},
+ {id:'aigov',n:'AI governance flow',t:2,c:2,r:0,g:'playbook',csf:'GV.RM',d:'Walks each AI use from register entry to impact note to approval to review and keeps the record.',ev:'',req:['aireg','bridge:log']}
 ]},
 squall:{name:'Squall',side:'crew',spot:'#E0892B',fn:'Identify',job:'Checks sites and code for weak spots.',branches:['Code','Site and edge','Depth'],skills:[
  {id:'secret',n:'Secret scan',t:0,c:0,r:2,g:'secret',csf:'ID.RA',d:'Looks for keys and passwords left in code and its history.',ev:'Email us to run it on your repository.',req:['bridge:gate']},
@@ -91,7 +96,7 @@ glass:{name:'Glass',side:'service',spot:'#6FA2F0',fn:'Identify',job:'Watches the
  {id:'rebuild',n:'Record rebuild',t:0,c:1,r:2,g:'cve',csf:'ID.RA',d:'Fills in missing severity and product details and shows the source of each.',ev:'Every morning.'},
  {id:'digest',n:'Scored digest',t:0,c:2,r:2,g:'brief',csf:'ID.RA',d:'Ranks the day\'s flaws and publishes the top 250 with a reason for each.',ev:'Published every morning at wangreport.com/cve.',req:['kev','rebuild']},
  {id:'oss',n:'Open-source advisories',t:1,c:0,r:0,g:'deps',csf:'ID.RA',d:'Adds the advisory lists for open-source packages.',ev:'',req:['rebuild']},
- {id:'match',n:'Asset match',t:1,c:2,r:0,g:'match',csf:'ID.RA',d:'Only the flaws that touch what you actually run.',ev:'',req:['digest','squall:deps','manifest:stack']},
+ {id:'match',n:'Asset match',t:1,c:2,r:0,g:'match',csf:'ID.RA',d:'Only the flaws that touch what you actually run.',ev:'',req:['digest','squall:deps','manifest:stack','manifest:sbom']},
  {id:'eu',n:'More national sources',t:2,c:0,r:0,g:'log',csf:'ID.RA',d:'The EU vulnerability database and others beyond the US lists.',ev:'',req:['rebuild']},
  {id:'lens',n:'Your own watch list',t:2,c:1,r:0,g:'census',csf:'ID.RA',d:'Ranking tuned to your industry and your vendors.',ev:'',req:['digest']},
  {id:'alert',n:'Alert on match',t:2,c:2,r:0,g:'login',csf:'ID.RA',d:'One message when a flaw that touches you joins the exploited list.',ev:'',req:['match']},
