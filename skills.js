@@ -73,7 +73,7 @@ fathom:{name:'Fathom',side:'crew',spot:'#7DD3B0',fn:'Identify',job:'Looks for yo
  {id:'breach',n:'Breach lookup',t:0,c:0,r:0,g:'breach',csf:'ID.RA',d:'Checks whether your addresses appear in known breaches.',ev:'',req:['manifest:self']},
  {id:'broker',n:'Broker sweep',t:1,c:1,r:0,g:'broker',csf:'ID.RA',d:'Finds data brokers holding your details.',ev:''},
  {id:'docleak',n:'Document leaks',t:1,c:2,r:0,g:'docleak',csf:'ID.RA',d:'Looks for your documents in places they should not be.',ev:''},
- {id:'look',n:'Lookalike domains',t:2,c:0,r:0,g:'dns',csf:'ID.RA',d:'Finds domains registered to pass as yours.',ev:'',req:['manifest:dns']},
+ {id:'look',n:'Lookalike domains',t:2,c:0,r:3,g:'dns',csf:'ID.RA',d:'Finds domains registered to pass as yours.',ev:'Self-serve once your domain is proved. Looks up to once a day.',req:['manifest:dns']},
  {id:'remove',n:'Removal requests',t:2,c:1,r:0,g:'shred',csf:'ID.RA',d:'Drafts the removal request for each broker. You send it.',ev:'',req:['broker']},
  {id:'watch',n:'Footprint watch',t:3,c:1,r:0,g:'kev',csf:'ID.RA',d:'Repeats every sweep on a schedule and reports only what changed.',ev:'',req:['breach','broker','docleak']}
 ]},
